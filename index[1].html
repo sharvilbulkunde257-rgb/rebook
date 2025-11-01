@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ReBook — Where Every Book Finds a New Home</title>
+  <meta name="description" content="ReBook — buy & sell used books. Student books, manga, finance, fiction. Knowledge Never Dies." />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-left">
+      <div class="logo-wrap" aria-hidden="true">
+        <!-- simple SVG logo -->
+        <svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+          <rect x="4" y="8" width="40" height="48" rx="4" fill="#16a34a"/>
+          <path d="M8 12h32v6H8z" fill="#ffffff" opacity="0.9"/>
+          <path d="M8 22h32v6H8z" fill="#ffffff" opacity="0.9"/>
+          <circle cx="52" cy="32" r="10" fill="#ecfdf5"/>
+          <path d="M48 30c2-2 6-2 8 0" stroke="#16a34a" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <a class="brand" href="#" onclick="showSection('home');return false;">
+        <span class="brand-title">ReBook</span>
+        <span class="brand-tag">Where Every Book Finds a New Home</span>
+      </a>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#" onclick="showSection('home');return false;">Home</a></li>
+      <li><a href="#" onclick="showSection('buy');return false;">Buy Books</a></li>
+      <li><a href="#" onclick="showSection('sell');return false;">Sell Books</a></li>
+      <li><a href="#" onclick="showSection('about');return false;">About</a></li>
+    </ul>
+  </nav>
+
+  <main id="app">
+    <!-- Sections are injected by script.js initially; fallback content for no-js users -->
+    <section id="home" class="section active">
+      <header class="hero">
+        <h1>Because Knowledge Never Dies</h1>
+        <p class="lead">Buy, sell, and discover affordable used books — Student textbooks • Manga • Finance • Fiction</p>
+        <div class="cta-row">
+          <button class="btn primary" onclick="showSection('buy')">Start Buying</button>
+          <button class="btn hollow" onclick="showSection('sell')">Sell a Book</button>
+        </div>
+      </header>
+
+      <section class="categories">
+        <h2>Explore Categories</h2>
+        <div class="cat-grid">
+          <div class="cat">Student Books</div>
+          <div class="cat">Manga &amp; Anime</div>
+          <div class="cat">Finance &amp; Self-Growth</div>
+          <div class="cat">Fiction &amp; Novels</div>
+        </div>
+      </section>
+
+      <section class="featured">
+        <h3>Featured Picks</h3>
+        <div class="book-grid">
+          <div class="book-card">
+            <img src="https://m.media-amazon.com/images/I/81Uwb7Fkk6L.jpg" alt="Attack on Titan Vol.1">
+            <h4>Attack on Titan Vol.1</h4>
+            <div class="price">₹199 <span class="strike">₹499</span></div>
+          </div>
+          <div class="book-card">
+            <img src="https://m.media-amazon.com/images/I/71aFt4+OTOL.jpg" alt="The Alchemist">
+            <h4>The Alchemist</h4>
+            <div class="price">₹159 <span class="strike">₹399</span></div>
+          </div>
+          <div class="book-card">
+            <img src="https://m.media-amazon.com/images/I/71QKQ9mwV7L.jpg" alt="Rich Dad Poor Dad">
+            <h4>Rich Dad Poor Dad</h4>
+            <div class="price">₹249 <span class="strike">₹599</span></div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="buy" class="section">
+      <div class="page-inner">
+        <h2>Buy Books</h2>
+        <p class="muted">Filter and find textbooks, manga, and more — affordable prices for students.</p>
+        <div class="filters">
+          <input id="search" type="search" placeholder="Search by title, author, or category">
+          <select id="filterCat">
+            <option value="all">All categories</option>
+            <option value="student">Student Books</option>
+            <option value="manga">Manga & Anime</option>
+            <option value="finance">Finance</option>
+            <option value="fiction">Fiction</option>
+          </select>
+        </div>
+
+        <div id="listings" class="book-grid mt"></div>
+      </div>
+    </section>
+
+    <section id="sell" class="section">
+      <div class="page-inner">
+        <h2>Sell Your Book</h2>
+        <p class="muted">List a book fast — receive wallet credit instantly or cash within a week.</p>
+        <form id="sellForm" class="sell-form" onsubmit="return handleSell(event)">
+          <input id="s_title" type="text" placeholder="Book title" required>
+          <input id="s_author" type="text" placeholder="Author / Edition" required>
+          <select id="s_cat" required>
+            <option value="student">Student Books</option>
+            <option value="manga">Manga &amp; Anime</option>
+            <option value="finance">Finance &amp; Self-Growth</option>
+            <option value="fiction">Fiction &amp; Novels</option>
+          </select>
+          <input id="s_price" type="number" placeholder="Expected price (₹)" required>
+          <textarea id="s_notes" placeholder="Condition / Notes (optional)"></textarea>
+          <button class="btn primary" type="submit">List my book</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="page-inner">
+        <h2>About ReBook</h2>
+        <p>ReBook began as a student initiative to make learning affordable and sustainable. We connect buyers and sellers, promote re-use, and build a community of readers. Join us — where every book finds a new home.</p>
+        <div class="impact">
+          <div><strong>500+</strong><div class="muted">books reused</div></div>
+          <div><strong>1,200</strong><div class="muted">members</div></div>
+          <div><strong>24</strong><div class="muted">campus drives</div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>© 2025 ReBook • Where Every Book Finds a New Home</div>
+    <div class="muted">Built for students — buy, sell, repeat.</div>
+  </footer>
+
+<script src="script.js"></script>
+</body>
+</html>
