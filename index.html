@@ -223,6 +223,30 @@
       color: #00e0ff;
       text-decoration: none;
     }
+
+    /* Book List Section */
+    #book-list {
+      padding: 80px 8%;
+      background: rgba(255,255,255,0.03);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+    #book-list h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #00e0ff, #00ffae);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .book-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 10px auto;
+      max-width: 500px;
+      text-align: left;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
   </style>
 </head>
 <body>
@@ -247,6 +271,12 @@
       <button class="btn">List Your Book</button>
       <button class="btn" style="background:transparent;border:1px solid #00e0ff;color:#00e0ff;">Browse Books</button>
     </div>
+  </section>
+
+  <!-- ✅ Book List Section Added -->
+  <section id="book-list">
+    <h2>Available Books</h2>
+    <div id="books"></div>
   </section>
 
   <section class="features" id="how">
