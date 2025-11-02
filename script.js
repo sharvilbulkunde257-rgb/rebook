@@ -1,3 +1,27 @@
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+// Supabase connection
+const supabaseUrl = 'https://rlqjfsaqnfsxjvelzzci.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk'
+
+const supabase = createClient(supabaseUrl, supabaseKey)
+
+// Example: fetch books from your Supabase table
+async function loadBooks() {
+  const { data, error } = await supabase
+    .from('books')
+    .select('*')
+
+  if (error) {
+    console.error('Error fetching books:', error)
+  } else {
+    console.log('Books:', data)
+    // Tum yaha DOM me show bhi kar sakte ho
+  }
+}
+
+// Page load hone pe books load karne ke liye:
+document.addEventListener('DOMContentLoaded', loadBooks)
 // ===============================
 // ReBook v2 — main.js (Premium Animated Version)
 // ===============================
