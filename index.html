@@ -1,227 +1,121 @@
-<!doctype html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ReBook — Where Every Book Finds a New Home</title>
-  <meta name="description" content="ReBook — buy & sell used books. Student books, manga, finance, fiction. Knowledge Never Dies." />
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReBook — Buy · Sell · Reuse</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" href="images/favicon.png" type="image/png">
 </head>
-<body>
-  <nav class="navbar">
-    <div class="nav-left">
-      <div class="logo-wrap" aria-hidden="true">
-        <!-- simple SVG logo -->
-        <svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
-          <rect x="4" y="8" width="40" height="48" rx="4" fill="#16a34a"/>
-          <path d="M8 12h32v6H8z" fill="#ffffff" opacity="0.9"/>
-          <path d="M8 22h32v6H8z" fill="#ffffff" opacity="0.9"/>
-          <circle cx="52" cy="32" r="10" fill="#ecfdf5"/>
-          <path d="M48 30c2-2 6-2 8 0" stroke="#16a34a" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <a class="brand" href="#" onclick="showSection('home');return false;">
-        <span class="brand-title">ReBook</span>
-        <span class="brand-tag">Where Every Book Finds a New Home</span>
-      </a>
-    </div>
 
-    <ul class="nav-links">
-      <li><a href="#" onclick="showSection('home');return false;">Home</a></li>
-      <li><a href="#" onclick="showSection('buy');return false;">Buy Books</a></li>
-      <li><a href="#" onclick="showSection('sell');return false;">Sell Books</a></li>
-      <li><a href="#" onclick="showSection('about');return false;">About</a></li>
+<body>
+  <!-- Background Canvas -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Loader -->
+  <div class="loader">ReBook Loading...</div>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">ReBook</div>
+    <ul>
+      <li><a href="#browse">Browse</a></li>
+      <li><a href="#sell">Sell Book</a></li>
+      <li><a href="#works">How it Works</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
+    <button id="themeToggle" class="btn">☀️</button>
   </nav>
 
-  <main id="app">
-    <!-- Sections are injected by script.js initially; fallback content for no-js users -->
-    <section id="home" class="section active">
-      <header class="hero">
-        <h1>Because Knowledge Never Dies</h1>
-        <p class="lead">Buy, sell, and discover affordable used books — Student textbooks • Manga • Finance • Fiction</p>
-        <div class="cta-row">
-          <button class="btn primary" onclick="showSection('buy')">Start Buying</button>
-          <button class="btn hollow" onclick="showSection('sell')">Sell a Book</button>
-        </div>
-      </header>
-
-      <section class="categories">
-        <h2>Explore Categories</h2>
-        <div class="cat-grid">
-          <div class="cat">Student Books</div>
-          <div class="cat">Manga &amp; Anime</div>
-          <div class="cat">Finance &amp; Self-Growth</div>
-          <div class="cat">Fiction &amp; Novels</div>
-        </div>
-      </section>
-
-      <section class="featured">
-        <h3>Featured Picks</h3>
-        <div class="book-grid">
-          <div class="book-card">
-            <img src="https://m.media-amazon.com/images/I/81Uwb7Fkk6L.jpg" alt="Attack on Titan Vol.1">
-            <h4>Attack on Titan Vol.1</h4>
-            <div class="price">₹199 <span class="strike">₹499</span></div>
-          </div>
-          <div class="book-card">
-            <img src="https://m.media-amazon.com/images/I/71aFt4+OTOL.jpg" alt="The Alchemist">
-            <h4>The Alchemist</h4>
-            <div class="price">₹159 <span class="strike">₹399</span></div>
-          </div>
-          <div class="book-card">
-            <img src="https://m.media-amazon.com/images/I/71QKQ9mwV7L.jpg" alt="Rich Dad Poor Dad">
-            <h4>Rich Dad Poor Dad</h4>
-            <div class="price">₹249 <span class="strike">₹599</span></div>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <section id="buy" class="section">
-      <div class="page-inner">
-        <h2>Buy Books</h2>
-        <p class="muted">Filter and find textbooks, manga, and more — affordable prices for students.</p>
-        <div class="filters">
-          <input id="search" type="search" placeholder="Search by title, author, or category">
-          <select id="filterCat">
-            <option value="all">All categories</option>
-            <option value="student">Student Books</option>
-            <option value="manga">Manga & Anime</option>
-            <option value="finance">Finance</option>
-            <option value="fiction">Fiction</option>
-          </select>
-        </div>
-  <!-- 🌿 Navbar -->
-  <header class="navbar">
-    <div class="logo">
-      <img src="https://cdn-icons-png.flaticon.com/512/29/29302.png" alt="ReBook Logo">
-      <h1>ReBook</h1>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="#" onclick="showSection('home')">Home</a></li>
-        <li><a href="#" onclick="showSection('buy')">Buy Books</a></li>
-        <li><a href="#" onclick="showSection('sell')">Sell Books</a></li>
-        <li><a href="#" onclick="showSection('about')">About</a></li>
-      </ul>
-    </nav>
-  </header>
-
-        <div id="listings" class="book-grid mt"></div>
-  <!-- 🏠 Home Section -->
-  <section id="home" class="page active">
-    <div class="hero">
-      <h2>Where Every Book Finds a New Home 📚</h2>
-      <p>Buy and sell used books easily. Affordable, sustainable, and perfect for students.</p>
-      <div class="buttons">
-        <button class="btn" onclick="showSection('buy')">Buy Books</button>
-        <button class="btn outline" onclick="showSection('sell')">Sell Books</button>
-      </div>
-    </section>
-    </div>
-
-    <section id="sell" class="section">
-      <div class="page-inner">
-        <h2>Sell Your Book</h2>
-        <p class="muted">List a book fast — receive wallet credit instantly or cash within a week.</p>
-        <form id="sellForm" class="sell-form" onsubmit="return handleSell(event)">
-          <input id="s_title" type="text" placeholder="Book title" required>
-          <input id="s_author" type="text" placeholder="Author / Edition" required>
-          <select id="s_cat" required>
-            <option value="student">Student Books</option>
-            <option value="manga">Manga &amp; Anime</option>
-            <option value="finance">Finance &amp; Self-Growth</option>
-            <option value="fiction">Fiction &amp; Novels</option>
-          </select>
-          <input id="s_price" type="number" placeholder="Expected price (₹)" required>
-          <textarea id="s_notes" placeholder="Condition / Notes (optional)"></textarea>
-          <button class="btn primary" type="submit">List my book</button>
-        </form>
-    <div class="categories">
-      <h3>Explore Categories</h3>
-      <div class="grid">
-        <div class="card">📘 Student Books</div>
-        <div class="card">📖 Fiction & Novels</div>
-        <div class="card">💼 Finance & Self Growth</div>
-      </div>
-    </section>
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <h1>Buy · Sell · Reuse — Instant Payouts</h1>
+    <p>Sell your used books in minutes — instant valuation & fast pickup.  
+      Save money • Read more • Reuse books • Support students.</p>
+    <div>
+      <a href="#sell"><button class="btn">List Your Book</button></a>
+      <a href="#browse"><button class="btn">Browse Books</button></a>
     </div>
   </section>
 
-    <section id="about" class="section">
-      <div class="page-inner">
-        <h2>About ReBook</h2>
-        <p>ReBook began as a student initiative to make learning affordable and sustainable. We connect buyers and sellers, promote re-use, and build a community of readers. Join us — where every book finds a new home.</p>
-        <div class="impact">
-          <div><strong>500+</strong><div class="muted">books reused</div></div>
-          <div><strong>1,200</strong><div class="muted">members</div></div>
-          <div><strong>24</strong><div class="muted">campus drives</div></div>
-        </div>
-  <!-- 🛒 Buy Section -->
-  <section id="buy" class="page">
-    <h2>Buy Used Books</h2>
-    <p>Discover affordable books across categories.</p>
-    <div class="book-list">
-      <div class="book">
-        <img src="https://m.media-amazon.com/images/I/71aFt4+OTOL.jpg" alt="The Alchemist">
-        <h4>The Alchemist</h4>
-        <p>₹159 <span class="strike">₹399</span></p>
+  <!-- Browse Section -->
+  <section id="browse">
+    <h2 style="text-align:center; margin-top:4rem; color:#00b4ff;">Trending on ReBook</h2>
+    <div class="browse-grid">
+      <!-- JS will insert product cards dynamically -->
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section id="works" style="padding:5rem 2rem; text-align:center;">
+    <h2 style="color:#00b4ff; margin-bottom:2rem;">Sell Your Book in 3 Easy Steps</h2>
+    <div class="steps reveal" style="display:flex; flex-wrap:wrap; justify-content:center; gap:2rem;">
+      <div style="max-width:250px;">
+        <div style="font-size:2rem;">📸</div>
+        <h3>1. Snap & Upload</h3>
+        <p>Take a photo of your book cover and add basic details.</p>
       </div>
-      <div class="book">
-        <img src="https://m.media-amazon.com/images/I/71QKQ9mwV7L.jpg" alt="Rich Dad Poor Dad">
-        <h4>Rich Dad Poor Dad</h4>
-        <p>₹249 <span class="strike">₹599</span></p>
+      <div style="max-width:250px;">
+        <div style="font-size:2rem;">💬</div>
+        <h3>2. Get Instant Offer</h3>
+        <p>Auto-valuation or enter your own price suggestion.</p>
       </div>
-    </section>
-  </main>
-      <div class="book">
-        <img src="https://m.media-amazon.com/images/I/81Uwb7Fkk6L.jpg" alt="Attack on Titan">
-        <h4>Attack on Titan Vol.1</h4>
-        <p>₹199 <span class="strike">₹499</span></p>
+      <div style="max-width:250px;">
+        <div style="font-size:2rem;">🚚</div>
+        <h3>3. Pickup & Payout</h3>
+        <p>Get paid via wallet or cash pickup within a week.</p>
       </div>
     </div>
-    <button class="btn back" onclick="showSection('home')">← Back to Home</button>
+    <button class="btn" id="openSellModal" style="margin-top:2rem;">Start Selling</button>
   </section>
 
-  <!-- 💰 Sell Section -->
-  <section id="sell" class="page">
-    <h2>Sell Your Book</h2>
-    <form id="sellForm" onsubmit="return handleSell(event)">
-      <input type="text" id="bookTitle" placeholder="Book Title" required>
-      <input type="text" id="bookAuthor" placeholder="Author / Edition" required>
-      <input type="number" id="bookPrice" placeholder="Expected Price (₹)" required>
-      <textarea id="bookDesc" placeholder="Condition / Notes (optional)"></textarea>
-      <button class="btn" type="submit">List My Book</button>
-    </form>
-    <button class="btn back" onclick="showSection('home')">← Back to Home</button>
-  </section>
-
-  <!-- ℹ️ About Section -->
-  <section id="about" class="page">
-    <h2>About ReBook</h2>
-    <p>ReBook is built to make education affordable and sustainable by helping students buy and sell used books easily. Join our community where every book finds a new home.</p>
-    <div class="stats">
-      <div><strong>500+</strong><br>Books Resold</div>
-      <div><strong>1200+</strong><br>Users</div>
-      <div><strong>24</strong><br>Campus Drives</div>
+  <!-- Why ReBook -->
+  <section id="why" style="padding:5rem 2rem; background:rgba(20,20,30,0.9); text-align:center;">
+    <h2 style="color:#00b4ff;">Why Choose ReBook?</h2>
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:2rem; margin-top:2rem;">
+      <div style="max-width:240px;">
+        <h3>💰 Lowest Commissions</h3>
+        <p>We keep seller fees minimal so students earn more.</p>
+      </div>
+      <div style="max-width:240px;">
+        <h3>⚡ Fast Payouts</h3>
+        <p>Instant wallet or bank transfers for your sold books.</p>
+      </div>
+      <div style="max-width:240px;">
+        <h3>🔒 Safe Transactions</h3>
+        <p>Secure escrow ensures safety for buyers & sellers.</p>
+      </div>
+      <div style="max-width:240px;">
+        <h3>🚗 Pickup & Delivery</h3>
+        <p>Convenient doorstep pickup in select cities.</p>
+      </div>
     </div>
-    <button class="btn back" onclick="showSection('home')">← Back to Home</button>
   </section>
 
-  <footer class="site-footer">
-    <div>© 2025 ReBook • Where Every Book Finds a New Home</div>
-    <div class="muted">Built for students — buy, sell, repeat.</div>
+  <!-- Sell Modal -->
+  <div class="sell-modal">
+    <div class="modal-content">
+      <h2>Sell Your Book</h2>
+      <p>Enter your book details and upload images.  
+         We'll calculate the value instantly!</p>
+      <button id="closeModal">Close</button>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <section id="contact" style="padding:5rem 2rem; text-align:center;">
+    <h2 style="color:#00b4ff;">Contact Us</h2>
+    <p>Have questions or feedback? Reach us at:</p>
+    <p><strong>Email:</strong> support@rebook.in</p>
+    <p><strong>Instagram:</strong> @rebook.official</p>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    <p>© 2025 ReBook | Built for readers and students 🌱</p>
+    <p>© 20XX ReBook — Helping students buy & sell used books.</p>
+    <p><a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="#">Support</a></p>
   </footer>
 
-<script src="script.js"></script>
-  <script src="script.js"></script>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>
