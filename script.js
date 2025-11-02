@@ -1,75 +1,78 @@
-// Smooth page transitions between sections
-function showSection(sectionId) {
-  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-  document.getElementById(sectionId).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+// --- PAGE NAVIGATION SYSTEM FOR REBOOK ---
 
-// Sample books data
-const books = [
-  { title: "Rich Dad Poor Dad", price: "₹249", img: "https://m.media-amazon.com/images/I/71QKQ9mwV7L.jpg", category: "finance" },
-  { title: "The Alchemist", price: "₹159", img: "https://m.media-amazon.com/images/I/71aFt4+OTOL.jpg", category: "fiction" },
-  { title: "Physics Class 12", price: "₹199", img: "https://m.media-amazon.com/images/I/61fVYhN5IhL.jpg", category: "student" },
-  { title: "Attack on Titan Vol.1", price: "₹199", img: "https://m.media-amazon.com/images/I/81Uwb7Fkk6L.jpg", category: "manga" },
-  { title: "Think and Grow Rich", price: "₹189", img: "https://m.media-amazon.com/images/I/71aFt4+OTOL.jpg", category: "finance" },
-];
-
-// Display books dynamically in Buy section
-function renderBooks(list = books) {
-  const container = document.getElementById('listings');
-  if (!container) return;
-  container.innerHTML = '';
-  list.forEach(b => {
-    const card = document.createElement('div');
-    card.className = 'book-card';
-    card.innerHTML = `
-      <img src="${b.img}" alt="${b.title}">
-      <h4>${b.title}</h4>
-      <div class="price">${b.price}</div>
-    `;
-    container.appendChild(card);
-  });
-}
-
-// Filter books by category or search
-function initFilters() {
-  const search = document.getElementById('search');
-  const filterCat = document.getElementById('filterCat');
-
-  if (!search || !filterCat) return;
-
-  function applyFilter() {
-    const term = search.value.toLowerCase();
-    const cat = filterCat.value;
-    const filtered = books.filter(b =>
-      (cat === "all" || b.category === cat) &&
-      b.title.toLowerCase().includes(term)
-    );
-    renderBooks(filtered);
-  }
-
-  search.addEventListener('input', applyFilter);
-  filterCat.addEventListener('change', applyFilter);
-
-  renderBooks(); // initial display
-}
-
-// Handle selling form submission
-function handleSell(event) {
-  event.preventDefault();
-  const title = document.getElementById('s_title').value;
-  const author = document.getElementById('s_author').value;
-  const cat = document.getElementById('s_cat').value;
-  const price = document.getElementById('s_price').value;
-
-  alert(`✅ "${title}" by ${author} listed for ${price} in ${cat} category!`);
-  event.target.reset();
-  showSection('home');
-}
-
-// Initialize app
-window.onload = function() {
-  initFilters();
-  renderBooks();
+const pages = {
+  home: `
+    <section class="hero">
+      <h1>ReBook</h1>
+      <p>Buy, Sell & Discover Affordable Books — From Textbooks to Manga 📚</p>
+      <div class="hero-buttons">
+        <button class="btn-primary" onclick="goToPage('buy')">Buy Books</button>
+        <button class="btn-outline" onclick="goToPage('sell')">Sell Books</button>
+      </div>
+    </section>
+    <section class="categories">
+      <h2>Explore Our Collections</h2>
+      <div class="book-grid">
+        <div class="book-card">
+          <img src="https://m.media-amazon.com/images/I/81Uwb7Fkk6L.jpg">
+          <h3>Attack on Titan Vol. 1</h3>
+          <p class="price"><s>₹499</s> ₹199</p>
+        </div>
+        <div class="book-card">
+          <img src="https://m.media-amazon.com/images/I/71aFt4+OTOL.jpg">
+          <h3>The Alchemist</h3>
+          <p class="price"><s>₹399</s> ₹159</p>
+        </div>
+      </div>
+    </section>
+  `,
+  buy: `
+    <section class="page">
+      <h2>Buy Books</h2>
+      <p>Find your next great read — textbooks, novels, or manga at the best prices!</p>
+      <div class="book-grid">
+        <div class="book-card">
+          <img src="https://m.media-amazon.com/images/I/81eB+7+CkUL.jpg">
+          <h3>Atomic Habits</h3>
+          <p class="price"><s>₹699</s> ₹299</p>
+        </div>
+        <div class="book-card">
+          <img src="https://m.media-amazon.com/images/I/71QKQ9mwV7L.jpg">
+          <h3>Rich Dad Poor Dad</h3>
+          <p class="price"><s>₹599</s> ₹249</p>
+        </div>
+      </div>
+      <button class="btn-outline" onclick="goToPage('home')">⬅ Back to Home</button>
+    </section>
+  `,
+  sell: `
+    <section class="page">
+      <h2>Sell Your Book</h2>
+      <p>Turn your used books into instant cash! Fill in the details below:</p>
+      <form class="sell-form" onsubmit="return handleSell(event)">
+        <input type="text" id="bookName" placeholder="Book Name" required>
+        <input type="number" id="price" placeholder="Expected Price ₹" required>
+        <textarea id="desc" placeholder="Book Description"></textarea>
+        <button type="submit" class="btn-primary">List for Sale</button>
+      </form>
+      <button class="btn-outline" onclick="goToPage('home')">⬅ Back to Home</button>
+    </section>
+  `
 };
 
+function goToPage(pageName) {
+  document.getElementById("app").innerHTML = pages[pageName] || "<h2>Page Not Found</h2>";
+  window.scrollTo(0, 0);
+}
+
+function handleSell(event) {
+  event.preventDefault();
+  const name = document.getElementById("bookName").value;
+  const price = document.getElementById("price").value;
+  alert(`🎉 Your book "${name}" has been listed for ₹${price}!`);
+  goToPage('home');
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  goToPage('home');
+});
