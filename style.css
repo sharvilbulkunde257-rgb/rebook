@@ -1,150 +1,100 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-
 body {
-  background: #f8fff8;
-  color: #333;
-}
-
-.navbar {
-  background: #16a34a;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.brand {
-  font-size: 1.8rem;
-  font-weight: 600;
-  text-decoration: none;
-  color: white;
-}
-
-.tagline {
-  font-size: 0.9rem;
-  margin-left: 10px;
-  opacity: 0.9;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-}
-
-.nav-links li {
-  margin-left: 25px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: white;
-  transition: 0.3s;
-}
-
-.nav-links a:hover {
-  color: #d1fae5;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background: linear-gradient(135deg, #f7f9fc, #e3f2fd);
+  color: #222;
+  text-align: center;
 }
 
 .hero {
-  text-align: center;
-  padding: 90px 20px;
-  background: url('https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1500&q=80') center/cover;
-  color: white;
+  padding: 80px 20px;
 }
 
 .hero h1 {
-  font-size: 2.8rem;
-  margin-bottom: 10px;
+  font-size: 3em;
+  color: #1e3a8a;
 }
 
 .hero p {
-  font-size: 1.1rem;
-  margin-bottom: 20px;
+  font-size: 1.2em;
+  margin-top: 10px;
 }
 
-.cta button {
+.hero-buttons {
+  margin-top: 20px;
+}
+
+.btn-primary, .btn-outline {
   padding: 10px 25px;
   border-radius: 25px;
-  margin: 10px;
-  font-size: 1rem;
   cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn.primary {
-  background: white;
-  color: #16a34a;
+  font-weight: 600;
+  margin: 10px;
   border: none;
 }
 
-.btn.outline {
-  background: transparent;
+.btn-primary {
+  background-color: #2563eb;
   color: white;
-  border: 2px solid white;
 }
 
-.btn:hover {
-  transform: scale(1.05);
+.btn-outline {
+  background-color: white;
+  border: 2px solid #2563eb;
+  color: #2563eb;
 }
 
-.categories {
-  padding: 60px 20px;
-  text-align: center;
-}
-
-.categories h2 {
-  color: #16a34a;
-  margin-bottom: 20px;
-}
-
-.cat-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+.book-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 20px;
+  padding: 40px;
 }
 
-.cat {
-  background: #dcfce7;
-  color: #166534;
-  padding: 20px;
+.book-card {
+  background: white;
+  padding: 15px;
   border-radius: 15px;
-  font-weight: 500;
-  transition: 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 180px;
+  transition: transform 0.3s;
 }
 
-.cat:hover {
-  background: #bbf7d0;
+.book-card:hover {
   transform: translateY(-5px);
 }
 
+.book-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.price {
+  color: #16a34a;
+  font-weight: bold;
+}
+
 footer {
-  background: #166534;
+  background: #1e3a8a;
   color: white;
-  text-align: center;
-  padding: 20px;
+  padding: 10px 0;
+  font-size: 0.9em;
   margin-top: 50px;
 }
 
-.section {
-  display: none;
-  transition: opacity 0.6s ease-in-out;
+.sell-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
 }
 
-.section.active {
-  display: block;
-  animation: fadeIn 0.6s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.sell-form input, .sell-form textarea {
+  width: 80%;
+  max-width: 400px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #aaa;
 }
