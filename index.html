@@ -1,173 +1,222 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ReBook — Buy · Sell · Reuse</title>
+  <meta name="description" content="ReBook — Sell used books in minutes. Instant valuation & fast pickup. Premium dark gradient UI." />
+  <link rel="icon" href="images/favicon.png" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Core Styles (make sure this path exists and is the premium CSS you received) -->
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="icon" href="images/favicon.png" type="image/png">
+  <style>
+    /* Inline micro-tweaks to ensure spacing harmony with the supplied CSS file */
+    .container { max-width:1200px; margin:0 auto; padding:0 24px; }
+    .hero-grid { display:flex; gap:36px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+    .hero-left { flex:1 1 560px; min-width:320px; }
+    .hero-right { width:420px; min-width:280px; }
+    .hero-card { border-radius:18px; padding:18px; }
+    @media (max-width:980px) {
+      .hero-grid { flex-direction:column-reverse; gap:18px; }
+      .hero-right { width:100% }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Floating Background -->
-  <canvas id="bgCanvas"></canvas>
+  <!-- Floating Particle Canvas (JS animates this) -->
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
 
-  <!-- Loader -->
-  <div class="loader">ReBook Loading...</div>
+  <!-- Loader (JS will hide on load) -->
+  <div id="loader" class="loader">Loading ReBook...</div>
 
-  <!-- Navbar -->
-  <nav>
-    <div class="logo">📚 ReBook</div>
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#browse">Browse</a></li>
-      <li><a href="#works">How It Works</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <button id="themeToggle" class="btn">☀️</button>
-  </nav>
+  <!-- NAVBAR -->
+  <header>
+    <nav>
+      <div class="container nav-inner" style="display:flex;align-items:center;justify-content:space-between;gap:18px;">
+        <div style="display:flex;align-items:center;gap:14px">
+          <a href="#" class="logo" aria-label="ReBook home" style="display:flex;gap:12px;align-items:center">
+            <!-- small emblem -->
+            <svg width="44" height="44" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="2" y="6" width="40" height="30" rx="6" fill="#071428"/><path d="M12 18h24M12 26h16" stroke="#ffb703" stroke-width="2.2" stroke-linecap="round"/></svg>
+            <div style="line-height:1">
+              <div style="font-weight:700;font-size:18px;color:#eaf3ff">ReBook</div>
+              <div style="font-size:11px;color:#9aa6b3;">Buy · Sell · Reuse</div>
+            </div>
+          </a>
+        </div>
 
-  <!-- Hero Section -->
-  <section class="hero" id="home">
-    <div class="hero-content">
-      <h1>Buy · Sell · Reuse</h1>
-      <p class="tagline">Affordable books for everyone — instant payouts, easy reuse.</p>
-      <div class="hero-btns">
-        <a href="#sell"><button class="btn">📤 List Your Book</button></a>
-        <a href="#browse"><button class="btn">📚 Browse Books</button></a>
+        <ul class="menu-list" style="display:flex;gap:18px;list-style:none;margin:0;padding:0;align-items:center">
+          <li><a href="#home" class="menu-link">Home</a></li>
+          <li><a href="#browse" class="menu-link">Browse</a></li>
+          <li><a href="#works" class="menu-link">How it Works</a></li>
+          <li><a href="#contact" class="menu-link">Contact</a></li>
+        </ul>
+
+        <div style="display:flex;align-items:center;gap:10px">
+          <button id="themeToggle" class="btn btn-ghost" aria-label="Toggle theme">🌙</button>
+          <button id="openSellModal" class="btn btn-primary">List a Book</button>
+        </div>
       </div>
-      <p class="subline">Over <span style="color:#00b4ff;">50,000+</span> books traded securely</p>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <main>
+    <section id="home" class="hero" style="padding:86px 0 48px;">
+      <div class="container hero-grid">
+        <!-- LEFT: Messaging -->
+        <div class="hero-left">
+          <div class="eyebrow" style="color:#ffb703;font-weight:700;letter-spacing:0.6px;margin-bottom:10px">Save money • Read more</div>
+          <h1 class="hero-title" style="font-family:'Poppins',sans-serif;font-size:44px;line-height:1.02;margin:0 0 14px;color:transparent;background:linear-gradient(90deg,#00b4ff,#00ffcc);-webkit-background-clip:text">
+            Sell your used books in minutes — instant valuation & fast pickup.
+          </h1>
+          <p class="hero-sub" style="color:#9aa6b3;max-width:680px;margin-bottom:20px">
+            List books in under 60 seconds. Get instant offers, pocket money to your wallet, or cash pickup within a week.
+          </p>
+
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:18px">
+            <a href="#sell"><button class="btn btn-primary">List Your Book</button></a>
+            <a href="#browse"><button class="btn btn-outline">Browse Books</button></a>
+          </div>
+
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div class="stat" style="background:rgba(255,255,255,0.02);padding:10px 14px;border-radius:12px">
+              <strong style="font-size:18px;display:block">50k+</strong>
+              <small style="color:#9aa6b3">Books listed</small>
+            </div>
+            <div class="stat" style="background:rgba(255,255,255,0.02);padding:10px 14px;border-radius:12px">
+              <strong style="font-size:18px;display:block">Instant</strong>
+              <small style="color:#9aa6b3">Payouts</small>
+            </div>
+            <div class="stat" style="background:rgba(255,255,255,0.02);padding:10px 14px;border-radius:12px">
+              <strong style="font-size:18px;display:block">Student-friendly</strong>
+              <small style="color:#9aa6b3">Low commission</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Featured Card -->
+        <aside class="hero-right hero-card" style="background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 20px 60px rgba(2,6,23,0.6);padding:18px;">
+          <div style="display:flex;gap:14px;align-items:center">
+            <div class="cover" style="width:96px;height:128px;border-radius:10px;background:linear-gradient(180deg,#07142a,#072a3b);display:flex;align-items:center;justify-content:center;font-size:34px">📘</div>
+            <div style="flex:1">
+              <div style="display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);color:#9aa6b3;font-weight:700;font-size:12px">Featured</div>
+              <h3 style="margin:8px 0 4px;color:#eaf3ff;font-size:18px">Advanced Physics — 2nd Ed</h3>
+              <div style="color:#9aa6b3;font-size:13px">R.K. Sharma • Used • Good</div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+                <div style="font-weight:800;color:#00b4ff">₹450</div>
+                <div style="display:flex;gap:8px">
+                  <button id="buyFeatured" class="btn btn-sm btn-primary">Buy Now</button>
+                  <button class="btn btn-sm btn-outline">Message</button>
+                </div>
+              </div>
+              <div style="color:#9aa6b3;font-size:13px;margin-top:10px">Free local pickup on orders ₹500+</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- BROWSE / GRID -->
+    <section id="browse" class="section" style="padding:40px 0">
+      <div class="container">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:14px;flex-wrap:wrap">
+          <div>
+            <h2 style="color:#eaf3ff;margin:0">Trending on ReBook</h2>
+            <p style="color:#9aa6b3;margin:6px 0 0">Search title, author or subject</p>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:center">
+            <input id="search" class="input" type="search" placeholder="Search title, author or subject" style="padding:10px 12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);color:#cfeafb" />
+            <select id="cond" class="select" style="padding:10px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:#cfeafb">
+              <option value="">All conditions</option>
+              <option value="like-new">Like New</option>
+              <option value="good">Good</option>
+              <option value="fair">Fair</option>
+            </select>
+            <button id="loadMore" class="btn btn-outline">Load more</button>
+          </div>
+        </div>
+
+        <!-- JS will inject cards inside this grid -->
+        <div class="browse-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- SELL FLOW -->
+    <section id="sell" class="section alt" style="padding:52px 0">
+      <div class="container">
+        <h2 style="color:#eaf3ff">Sell your book in 3 steps</h2>
+        <div class="steps" style="display:flex;gap:18px;margin-top:18px;flex-wrap:wrap">
+          <div class="step" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px;min-width:220px;text-align:center">
+            <div style="font-size:28px">📸</div>
+            <h4 style="margin:8px 0">Snap cover</h4>
+            <p style="color:#9aa6b3">Upload photos & enter basic details</p>
+          </div>
+          <div class="step" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px;min-width:220px;text-align:center">
+            <div style="font-size:28px">💬</div>
+            <h4 style="margin:8px 0">Get instant offer</h4>
+            <p style="color:#9aa6b3">Auto-valuation or seller suggested price</p>
+          </div>
+          <div class="step" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px;min-width:220px;text-align:center">
+            <div style="font-size:28px">🚚</div>
+            <h4 style="margin:8px 0">Pickup & payout</h4>
+            <p style="color:#9aa6b3">Choose instant wallet transfer or cash pickup</p>
+          </div>
+        </div>
+
+        <div style="margin-top:18px">
+          <button id="startListing" class="btn btn-primary">Start Listing</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY REBOOK -->
+    <section id="how" class="section" style="padding:48px 0">
+      <div class="container">
+        <h2 style="color:#eaf3ff">Why ReBook?</h2>
+        <div class="why-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:12px">
+          <div class="why" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px">Lowest commissions <p style="color:#9aa6b3">We keep seller fees minimal so students earn more.</p></div>
+          <div class="why" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px">Fast payouts <p style="color:#9aa6b3">Instant wallet transfers or bank payouts.</p></div>
+          <div class="why" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px">Safe transactions <p style="color:#9aa6b3">Buyer-seller escrow for secure payments.</p></div>
+          <div class="why" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px">Pickup & Delivery <p style="color:#9aa6b3">Convenient local pickup options across cities.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SELL MODAL (basic, opened by JS) -->
+    <div class="sell-modal" aria-hidden="true">
+      <div class="modal-content" role="dialog" aria-modal="true">
+        <h3 style="color:#00b4ff;margin-bottom:8px">List your book</h3>
+        <p style="color:#9aa6b3">Enter details and upload a photo. We'll estimate a fair price instantly.</p>
+        <div style="margin-top:14px;display:flex;gap:10px;justify-content:center">
+          <button id="modalClose" class="btn btn-outline">Cancel</button>
+          <button class="btn btn-primary">Continue</button>
+        </div>
+      </div>
     </div>
-  </section>
 
-  <!-- Browse Section -->
-  <section id="browse" class="reveal" style="padding:5rem 2rem;">
-    <h2 style="text-align:center; color:#00b4ff;">📘 Trending on ReBook</h2>
-    <p style="text-align:center; color:#aaa; margin-top:0.5rem;">Handpicked titles students love — from physics to literature</p>
-    <div class="browse-grid" style="margin-top:3rem;">
-      <!-- JS will inject book cards here -->
-    </div>
-  </section>
+  </main>
 
-  <!-- How it Works Section -->
-  <section id="works" style="padding:6rem 2rem; text-align:center;">
-    <h2 style="color:#00b4ff;">How ReBook Works</h2>
-    <p style="color:#bbb; max-width:650px; margin:0 auto 2rem;">
-      ReBook connects students and readers to buy, sell, and reuse books seamlessly. 
-      Simple steps. Instant rewards.
-    </p>
-
-    <div class="steps reveal" style="display:flex; flex-wrap:wrap; justify-content:center; gap:2rem;">
-      <div class="step-card">
-        <div class="icon">📸</div>
-        <h3>Snap & Upload</h3>
-        <p>Upload your book cover and basic details in seconds.</p>
+  <!-- CONTACT / FOOTER -->
+  <footer id="contact" style="padding:36px 0;margin-top:36px;border-top:1px solid rgba(255,255,255,0.03)">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap">
+      <div>
+        <strong style="font-size:16px;color:#eaf3ff">ReBook</strong>
+        <div style="color:#9aa6b3;font-size:13px">Helping students buy & sell used books since 20XX.</div>
       </div>
-      <div class="step-card">
-        <div class="icon">💬</div>
-        <h3>Instant Offer</h3>
-        <p>Get auto-valuation or suggest your own price instantly.</p>
-      </div>
-      <div class="step-card">
-        <div class="icon">🚚</div>
-        <h3>Pickup & Payout</h3>
-        <p>Choose instant wallet transfer or doorstep cash pickup.</p>
+      <div style="display:flex;gap:12px;align-items:center">
+        <a href="#terms" style="color:#9aa6b3">Terms</a>
+        <a href="#privacy" style="color:#9aa6b3">Privacy</a>
+        <a href="#support" style="color:#9aa6b3">Support</a>
       </div>
     </div>
-
-    <button id="openSellModal" class="btn" style="margin-top:2rem;">Start Selling</button>
-  </section>
-
-  <!-- Why ReBook Section -->
-  <section id="why" style="background:rgba(20,20,30,0.85); padding:5rem 2rem; text-align:center;">
-    <h2 style="color:#00b4ff;">Why Choose ReBook?</h2>
-    <div class="why-grid reveal" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:2rem; margin-top:2rem;">
-      <div class="why-card">
-        <h3>💰 Lowest Commissions</h3>
-        <p>Earn more with minimal selling fees. We support students.</p>
-      </div>
-      <div class="why-card">
-        <h3>⚡ Fast Payouts</h3>
-        <p>Receive payments directly to your wallet or bank instantly.</p>
-      </div>
-      <div class="why-card">
-        <h3>🔒 Safe Transactions</h3>
-        <p>Our escrow system ensures safe deals between buyers and sellers.</p>
-      </div>
-      <div class="why-card">
-        <h3>🚗 Quick Delivery</h3>
-        <p>Get doorstep pickup and delivery options for added convenience.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Sell Modal -->
-  <div class="sell-modal">
-    <div class="modal-content">
-      <h2>📤 Sell Your Book</h2>
-      <p>Fill in your book’s details and upload a photo. Get a price instantly!</p>
-      <button id="closeModal">Close</button>
-    </div>
-  </div>
-
-  <!-- Contact Section -->
-  <section id="contact" style="padding:5rem 2rem; text-align:center;">
-    <h2 style="color:#00b4ff;">Contact ReBook</h2>
-    <p style="color:#bbb; margin-bottom:1rem;">We’d love to hear from you.</p>
-    <p>📩 <strong>Email:</strong> support@rebook.in</p>
-    <p>📸 <strong>Instagram:</strong> @rebook.official</p>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>© 20XX ReBook — Empowering Readers & Students</p>
-    <p><a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="#">Support</a></p>
   </footer>
 
-  <script src="assets/js/main.js"></script>
-
-  <style>
-    /* extra styling for v3 layout harmony */
-    .hero-content {
-      text-align: center;
-      margin-top: 8rem;
-      animation: fadeIn 1.5s ease forwards;
-    }
-    .tagline {
-      color: #ccc;
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-    }
-    .hero-btns {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-    }
-    .subline {
-      margin-top: 1.8rem;
-      font-size: 0.95rem;
-      color: #888;
-    }
-    .step-card, .why-card {
-      background: rgba(25,25,35,0.8);
-      border-radius: 20px;
-      padding: 2rem;
-      border: 1px solid rgba(255,255,255,0.05);
-      transition: all 0.3s ease;
-    }
-    .step-card:hover, .why-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 0 25px rgba(0,180,255,0.3);
-    }
-    .step-card .icon {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(40px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-  </style>
-
+  <!-- Core JS (make sure this path has the premium animated JS you accepted) -->
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
