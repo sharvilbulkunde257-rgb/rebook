@@ -1,74 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ReBook — Where Every Book Finds a New Home</title>
-  <meta name="description" content="ReBook — buy & sell used books. Student books, manga, finance, fiction. Knowledge Never Dies." />
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReBook</title>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="nav-left">
-      <a href="#" class="brand" onclick="showSection('home');return false;">ReBook</a>
-      <span class="tagline">Where Every Book Finds a New Home</span>
-    </div>
-    <ul class="nav-links">
-      <li><a href="#" onclick="showSection('home');return false;">Home</a></li>
-      <li><a href="#" onclick="showSection('buy');return false;">Buy</a></li>
-      <li><a href="#" onclick="showSection('sell');return false;">Sell</a></li>
-      <li><a href="#" onclick="showSection('about');return false;">About</a></li>
+  <nav>
+    <h1>📚 ReBook</h1>
+    <ul>
+      <li><a href="#" onclick="showPage('home')">Home</a></li>
+      <li><a href="#" onclick="showPage('buy')">Buy Books</a></li>
+      <li><a href="#" onclick="showPage('sell')">Sell Books</a></li>
+      <li><a href="#" onclick="showPage('about')">About</a></li>
     </ul>
   </nav>
 
-  <main id="app">
-    <section id="home" class="section active">
-      <header class="hero">
-        <h1>Because Knowledge Never Dies</h1>
-        <p>Buy, sell, and discover affordable used books — from students to readers everywhere.</p>
-        <div class="cta">
-          <button class="btn primary" onclick="showSection('buy')">Buy Books</button>
-          <button class="btn outline" onclick="showSection('sell')">Sell Books</button>
-        </div>
-      </header>
+  <div id="home" class="page active">
+    <h2>Welcome to ReBook</h2>
+    <p>Where books find new readers — from student guides to manga and self-help gems!</p>
+  </div>
 
-      <section class="categories">
-        <h2>Explore Categories</h2>
-        <div class="cat-grid">
-          <div class="cat">📚 Student Books</div>
-          <div class="cat">📖 Manga & Anime</div>
-          <div class="cat">💼 Finance & Self-Growth</div>
-          <div class="cat">🎨 Fiction & Novels</div>
-        </div>
-      </section>
-    </section>
+  <div id="buy" class="page">
+    <h2>Buy Books</h2>
+    <p>Affordable reads waiting for you — textbooks, finance books, and anime favorites.</p>
+  </div>
 
-    <section id="buy" class="section">
-      <div class="page">
-        <h2>Buy Books</h2>
-        <p>Discover pre-loved books at affordable prices.</p>
-      </div>
-    </section>
+  <div id="sell" class="page">
+    <h2>Sell Books</h2>
+    <p>List your used books and get instant payments to your wallet or cash within a week!</p>
+    <form>
+      <input type="text" placeholder="Book Title" required><br>
+      <input type="text" placeholder="Author Name" required><br>
+      <input type="number" placeholder="Expected Price ₹" required><br>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
 
-    <section id="sell" class="section">
-      <div class="page">
-        <h2>Sell Books</h2>
-        <p>Turn your old books into instant cash or wallet balance.</p>
-      </div>
-    </section>
-
-    <section id="about" class="section">
-      <div class="page">
-        <h2>About ReBook</h2>
-        <p>ReBook is an online platform connecting students and readers to buy and sell used books easily. We believe every book deserves a second home.</p>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 ReBook — Where Every Book Finds a New Home</p>
-  </footer>
-
-  <script src="script.js"></script>
+  <div id="about" class="page">
+    <h2>About ReBook</h2>
+    <p>ReBook started with one belief — *knowledge never dies*.  
+    Our goal is to make learning affordable and sustainable for everyone.  
+    Join the movement where every book finds a new home.</p>
+  </div>
 </body>
 </html>
+
+
+ 
