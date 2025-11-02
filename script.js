@@ -1,192 +1,129 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+// Smooth scroll for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener("click", function (e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute("href")).scrollIntoView({
+      behavior: "smooth",
+    });
+  });
+});
+
+// Book category filter (example for category buttons)
+const categoryButtons = document.querySelectorAll(".category-btn");
+const books = document.querySelectorAll(".book-card");
+
+categoryButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const category = button.getAttribute("data-category");
+
+    books.forEach((book) => {
+      if (category === "all" || book.classList.contains(category)) {
+        book.style.display = "block";
+      } else {
+        book.style.display = "none";
+      }
+    });
+
+    categoryButtons.forEach((btn) => btn.classList.remove("active"));
+    button.classList.add("active");
+  });
+});
+// Smooth page transitions between sections
+function showSection(sectionId) {
+  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(sectionId).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-body {
-  background-color: #f7fff7;
-  color: #333;
+// Upload book simulation
+const uploadForm = document.getElementById("uploadForm");
+// Sample books data
+const books = [
+  { title: "Rich Dad Poor Dad", price: "₹249", img: "https://m.media-amazon.com/images/I/71QKQ9mwV7L.jpg", category: "finance" },
+  { title: "The Alchemist", price: "₹159", img: "https://m.media-amazon.com/images/I/71aFt4+OTOL.jpg", category: "fiction" },
+  { title: "Physics Class 12", price: "₹199", img: "https://m.media-amazon.com/images/I/61fVYhN5IhL.jpg", category: "student" },
+  { title: "Attack on Titan Vol.1", price: "₹199", img: "https://m.media-amazon.com/images/I/81Uwb7Fkk6L.jpg", category: "manga" },
+  { title: "Think and Grow Rich", price: "₹189", img: "https://m.media-amazon.com/images/I/71aFt4+OTOL.jpg", category: "finance" },
+];
+
+if (uploadForm) {
+  uploadForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    alert("✅ Your book has been listed successfully!");
+    uploadForm.reset();
+// Display books dynamically in Buy section
+function renderBooks(list = books) {
+  const container = document.getElementById('listings');
+  if (!container) return;
+  container.innerHTML = '';
+  list.forEach(b => {
+    const card = document.createElement('div');
+    card.className = 'book-card';
+    card.innerHTML = `
+      <img src="${b.img}" alt="${b.title}">
+      <h4>${b.title}</h4>
+      <div class="price">${b.price}</div>
+    `;
+    container.appendChild(card);
+  });
 }
 
-/* 🌿 Navbar */
-nav {
-  background-color: #1e7b1e;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+// Wallet balance simulation
+let balance = 120;
+const balanceDisplay = document.getElementById("wallet-balance");
+if (balanceDisplay) {
+  balanceDisplay.textContent = `₹${balance}`;
+
+  document.querySelectorAll(".buy-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const price = parseInt(btn.getAttribute("data-price"));
+      if (balance >= price) {
+        balance -= price;
+        balanceDisplay.textContent = `₹${balance}`;
+        alert("📚 Book purchased successfully!");
+      } else {
+        alert("⚠️ Insufficient balance!");
+      }
+    });
+  });
+// Filter books by category or search
+function initFilters() {
+  const search = document.getElementById('search');
+  const filterCat = document.getElementById('filterCat');
+
+  if (!search || !filterCat) return;
+
+  function applyFilter() {
+    const term = search.value.toLowerCase();
+    const cat = filterCat.value;
+    const filtered = books.filter(b =>
+      (cat === "all" || b.category === cat) &&
+      b.title.toLowerCase().includes(term)
+    );
+    renderBooks(filtered);
+  }
+
+  search.addEventListener('input', applyFilter);
+  filterCat.addEventListener('change', applyFilter);
+
+  renderBooks(); // initial display
 }
 
-nav h1 {
-  font-size: 1.8rem;
+// Handle selling form submission
+function handleSell(event) {
+  event.preventDefault();
+  const title = document.getElementById('s_title').value;
+  const author = document.getElementById('s_author').value;
+  const cat = document.getElementById('s_cat').value;
+  const price = document.getElementById('s_price').value;
+
+  alert(`✅ "${title}" by ${author} listed for ${price} in ${cat} category!`);
+  event.target.reset();
+  showSection('home');
 }
 
-nav ul {
-  display: flex;
-  list-style: none;
-}
-
-nav ul li {
-  margin-left: 25px;
-}
-
-nav ul li a {
-  text-decoration: none;
-  color: white;
-  font-weight: 500;
-  transition: 0.3s;
-}
-
-nav ul li a:hover {
-  color: #b3ffb3;
-}
-
-/* 🏡 Hero Section */
-.hero {
-  text-align: center;
-  padding: 100px 20px;
-  color: white;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url("https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1400&q=80")
-      center/cover;
-}
-
-.hero h2 {
-  font-size: 2.5rem;
-}
-
-.hero p {
-  font-size: 1.1rem;
-  margin-top: 10px;
-}
-
-/* 📚 Categories */
-.categories {
-  text-align: center;
-  padding: 60px 20px;
-}
-
-.categories h2 {
-  color: #1e7b1e;
-  margin-bottom: 20px;
-}
-
-.category-btn {
-  background-color: #1e7b1e;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 25px;
-  margin: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.category-btn:hover,
-.category-btn.active {
-  background-color: #2ecc71;
-}
-
-/* 📖 Books Section */
-.books {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 20px;
-  padding: 40px;
-}
-
-.book-card {
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s;
-}
-
-.book-card:hover {
-  transform: translateY(-5px);
-}
-
-.book-card img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-}
-
-.book-card h3 {
-  color: #1e7b1e;
-  margin: 10px;
-  font-size: 1.2rem;
-}
-
-.book-card p {
-  margin: 0 10px 15px;
-  color: #555;
-}
-
-.buy-btn {
-  display: block;
-  text-align: center;
-  background-color: #1e7b1e;
-  color: white;
-  padding: 10px;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.buy-btn:hover {
-  background-color: #2ecc71;
-}
-
-/* 💸 Wallet */
-.wallet {
-  text-align: center;
-  padding: 40px;
-  background-color: #eaffea;
-}
-
-.wallet h3 {
-  color: #1e7b1e;
-  font-size: 1.6rem;
-}
-
-/* 📦 Upload Section */
-.upload {
-  text-align: center;
-  padding: 60px;
-  background-color: #f6fff6;
-}
-
-.upload input,
-.upload button {
-  margin: 8px;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #aaa;
-}
-
-.upload button {
-  background-color: #1e7b1e;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.upload button:hover {
-  background-color: #2ecc71;
-}
-
-/* 🦶 Footer */
-footer {
-  background-color: #1e7b1e;
-  color: white;
-  text-align: center;
-  padding: 15px;
-}
+// Initialize app
+window.onload = function() {
+  initFilters();
+  renderBooks();
+};
