@@ -1,19 +1,24 @@
+/* 🌿 Global Styles */
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+@@ -7,200 +6,145 @@
 }
 
 body {
-  background-color: #f7fff7;
+  background-color: #f8fff8;
+  background: #f8fff8;
   color: #333;
+  overflow-x: hidden;
 }
 
-/* 🌿 Navbar */
+/* 🌱 Navbar */
 nav {
-  background-color: #1e7b1e;
+  background-color: #1f7a1f;
+.navbar {
+  background: #16a34a;
   color: white;
+  padding: 15px 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,73 +29,104 @@ nav {
 }
 
 nav h1 {
+.brand {
   font-size: 1.8rem;
+  letter-spacing: 1px;
+  font-weight: 600;
+  text-decoration: none;
+  color: white;
 }
 
 nav ul {
   display: flex;
+.tagline {
+  font-size: 0.9rem;
+  margin-left: 10px;
+  opacity: 0.9;
+}
+
+.nav-links {
   list-style: none;
+  display: flex;
 }
 
 nav ul li {
+  margin-left: 30px;
+.nav-links li {
   margin-left: 25px;
 }
 
 nav ul li a {
+.nav-links a {
   text-decoration: none;
   color: white;
   font-weight: 500;
+  transition: color 0.3s;
   transition: 0.3s;
 }
 
 nav ul li a:hover {
-  color: #b3ffb3;
+  color: #b2ffb2;
+.nav-links a:hover {
+  color: #d1fae5;
 }
 
 /* 🏡 Hero Section */
 .hero {
   text-align: center;
   padding: 100px 20px;
-  color: white;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url("https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1400&q=80")
       center/cover;
+  padding: 90px 20px;
+  background: url('https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1500&q=80') center/cover;
+  color: white;
 }
 
 .hero h2 {
-  font-size: 2.5rem;
+.hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .hero p {
+  font-size: 1.2rem;
+  opacity: 0.9;
   font-size: 1.1rem;
-  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 /* 📚 Categories */
 .categories {
   text-align: center;
   padding: 60px 20px;
+  background-color: #f5fff5;
 }
 
 .categories h2 {
-  color: #1e7b1e;
-  margin-bottom: 20px;
+  color: #1f7a1f;
+  font-size: 2rem;
+  margin-bottom: 25px;
 }
 
 .category-btn {
-  background-color: #1e7b1e;
+  background-color: #1f7a1f;
   color: white;
   border: none;
-  border-radius: 20px;
+.cta button {
   padding: 10px 25px;
-  margin: 8px;
+  margin: 10px;
+  border-radius: 25px;
+  margin: 10px;
+  font-size: 1rem;
   cursor: pointer;
   transition: 0.3s;
 }
 
 .category-btn:hover,
 .category-btn.active {
-  background-color: #2ecc71;
+  background-color: #2cc52c;
 }
 
 /* 📖 Books Section */
@@ -102,9 +138,9 @@ nav ul li a:hover {
 }
 
 .book-card {
-  background: white;
+  background-color: white;
   border-radius: 10px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s;
 }
@@ -115,64 +151,108 @@ nav ul li a:hover {
 
 .book-card img {
   width: 100%;
-  height: 250px;
+  height: 270px;
   object-fit: cover;
+.btn.primary {
+  background: white;
+  color: #16a34a;
+  border: none;
 }
 
 .book-card h3 {
-  color: #1e7b1e;
-  margin: 10px;
   font-size: 1.2rem;
+  margin: 10px;
+  color: #1f7a1f;
+.btn.outline {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
 }
 
 .book-card p {
   margin: 0 10px 15px;
   color: #555;
+.btn:hover {
+  transform: scale(1.05);
 }
 
 .buy-btn {
   display: block;
-  text-align: center;
-  background-color: #1e7b1e;
+  background-color: #1f7a1f;
   color: white;
-  padding: 10px;
+.categories {
+  padding: 60px 20px;
+  text-align: center;
+  padding: 10px 0;
   text-decoration: none;
+  font-weight: 600;
+  border-top: 1px solid #e6e6e6;
   transition: 0.3s;
 }
 
 .buy-btn:hover {
-  background-color: #2ecc71;
+  background-color: #2cc52c;
+.categories h2 {
+  color: #16a34a;
+  margin-bottom: 20px;
 }
 
 /* 💸 Wallet */
 .wallet {
-  text-align: center;
+  background-color: #dfffdc;
   padding: 40px;
-  background-color: #eaffea;
+  text-align: center;
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
 }
 
 .wallet h3 {
-  color: #1e7b1e;
-  font-size: 1.6rem;
+  color: #1f7a1f;
+  font-size: 1.8rem;
+.cat {
+  background: #dcfce7;
+  color: #166534;
+  padding: 20px;
+  border-radius: 15px;
+  font-weight: 500;
+  transition: 0.3s;
 }
 
-/* 📦 Upload Section */
+#wallet-balance {
+  font-weight: 700;
+  font-size: 1.6rem;
+.cat:hover {
+  background: #bbf7d0;
+  transform: translateY(-5px);
+}
+
+/* 📦 Upload Form */
 .upload {
-  text-align: center;
   padding: 60px;
-  background-color: #f6fff6;
+footer {
+  background: #166534;
+  color: white;
+  text-align: center;
+  background-color: #f0fff0;
+  padding: 20px;
+  margin-top: 50px;
 }
 
 .upload input,
 .upload button {
-  margin: 8px;
   padding: 10px;
-  border-radius: 6px;
+  margin: 10px;
+  border-radius: 8px;
   border: 1px solid #aaa;
+.section {
+  display: none;
+  transition: opacity 0.6s ease-in-out;
 }
 
 .upload button {
-  background-color: #1e7b1e;
+  background-color: #1f7a1f;
   color: white;
   border: none;
   cursor: pointer;
@@ -180,14 +260,20 @@ nav ul li a:hover {
 }
 
 .upload button:hover {
-  background-color: #2ecc71;
+  background-color: #2cc52c;
+.section.active {
+  display: block;
+  animation: fadeIn 0.6s ease;
 }
 
 /* 🦶 Footer */
 footer {
-  background-color: #1e7b1e;
+  background-color: #1f7a1f;
   color: white;
   text-align: center;
-  padding: 15px;
+  padding: 20px;
+  font-size: 0.9rem;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
