@@ -1,59 +1,82 @@
-<nav>
-  <h1>📚 ReBook</h1>
-  <ul>
-    <li><a href="#home">Home</a></li>
-    <li><a href="#buy">Buy Books</a></li>
-    <li><a href="#sell">Sell Books</a></li>
-    <li><a href="#about">About</a></li>
-  </ul>
-</nav>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ReBook</title>
+  <title>ReBook – Buy & Sell Used Books</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- 🌿 Navbar -->
   <nav>
-    <h1>📚 ReBook</h1>
+    <h1>ReBook</h1>
     <ul>
-      <li><a href="#" onclick="showPage('home')">Home</a></li>
-      <li><a href="#" onclick="showPage('buy')">Buy Books</a></li>
-      <li><a href="#" onclick="showPage('sell')">Sell Books</a></li>
-      <li><a href="#" onclick="showPage('about')">About</a></li>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#categories">Categories</a></li>
+      <li><a href="#wallet">Wallet</a></li>
+      <li><a href="#upload">Sell Book</a></li>
     </ul>
   </nav>
 
-  <div id="home" class="page active">
-    <h2>Welcome to ReBook</h2>
-    <p>Where books find new readers — from student guides to manga and self-help gems!</p>
-  </div>
+  <!-- 🏡 Hero Section -->
+  <section class="hero" id="home">
+    <h2>Give Your Books a New Home 📚</h2>
+    <p>Sell your used books instantly and buy affordable ones for your studies!</p>
+  </section>
 
-  <div id="buy" class="page">
-    <h2>Buy Books</h2>
-    <p>Affordable reads waiting for you — textbooks, finance books, and anime favorites.</p>
-  </div>
+  <!-- 📚 Categories -->
+  <section class="categories" id="categories">
+    <h2>Browse by Category</h2>
+    <button class="category-btn active">All</button>
+    <button class="category-btn">Engineering</button>
+    <button class="category-btn">Medical</button>
+    <button class="category-btn">Novels</button>
+    <button class="category-btn">School</button>
+  </section>
 
-  <div id="sell" class="page">
-    <h2>Sell Books</h2>
-    <p>List your used books and get instant payments to your wallet or cash within a week!</p>
-    <form>
-      <input type="text" placeholder="Book Title" required><br>
-      <input type="text" placeholder="Author Name" required><br>
-      <input type="number" placeholder="Expected Price ₹" required><br>
-      <button type="submit">Submit</button>
-    </form>
-  </div>
+  <!-- 📖 Book Cards -->
+  <section class="books" id="books">
+    <div class="book-card">
+      <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=600&q=80" alt="Book" />
+      <h3>Physics for Engineers</h3>
+      <p>Rs. 250 • Used - Good Condition</p>
+      <a href="#" class="buy-btn">Buy Now</a>
+    </div>
 
-  <div id="about" class="page">
-    <h2>About ReBook</h2>
-    <p>ReBook started with one belief — *knowledge never dies*.  
-    Our goal is to make learning affordable and sustainable for everyone.  
-    Join the movement where every book finds a new home.</p>
-  </div>
+    <div class="book-card">
+      <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=600&q=80" alt="Book" />
+      <h3>Organic Chemistry</h3>
+      <p>Rs. 180 • Used - Very Good</p>
+      <a href="#" class="buy-btn">Buy Now</a>
+    </div>
+
+    <div class="book-card">
+      <img src="https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=600&q=80" alt="Book" />
+      <h3>English Literature</h3>
+      <p>Rs. 150 • Used - Excellent</p>
+      <a href="#" class="buy-btn">Buy Now</a>
+    </div>
+  </section>
+
+  <!-- 💸 Wallet -->
+  <section class="wallet" id="wallet">
+    <h3>Your Wallet Balance: ₹<span id="wallet-balance">500</span></h3>
+  </section>
+
+  <!-- 📦 Upload Section -->
+  <section class="upload" id="upload">
+    <h2>Sell Your Book</h2>
+    <input type="text" id="book-title" placeholder="Book Title" />
+    <input type="number" id="book-price" placeholder="Price (₹)" />
+    <button id="upload-btn">Add Book</button>
+  </section>
+
+  <!-- 🦶 Footer -->
+  <footer>
+    <p>© 2025 ReBook. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
 
-
- 
