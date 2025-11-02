@@ -23,13 +23,18 @@
   <nav class="nav">
     <div class="nav-container">
       <div class="nav-brand">
-        <a href="#hero">ReBook</a>
+        <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="10" width="20" height="20" rx="2" fill="#ffb703"/>
+          <rect x="5" y="15" width="10" height="10" fill="#04050a"/>
+          <text x="30" y="25" font-family="Playfair Display" font-size="18" font-weight="700" fill="#ffb703">ReBook</text>
+        </svg>
       </div>
       <div class="nav-links">
         <a href="#browse">Browse</a>
         <a href="#sell">Sell</a>
         <a href="#how">How It Works</a>
         <button class="btn btn-primary">List Your Book</button>
+        <button id="theme-toggle" class="theme-toggle">🌙</button>
       </div>
       <div class="hamburger" id="hamburger">
         <span></span>
@@ -45,22 +50,23 @@
         <h1>Sell your used books in minutes — instant valuation & fast pickup.</h1>
         <p>List books in under 60 seconds. Get instant offers, pocket money to your wallet, or cash pickup within a week.</p>
         <div class="hero-stats">
-          <div class="stat">50k+ Books listed</div>
-          <div class="stat">Instant Payouts</div>
-          <div class="stat">Free pickup ₹500+</div>
+          <div class="stat animate-fade-in">50k+ Books listed</div>
+          <div class="stat animate-fade-in">Instant Payouts</div>
+          <div class="stat animate-fade-in">Free pickup ₹500+</div>
         </div>
         <div class="hero-ctas">
-          <button class="btn btn-primary" id="start-listing">Start Listing</button>
+          <button class="btn btn-primary animate-pulse" id="start-listing">Start Listing</button>
           <button class="btn btn-secondary" id="browse-books">Browse Books</button>
         </div>
       </div>
       <div class="hero-right">
-        <div class="hero-card">
+        <div class="hero-card animate-slide-up">
           <img src="images/book-placeholder.jpg" alt="Featured Book: Advanced Physics" class="hero-card-img">
           <div class="hero-card-content">
             <div class="tag">Featured</div>
             <h3>Advanced Physics — 2nd Ed</h3>
             <p>R.K. Sharma</p>
+            <div class="rating">★★★★☆ (4.5)</div>
             <div class="price">₹450</div>
             <button class="btn btn-primary">Buy Now</button>
           </div>
@@ -92,17 +98,17 @@
     <div class="container">
       <h2>How to Sell Your Books</h2>
       <div class="sell-steps">
-        <div class="step-card">
+        <div class="step-card animate-fade-in">
           <div class="step-icon">📸</div>
           <h3>Snap the Cover</h3>
           <p>Take a photo of your book's cover.</p>
         </div>
-        <div class="step-card">
+        <div class="step-card animate-fade-in">
           <div class="step-icon">💰</div>
           <h3>Get Instant Offer</h3>
           <p>Our AI suggests a fair price based on condition.</p>
         </div>
-        <div class="step-card">
+        <div class="step-card animate-fade-in">
           <div class="step-icon">🚚</div>
           <h3>Pickup & Payout</h3>
           <p>Schedule pickup or get instant wallet payout.</p>
@@ -144,7 +150,7 @@
 
   <!-- Modal for Listing -->
   <div id="listing-modal" class="modal" aria-hidden="true">
-    <div class="modal-content">
+    <div class="modal-content animate-scale-in">
       <span class="close" id="close-modal">&times;</span>
       <h2>List Your Book</h2>
       <form id="listing-form">
