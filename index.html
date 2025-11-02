@@ -1,222 +1,279 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ReBook — Buy · Sell · Reuse</title>
-  <meta name="description" content="ReBook — Sell used books in minutes. Instant valuation & fast pickup. Premium dark gradient UI." />
-  <link rel="icon" href="images/favicon.png" />
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <!-- Core Styles (make sure this path exists and is the premium CSS you received) -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* Inline micro-tweaks to ensure spacing harmony with the supplied CSS file */
-    .container { max-width:1200px; margin:0 auto; padding:0 24px; }
-    .hero-grid { display:flex; gap:36px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
-    .hero-left { flex:1 1 560px; min-width:320px; }
-    .hero-right { width:420px; min-width:280px; }
-    .hero-card { border-radius:18px; padding:18px; }
-    @media (max-width:980px) {
-      .hero-grid { flex-direction:column-reverse; gap:18px; }
-      .hero-right { width:100% }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: radial-gradient(circle at 20% 30%, #001220, #000814 70%);
+      color: #e8f2ff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Glowing animated background circles */
+    body::before, body::after {
+      content: "";
+      position: fixed;
+      border-radius: 50%;
+      width: 600px;
+      height: 600px;
+      filter: blur(180px);
+      z-index: -1;
+      opacity: 0.5;
+      animation: moveGlow 10s ease-in-out infinite alternate;
+    }
+
+    body::before {
+      top: -200px;
+      left: -150px;
+      background: #00e0ff;
+    }
+
+    body::after {
+      bottom: -250px;
+      right: -150px;
+      background: #00ffae;
+      animation-delay: 5s;
+    }
+
+    @keyframes moveGlow {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(50px, 80px) scale(1.2); }
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 8%;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      backdrop-filter: blur(12px);
+      background: rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #00e0ff, #00ffae);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #e8f2ff;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #00e0ff;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, #00e0ff, #00ffae);
+      color: #000;
+      padding: 10px 22px;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,255,200,0.25);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 10%;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      background: linear-gradient(90deg, #00e0ff, #00ffae, #00e0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+      animation: fadeInDown 1.2s ease-out;
+    }
+
+    .hero p {
+      color: #b9c6d1;
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin-bottom: 32px;
+      animation: fadeInUp 1.5s ease;
+    }
+
+    .hero .cta-buttons {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeIn 2s ease;
+    }
+
+    .hero img {
+      position: absolute;
+      bottom: 0;
+      opacity: 0.05;
+      width: 100%;
+      object-fit: cover;
+      z-index: -1;
+      mix-blend-mode: overlay;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== FEATURES ===== */
+    .features {
+      padding: 100px 8%;
+      text-align: center;
+    }
+
+    .features h2 {
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #00e0ff, #00ffae);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 15px;
+    }
+
+    .features p {
+      color: #99aabb;
+      margin-bottom: 50px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 30px;
+      border-radius: 20px;
+      transition: 0.3s;
+      backdrop-filter: blur(8px);
+    }
+
+    .feature-card:hover {
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-6px);
+    }
+
+    .feature-card h3 {
+      color: #00ffae;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      color: #b6c3ce;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 50px 0;
+      color: #8f9da9;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: #00e0ff;
+      text-decoration: none;
+    }
+
   </style>
 </head>
 <body>
-
-  <!-- Floating Particle Canvas (JS animates this) -->
-  <canvas id="bgCanvas" aria-hidden="true"></canvas>
-
-  <!-- Loader (JS will hide on load) -->
-  <div id="loader" class="loader">Loading ReBook...</div>
-
-  <!-- NAVBAR -->
   <header>
+    <div class="logo">ReBook</div>
     <nav>
-      <div class="container nav-inner" style="display:flex;align-items:center;justify-content:space-between;gap:18px;">
-        <div style="display:flex;align-items:center;gap:14px">
-          <a href="#" class="logo" aria-label="ReBook home" style="display:flex;gap:12px;align-items:center">
-            <!-- small emblem -->
-            <svg width="44" height="44" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="2" y="6" width="40" height="30" rx="6" fill="#071428"/><path d="M12 18h24M12 26h16" stroke="#ffb703" stroke-width="2.2" stroke-linecap="round"/></svg>
-            <div style="line-height:1">
-              <div style="font-weight:700;font-size:18px;color:#eaf3ff">ReBook</div>
-              <div style="font-size:11px;color:#9aa6b3;">Buy · Sell · Reuse</div>
-            </div>
-          </a>
-        </div>
-
-        <ul class="menu-list" style="display:flex;gap:18px;list-style:none;margin:0;padding:0;align-items:center">
-          <li><a href="#home" class="menu-link">Home</a></li>
-          <li><a href="#browse" class="menu-link">Browse</a></li>
-          <li><a href="#works" class="menu-link">How it Works</a></li>
-          <li><a href="#contact" class="menu-link">Contact</a></li>
-        </ul>
-
-        <div style="display:flex;align-items:center;gap:10px">
-          <button id="themeToggle" class="btn btn-ghost" aria-label="Toggle theme">🌙</button>
-          <button id="openSellModal" class="btn btn-primary">List a Book</button>
-        </div>
-      </div>
+      <ul>
+        <li><a href="#browse">Browse</a></li>
+        <li><a href="#sell">Sell</a></li>
+        <li><a href="#how">How it Works</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </nav>
+    <button class="btn">List a Book</button>
   </header>
 
-  <!-- HERO -->
-  <main>
-    <section id="home" class="hero" style="padding:86px 0 48px;">
-      <div class="container hero-grid">
-        <!-- LEFT: Messaging -->
-        <div class="hero-left">
-          <div class="eyebrow" style="color:#ffb703;font-weight:700;letter-spacing:0.6px;margin-bottom:10px">Save money • Read more</div>
-          <h1 class="hero-title" style="font-family:'Poppins',sans-serif;font-size:44px;line-height:1.02;margin:0 0 14px;color:transparent;background:linear-gradient(90deg,#00b4ff,#00ffcc);-webkit-background-clip:text">
-            Sell your used books in minutes — instant valuation & fast pickup.
-          </h1>
-          <p class="hero-sub" style="color:#9aa6b3;max-width:680px;margin-bottom:20px">
-            List books in under 60 seconds. Get instant offers, pocket money to your wallet, or cash pickup within a week.
-          </p>
+  <section class="hero">
+    <h1>Buy · Sell · Reuse — Instantly.</h1>
+    <p>Sell your used books in minutes — instant valuation, doorstep pickup & quick payments.  
+      Join 50,000+ readers saving money and reusing knowledge.</p>
+    <div class="cta-buttons">
+      <button class="btn">List Your Book</button>
+      <button class="btn" style="background:transparent;border:1px solid #00e0ff;color:#00e0ff;">Browse Books</button>
+    </div>
+  </section>
 
-          <div style="display:flex;gap:12px;align-items:center;margin-bottom:18px">
-            <a href="#sell"><button class="btn btn-primary">List Your Book</button></a>
-            <a href="#browse"><button class="btn btn-outline">Browse Books</button></a>
-          </div>
-
-          <div style="display:flex;gap:12px;flex-wrap:wrap">
-            <div class="stat" style="background:rgba(255,255,255,0.02);padding:10px 14px;border-radius:12px">
-              <strong style="font-size:18px;display:block">50k+</strong>
-              <small style="color:#9aa6b3">Books listed</small>
-            </div>
-            <div class="stat" style="background:rgba(255,255,255,0.02);padding:10px 14px;border-radius:12px">
-              <strong style="font-size:18px;display:block">Instant</strong>
-              <small style="color:#9aa6b3">Payouts</small>
-            </div>
-            <div class="stat" style="background:rgba(255,255,255,0.02);padding:10px 14px;border-radius:12px">
-              <strong style="font-size:18px;display:block">Student-friendly</strong>
-              <small style="color:#9aa6b3">Low commission</small>
-            </div>
-          </div>
-        </div>
-
-        <!-- RIGHT: Featured Card -->
-        <aside class="hero-right hero-card" style="background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 20px 60px rgba(2,6,23,0.6);padding:18px;">
-          <div style="display:flex;gap:14px;align-items:center">
-            <div class="cover" style="width:96px;height:128px;border-radius:10px;background:linear-gradient(180deg,#07142a,#072a3b);display:flex;align-items:center;justify-content:center;font-size:34px">📘</div>
-            <div style="flex:1">
-              <div style="display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);color:#9aa6b3;font-weight:700;font-size:12px">Featured</div>
-              <h3 style="margin:8px 0 4px;color:#eaf3ff;font-size:18px">Advanced Physics — 2nd Ed</h3>
-              <div style="color:#9aa6b3;font-size:13px">R.K. Sharma • Used • Good</div>
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
-                <div style="font-weight:800;color:#00b4ff">₹450</div>
-                <div style="display:flex;gap:8px">
-                  <button id="buyFeatured" class="btn btn-sm btn-primary">Buy Now</button>
-                  <button class="btn btn-sm btn-outline">Message</button>
-                </div>
-              </div>
-              <div style="color:#9aa6b3;font-size:13px;margin-top:10px">Free local pickup on orders ₹500+</div>
-            </div>
-          </div>
-        </aside>
+  <section class="features" id="how">
+    <h2>Sell Your Book in 3 Easy Steps</h2>
+    <p>Fast, secure, and student-friendly process.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>📸 Snap Cover</h3>
+        <p>Upload book photos & details. Instant recognition.</p>
       </div>
-    </section>
-
-    <!-- BROWSE / GRID -->
-    <section id="browse" class="section" style="padding:40px 0">
-      <div class="container">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:14px;flex-wrap:wrap">
-          <div>
-            <h2 style="color:#eaf3ff;margin:0">Trending on ReBook</h2>
-            <p style="color:#9aa6b3;margin:6px 0 0">Search title, author or subject</p>
-          </div>
-
-          <div style="display:flex;gap:10px;align-items:center">
-            <input id="search" class="input" type="search" placeholder="Search title, author or subject" style="padding:10px 12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);color:#cfeafb" />
-            <select id="cond" class="select" style="padding:10px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:#cfeafb">
-              <option value="">All conditions</option>
-              <option value="like-new">Like New</option>
-              <option value="good">Good</option>
-              <option value="fair">Fair</option>
-            </select>
-            <button id="loadMore" class="btn btn-outline">Load more</button>
-          </div>
-        </div>
-
-        <!-- JS will inject cards inside this grid -->
-        <div class="browse-grid" aria-live="polite"></div>
+      <div class="feature-card">
+        <h3>💬 Get Instant Offer</h3>
+        <p>AI valuation or set your own price in seconds.</p>
       </div>
-    </section>
-
-    <!-- SELL FLOW -->
-    <section id="sell" class="section alt" style="padding:52px 0">
-      <div class="container">
-        <h2 style="color:#eaf3ff">Sell your book in 3 steps</h2>
-        <div class="steps" style="display:flex;gap:18px;margin-top:18px;flex-wrap:wrap">
-          <div class="step" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px;min-width:220px;text-align:center">
-            <div style="font-size:28px">📸</div>
-            <h4 style="margin:8px 0">Snap cover</h4>
-            <p style="color:#9aa6b3">Upload photos & enter basic details</p>
-          </div>
-          <div class="step" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px;min-width:220px;text-align:center">
-            <div style="font-size:28px">💬</div>
-            <h4 style="margin:8px 0">Get instant offer</h4>
-            <p style="color:#9aa6b3">Auto-valuation or seller suggested price</p>
-          </div>
-          <div class="step" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px;min-width:220px;text-align:center">
-            <div style="font-size:28px">🚚</div>
-            <h4 style="margin:8px 0">Pickup & payout</h4>
-            <p style="color:#9aa6b3">Choose instant wallet transfer or cash pickup</p>
-          </div>
-        </div>
-
-        <div style="margin-top:18px">
-          <button id="startListing" class="btn btn-primary">Start Listing</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHY REBOOK -->
-    <section id="how" class="section" style="padding:48px 0">
-      <div class="container">
-        <h2 style="color:#eaf3ff">Why ReBook?</h2>
-        <div class="why-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:12px">
-          <div class="why" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px">Lowest commissions <p style="color:#9aa6b3">We keep seller fees minimal so students earn more.</p></div>
-          <div class="why" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px">Fast payouts <p style="color:#9aa6b3">Instant wallet transfers or bank payouts.</p></div>
-          <div class="why" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px">Safe transactions <p style="color:#9aa6b3">Buyer-seller escrow for secure payments.</p></div>
-          <div class="why" style="background:rgba(255,255,255,0.02);padding:18px;border-radius:12px">Pickup & Delivery <p style="color:#9aa6b3">Convenient local pickup options across cities.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SELL MODAL (basic, opened by JS) -->
-    <div class="sell-modal" aria-hidden="true">
-      <div class="modal-content" role="dialog" aria-modal="true">
-        <h3 style="color:#00b4ff;margin-bottom:8px">List your book</h3>
-        <p style="color:#9aa6b3">Enter details and upload a photo. We'll estimate a fair price instantly.</p>
-        <div style="margin-top:14px;display:flex;gap:10px;justify-content:center">
-          <button id="modalClose" class="btn btn-outline">Cancel</button>
-          <button class="btn btn-primary">Continue</button>
-        </div>
+      <div class="feature-card">
+        <h3>🚚 Pickup & Payout</h3>
+        <p>We collect your book and send cash instantly.</p>
       </div>
     </div>
+  </section>
 
-  </main>
-
-  <!-- CONTACT / FOOTER -->
-  <footer id="contact" style="padding:36px 0;margin-top:36px;border-top:1px solid rgba(255,255,255,0.03)">
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap">
-      <div>
-        <strong style="font-size:16px;color:#eaf3ff">ReBook</strong>
-        <div style="color:#9aa6b3;font-size:13px">Helping students buy & sell used books since 20XX.</div>
-      </div>
-      <div style="display:flex;gap:12px;align-items:center">
-        <a href="#terms" style="color:#9aa6b3">Terms</a>
-        <a href="#privacy" style="color:#9aa6b3">Privacy</a>
-        <a href="#support" style="color:#9aa6b3">Support</a>
-      </div>
-    </div>
+  <footer>
+    <p>© ReBook — Built for Students. | <a href="#">Privacy</a> | <a href="#">Terms</a></p>
   </footer>
-
-  <!-- Core JS (make sure this path has the premium animated JS you accepted) -->
-  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
