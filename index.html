@@ -1,224 +1,172 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ReBook — Buy · Sell · Reuse</title>
-  <meta name="description" content="ReBook — Sell used books in minutes. Instant valuation, fast pickup, student-friendly fees." />
-  <link rel="icon" href="images/favicon.png">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-
-  <!-- Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <meta name="description" content="ReBook: Marketplace for buying and selling used books. Instant payouts, fast listings, and free pickup.">
+  <meta property="og:title" content="ReBook — Buy · Sell · Reuse">
+  <meta property="og:description" content="Sell your used books in minutes — instant valuation & fast pickup.">
+  <meta property="og:image" content="images/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
-  <!-- Loader -->
-  <div id="loader" class="loader">
-    <div class="loader-inner">
-      <svg width="64" height="64" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9" stroke="#ffb703" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+  <div id="loader" class="loader-overlay">
+    <div class="loader"></div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="#hero">ReBook</a>
+      </div>
+      <div class="nav-links">
+        <a href="#browse">Browse</a>
+        <a href="#sell">Sell</a>
+        <a href="#how">How It Works</a>
+        <button class="btn btn-primary">List Your Book</button>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
-  </div>
+  </nav>
 
-  <!-- App -->
-  <div id="app" class="app">
-
-    <!-- NAV -->
-    <header class="nav" id="nav">
-      <div class="container nav-inner">
-        <div class="brand">
-          <a href="#" class="logo" aria-label="ReBook">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="14" rx="2" fill="#0b1220"/><path d="M6 9h12M6 13h8" stroke="#ffb703" stroke-width="1.6" stroke-linecap="round"/></svg>
-          </a>
-          <div class="brand-text">
-            <div class="brand-title">ReBook</div>
-            <div class="brand-sub">Buy · Sell · Reuse</div>
-          </div>
+  <section id="hero" class="hero">
+    <div class="hero-container">
+      <div class="hero-left">
+        <h1>Sell your used books in minutes — instant valuation & fast pickup.</h1>
+        <p>List books in under 60 seconds. Get instant offers, pocket money to your wallet, or cash pickup within a week.</p>
+        <div class="hero-stats">
+          <div class="stat">50k+ Books listed</div>
+          <div class="stat">Instant Payouts</div>
+          <div class="stat">Free pickup ₹500+</div>
         </div>
-
-        <nav class="menu">
-          <ul class="menu-list">
-            <li><a href="#browse">Browse</a></li>
-            <li><a href="#sell">Sell Book</a></li>
-            <li><a href="#how">How it Works</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </nav>
-
-        <div class="nav-cta">
-          <button class="btn btn-ghost" id="themeToggle" aria-label="Toggle theme">🌙</button>
-          <button class="btn btn-primary" id="openList">List a Book</button>
-          <button class="hamburger" id="hamburger" aria-label="Open menu">
-            <span></span><span></span><span></span>
-          </button>
+        <div class="hero-ctas">
+          <button class="btn btn-primary" id="start-listing">Start Listing</button>
+          <button class="btn btn-secondary" id="browse-books">Browse Books</button>
         </div>
       </div>
-    </header>
-
-    <!-- HERO -->
-    <section class="hero" id="home">
-      <div class="container hero-grid">
-        <div class="hero-left">
-          <div class="eyebrow">Save money • Read more</div>
-          <h1 class="hero-title">Sell your used books in minutes — instant valuation & fast pickup.</h1>
-          <p class="hero-lead">List books in under 60 seconds. Get instant offers, pocket money to your wallet, or cash pickup within a week.</p>
-
-          <div class="hero-actions">
-            <button class="btn btn-primary" id="ctaList">List Your Book</button>
-            <a href="#browse" class="btn btn-outline">Browse Books</a>
+      <div class="hero-right">
+        <div class="hero-card">
+          <img src="images/book-placeholder.jpg" alt="Featured Book: Advanced Physics" class="hero-card-img">
+          <div class="hero-card-content">
+            <div class="tag">Featured</div>
+            <h3>Advanced Physics — 2nd Ed</h3>
+            <p>R.K. Sharma</p>
+            <div class="price">₹450</div>
+            <button class="btn btn-primary">Buy Now</button>
           </div>
-
-          <div class="hero-stats">
-            <div class="stat">
-              <div class="stat-num">50k+</div>
-              <div class="stat-label">Books listed</div>
-            </div>
-            <div class="stat">
-              <div class="stat-num">Instant</div>
-              <div class="stat-label">Payouts</div>
-            </div>
-            <div class="stat">
-              <div class="stat-num">Student-friendly</div>
-              <div class="stat-label">Low commission</div>
-            </div>
-          </div>
-        </div>
-
-        <aside class="hero-card">
-          <div class="featured">
-            <div class="cover">📘</div>
-            <div class="featured-body">
-              <div class="featured-tag">Featured</div>
-              <h3 class="featured-title">Advanced Physics — 2nd Ed</h3>
-              <div class="featured-meta">R.K. Sharma • Used • Good</div>
-              <div class="featured-row">
-                <div class="price">₹450</div>
-                <button class="btn btn-sm btn-primary" id="buyFeatured">Buy Now</button>
-              </div>
-              <div class="featured-note">Free local pickup on orders ₹500+</div>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <!-- BROWSE / GRID -->
-    <section id="browse" class="section">
-      <div class="container">
-        <div class="section-header">
-          <h2>Trending on ReBook</h2>
-          <div class="controls">
-            <input id="search" class="input" type="search" placeholder="Search title, author or subject" aria-label="Search listings">
-            <select id="cond" class="select">
-              <option value="">All conditions</option>
-              <option value="good">Good</option>
-              <option value="fair">Fair</option>
-              <option value="like-new">Like New</option>
-            </select>
-          </div>
-        </div>
-
-        <div id="grid" class="grid"></div>
-
-        <div class="load-more-wrap">
-          <button class="btn btn-outline" id="loadMore">Load more</button>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- SELL FLOW -->
-    <section id="sell" class="section alt">
-      <div class="container">
-        <div class="section-header">
-          <h2>Sell your book in 3 steps</h2>
-        </div>
-        <div class="steps">
-          <div class="step">
-            <div class="step-ico">📸</div>
-            <h4>Snap cover</h4>
-            <p class="muted">Upload photos & enter basic details</p>
-          </div>
-          <div class="step">
-            <div class="step-ico">💬</div>
-            <h4>Get instant offer</h4>
-            <p class="muted">Auto-valuation or you set price</p>
-          </div>
-          <div class="step">
-            <div class="step-ico">🚚</div>
-            <h4>Pickup & payout</h4>
-            <p class="muted">Wallet transfer or cash on pickup</p>
-          </div>
-        </div>
+  <section id="browse" class="browse">
+    <div class="container">
+      <h2>Browse Used Books</h2>
+      <div class="filters">
+        <input type="text" id="search" placeholder="Search by title or author..." class="search-input">
+        <select id="condition-filter" class="filter-select">
+          <option value="">All Conditions</option>
+          <option value="like-new">Like New</option>
+          <option value="good">Good</option>
+          <option value="fair">Fair</option>
+        </select>
+      </div>
+      <div id="products-grid" class="products-grid">
+        <!-- Products will be rendered here -->
+      </div>
+      <button id="load-more" class="btn btn-secondary">Load More</button>
+    </div>
+  </section>
 
-        <div class="sell-cta">
-          <button class="btn btn-primary" id="startListing">Start Listing</button>
+  <section id="sell" class="sell">
+    <div class="container">
+      <h2>How to Sell Your Books</h2>
+      <div class="sell-steps">
+        <div class="step-card">
+          <div class="step-icon">📸</div>
+          <h3>Snap the Cover</h3>
+          <p>Take a photo of your book's cover.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">💰</div>
+          <h3>Get Instant Offer</h3>
+          <p>Our AI suggests a fair price based on condition.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">🚚</div>
+          <h3>Pickup & Payout</h3>
+          <p>Schedule pickup or get instant wallet payout.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- HOW -->
-    <section id="how" class="section">
-      <div class="container">
-        <h2>Why ReBook?</h2>
-        <div class="why-grid">
-          <div class="why">Lowest commissions <p class="muted">Sellers earn more</p></div>
-          <div class="why">Fast payouts <p class="muted">Instant wallet & bank</p></div>
-          <div class="why">Safe transactions <p class="muted">Escrow support</p></div>
-          <div class="why">Pickup & Delivery <p class="muted">Citywide pickup</p></div>
+  <section id="how" class="how">
+    <div class="container">
+      <h2>Why Choose ReBook?</h2>
+      <div class="features">
+        <div class="feature">
+          <h3>Instant Payouts</h3>
+          <p>Get paid instantly to your wallet or on pickup.</p>
+        </div>
+        <div class="feature">
+          <h3>Free Local Pickup</h3>
+          <p>Free pickup for orders above ₹500.</p>
+        </div>
+        <div class="feature">
+          <h3>Student-Friendly</h3>
+          <p>Low commissions and easy listings.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- FOOTER -->
-    <footer id="contact" class="footer">
-      <div class="container footer-grid">
-        <div>
-          <h3>ReBook</h3>
-          <p class="muted">Helping students buy & sell used books since 20XX.</p>
-        </div>
-        <div class="footer-links">
-          <a href="#terms">Terms</a>
-          <a href="#privacy">Privacy</a>
-          <a href="#support">Support</a>
-        </div>
-        <div>
-          <div class="muted">© ReBook — Demo. All rights reserved.</div>
-        </div>
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2023 ReBook. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
       </div>
-    </footer>
+    </div>
+  </footer>
 
-  </div>
-
-  <!-- LISTING MODAL -->
-  <div id="modal" class="modal" aria-hidden="true">
-    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
-      <h3 id="modalTitle">List your book</h3>
-      <form id="listForm" class="form">
-        <div class="row">
-          <input name="title" placeholder="Book title" required />
-          <input name="author" placeholder="Author" required />
-        </div>
-        <div class="row">
-          <select name="condition" required>
-            <option value="">Select condition</option>
-            <option value="like-new">Like New</option>
-            <option value="good">Good</option>
-            <option value="fair">Fair</option>
-          </select>
-          <input name="price" placeholder="Your price (₹)" type="number" required />
-        </div>
-        <textarea name="notes" placeholder="Notes (optional)"></textarea>
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary">Publish Listing</button>
-          <button type="button" class="btn btn-outline" id="cancelList">Cancel</button>
-        </div>
+  <!-- Modal for Listing -->
+  <div id="listing-modal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <span class="close" id="close-modal">&times;</span>
+      <h2>List Your Book</h2>
+      <form id="listing-form">
+        <label for="title">Title</label>
+        <input type="text" id="title" required>
+        <label for="author">Author</label>
+        <input type="text" id="author" required>
+        <label for="condition">Condition</label>
+        <select id="condition" required>
+          <option value="like-new">Like New</option>
+          <option value="good">Good</option>
+          <option value="fair">Fair</option>
+        </select>
+        <label for="price">Price (₹)</label>
+        <input type="number" id="price" required>
+        <label for="notes">Notes</label>
+        <textarea id="notes"></textarea>
+        <button type="submit" class="btn btn-primary">Publish Listing</button>
       </form>
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>
