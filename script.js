@@ -1,183 +1,174 @@
-// ---------- Main JS for ReBook v2 ----------
-
-// Mock product data (in real app fetch from API)
+// Mock data
 const PRODUCTS = [
-  { id: 1, title: "Advanced Physics — 2nd Ed", author: "R.K. Sharma", price: 450, condition: "good" },
-  { id: 2, title: "Calculus Made Easy", author: "T. Y. Lam", price: 320, condition: "like-new" },
-  { id: 3, title: "Organic Chemistry — Vol 1", author: "Morrison", price: 380, condition: "good" },
-  { id: 4, title: "Modern Economics", author: "P. Samuelson", price: 210, condition: "fair" },
-  { id: 5, title: "English Grammar Complete", author: "A. Kumar", price: 150, condition: "good" },
-  { id: 6, title: "Programming in C", author: "Dennis Ritchie", price: 275, condition: "like-new" },
-  { id: 7, title: "Data Structures", author: "S. Lipschutz", price: 300, condition: "good" },
-  { id: 8, title: "World History", author: "H. Jenkins", price: 180, condition: "fair" }
+  { id: 1, title: "Advanced Physics — 2nd Ed", author: "R.K. Sharma", price: 450, condition: "good", image: "images/book-placeholder.jpg" },
+  { id: 2, title: "Calculus Made Easy", author: "T. Y. Lam", price: 320, condition: "like-new", image: "images/book-placeholder.jpg" },
+  { id: 3, title: "Data Structures in C", author: "Karumanchi", price: 280, condition: "fair", image: "images/book-placeholder.jpg" },
+  { id: 4, title: "Organic Chemistry", author: "Morrison & Boyd", price: 600, condition: "good", image: "images/book-placeholder.jpg" },
+  { id: 5, title: "Microeconomics", author: "N. Gregory Mankiw", price: 400, condition: "like-new", image: "images/book-placeholder.jpg" },
+  { id: 6, title: "World History", author: "J. R. McNeill", price: 350, condition: "good", image: "images/book-placeholder.jpg" },
+  { id: 7, title: "Linear Algebra", author: "Gilbert Strang", price: 500, condition: "fair", image: "images/book-placeholder.jpg" },
+  { id: 8, title: "Psychology", author: "David Myers", price: 450, condition: "like-new", image: "images/book-placeholder.jpg" },
+  { id: 9, title: "Computer Networks", author: "Andrew Tanenbaum", price: 550, condition: "good", image: "images/book-placeholder.jpg" },
+  { id: 10, title: "Thermodynamics", author: "Cengel", price: 480, condition: "fair", image: "images/book-placeholder.jpg" },
+  { id: 11, title: "Discrete Mathematics", author: "Kenneth Rosen", price: 420, condition: "good", image: "images/book-placeholder.jpg" },
+  { id: 12, title: "Statistics", author: "Murray Spiegel", price: 380, condition: "like-new", image: "images/book-placeholder.jpg" }
 ];
 
-let visibleCount = 6;
-let cartCount = 0;
+let currentIndex = 0;
+const itemsPerLoad = 6;
 
-// DOM references
-const grid = document.getElementById("grid");
-const searchInput = document.getElementById("search");
-const condSelect = document.getElementById("cond");
-const loadMoreBtn = document.getElementById("loadMore");
-const loader = document.getElementById("loader");
-const modal = document.getElementById("modal");
-const modalClose = document.getElementById("modalClose");
-const listForm = document.getElementById("listForm");
-const openList = document.getElementById("openList");
-const startListing = document.getElementById("startListing");
+// DOM elements
+const productsGrid = document.getElementById('products-grid');
+const loadMoreBtn = document.getElementById('load-more');
+const searchInput = document.getElementById('search');
+const conditionFilter = document.getElementById('condition-filter');
+const startListingBtn = document.getElementById('start-listing');
+const browseBooksBtn = document.getElementById('browse-books');
+const listingModal = document.getElementById('listing-modal');
+const closeModal = document.getElementById('close-modal');
+const listingForm = document.getElementById('listing-form');
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.querySelector('.nav-links');
+const loader = document.getElementById('loader');
+
+// Hide loader on page load
+window.addEventListener('load', () => {
+  loader.style.display = 'none';
+});
 
 // Render products
-function renderProducts(items, count = visibleCount) {
-  const slice = items.slice(0, count);
-  grid.innerHTML = slice.map(p => `
-    <article class="card reveal">
-      <div class="cover-small">📕</div>
-      <div class="tag">Used • ${capitalize(p.condition)}</div>
-      <h3 style="margin:8px 0">${escapeHtml(p.title)}</h3>
-      <div class="muted">${escapeHtml(p.author)}</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-        <div style="font-weight:800">₹${p.price}</div>
-        <div style="display:flex;gap:8px">
-          <button class="btn btn-sm btn-primary" onclick="buyNow(${p.id})">Buy</button>
-          <button class="btn btn-sm btn-outline" onclick="addToCart(event, ${p.id})">Add</button>
+function renderProducts(products) {
+  products.forEach(product => {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.innerHTML = `
+      <img src="${product.image}" alt="${product.title}">
+      <div class="product-content">
+        <div class="tag">${product.condition.replace('-', ' ')}</div>
+        <h3>${product.title}</h3>
+        <p>${product.author}</p>
+        <div class="price">₹${product.price}</div>
+        <div class="product-actions">
+          <button class="btn btn-primary" onclick="buyNow(${product.id})">Buy Now</button>
+          <button class="btn btn-secondary" onclick="addToCart(${product.id})">Add to Cart</button>
         </div>
       </div>
-    </article>
-  `).join('');
-  initReveal();
-}
-
-// Utilities
-function escapeHtml(text){ return String(text).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
-function capitalize(s){ return s[0].toUpperCase() + s.slice(1); }
-
-// Filters
-function filterAndRender(){
-  const q = (searchInput.value || "").toLowerCase().trim();
-  const cond = condSelect.value;
-  const filtered = PRODUCTS.filter(p => {
-    const matchesQ = p.title.toLowerCase().includes(q) || p.author.toLowerCase().includes(q);
-    const matchesCond = cond ? p.condition === cond : true;
-    return matchesQ && matchesCond;
+    `;
+    productsGrid.appendChild(card);
   });
-  renderProducts(filtered, visibleCount);
 }
+
+// Initial render
+renderProducts(PRODUCTS.slice(0, itemsPerLoad));
+currentIndex = itemsPerLoad;
 
 // Load more
-loadMoreBtn.addEventListener("click", () => {
-  visibleCount += 6;
-  filterAndRender();
+loadMoreBtn.addEventListener('click', () => {
+  const nextProducts = PRODUCTS.slice(currentIndex, currentIndex + itemsPerLoad);
+  renderProducts(nextProducts);
+  currentIndex += itemsPerLoad;
+  if (currentIndex >= PRODUCTS.length) {
+    loadMoreBtn.style.display = 'none';
+  }
 });
 
-// Search / select
-searchInput.addEventListener("input", () => { visibleCount = 6; filterAndRender(); });
-condSelect.addEventListener("change", () => { visibleCount = 6; filterAndRender(); });
-
-// Buy / Cart mock functions
-window.buyNow = function(id){
-  const p = PRODUCTS.find(x => x.id === id);
-  alert(`Buying: ${p.title} — Checkout flow not implemented in demo.`);
-}
-
-window.addToCart = function(e, id){
-  cartCount++;
-  // small flying effect
-  const btn = e.currentTarget;
-  const fly = document.createElement("div");
-  fly.className = "fly";
-  fly.textContent = "📚";
-  document.body.appendChild(fly);
-  const rect = btn.getBoundingClientRect();
-  fly.style.left = rect.left + "px";
-  fly.style.top = rect.top + "px";
-  const header = document.querySelector(".nav");
-  const cartX = header.getBoundingClientRect().right - 120;
-  const cartY = header.getBoundingClientRect().top + 12;
-  requestAnimationFrame(()=> {
-    fly.style.transform = `translate3d(${cartX - rect.left}px, ${cartY - rect.top}px, 0) scale(.3)`;
-    fly.style.opacity = 0;
+// Search and filter
+function filterProducts() {
+  const query = searchInput.value.toLowerCase();
+  const condition = conditionFilter.value;
+  const filtered = PRODUCTS.filter(product => {
+    const matchesQuery = product.title.toLowerCase().includes(query) || product.author.toLowerCase().includes(query);
+    const matchesCondition = !condition || product.condition === condition;
+    return matchesQuery && matchesCondition;
   });
-  setTimeout(()=> fly.remove(), 900);
-  // update CTA badge (simple)
-  document.querySelector(".brand-sub").textContent = `${cartCount} items in cart`;
+  productsGrid.innerHTML = '';
+  renderProducts(filtered);
+  loadMoreBtn.style.display = filtered.length > itemsPerLoad ? 'block' : 'none';
+  currentIndex = itemsPerLoad;
 }
 
-// reveal animation
-function initReveal(){
-  const reveals = document.querySelectorAll(".reveal");
-  const handle = () => {
-    reveals.forEach(el => {
-      const r = el.getBoundingClientRect();
-      if(r.top < window.innerHeight - 80) el.classList.add("visible");
-    });
-  };
-  handle();
-  window.removeEventListener("scroll", handle);
-  window.addEventListener("scroll", handle);
-}
+searchInput.addEventListener('input', filterProducts);
+conditionFilter.addEventListener('change', filterProducts);
 
-// Modal (listing)
-function openModal(){
-  modal.classList.add("show");
-  modal.setAttribute("aria-hidden", "false");
-}
-function closeModal(){
-  modal.classList.remove("show");
-  modal.setAttribute("aria-hidden", "true");
-}
+// Modal
+startListingBtn.addEventListener('click', () => {
+  listingModal.style.display = 'block';
+  listingModal.setAttribute('aria-hidden', 'false');
+});
 
-openList.addEventListener("click", openModal);
-startListing.addEventListener("click", openModal);
-modalClose.addEventListener("click", closeModal);
-document.getElementById("cancelList").addEventListener("click", closeModal);
+closeModal.addEventListener('click', () => {
+  listingModal.style.display = 'none';
+  listingModal.setAttribute('aria-hidden', 'true');
+});
 
-listForm && listForm.addEventListener("submit", (e) => {
+window.addEventListener('click', (e) => {
+  if (e.target === listingModal) {
+    listingModal.style.display = 'none';
+    listingModal.setAttribute('aria-hidden', 'true');
+  }
+});
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && listingModal.style.display === 'block') {
+    listingModal.style.display = 'none';
+    listingModal.setAttribute('aria-hidden', 'true');
+  }
+});
+
+// Form submit
+listingForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  // simplistic publish behavior
-  const fd = new FormData(listForm);
-  const newItem = {
-    id: Date.now(),
-    title: fd.get("title"),
-    author: fd.get("author"),
-    price: Number(fd.get("price")) || 0,
-    condition: fd.get("condition") || "good"
+  const formData = new FormData(listingForm);
+  const listing = {
+    title: formData.get('title'),
+    author: formData.get('author'),
+    condition: formData.get('condition'),
+    price: formData.get('price'),
+    notes: formData.get('notes')
   };
-  PRODUCTS.unshift(newItem);
-  closeModal();
-  visibleCount = 6;
-  filterAndRender();
-  alert("Listing published ✓ (demo)");
+  console.log('New listing:', listing);
+  alert('Listing published! (Mock)');
+  listingModal.style.display = 'none';
+  listingModal.setAttribute('aria-hidden', 'true');
+  listingForm.reset();
 });
 
-// Mobile hamburger
-const hamburger = document.getElementById("hamburger");
-hamburger && hamburger.addEventListener("click", () => {
-  document.querySelector(".menu-list").classList.toggle("open");
-  hamburger.classList.toggle("open");
+// Buy Now mock
+function buyNow(id) {
+  alert(`Buying book ID: ${id} (Mock checkout)`);
+}
+
+// Add to Cart mock with animation
+function addToCart(id) {
+  const product = PRODUCTS.find(p => p.id === id);
+  alert(`Added ${product.title} to cart (Mock)`);
+  // Simple flying animation placeholder
+  const card = event.target.closest('.product-card');
+  const flyingElement = card.cloneNode(true);
+  flyingElement.style.position = 'fixed';
+  flyingElement.style.top = card.getBoundingClientRect().top + 'px';
+  flyingElement.style.left = card.getBoundingClientRect().left + 'px';
+  flyingElement.style.width = card.offsetWidth + 'px';
+  flyingElement.style.zIndex = 1000;
+  flyingElement.style.transition = 'all 0.5s ease';
+  document.body.appendChild(flyingElement);
+  setTimeout(() => {
+    flyingElement.style.transform = 'scale(0.1)';
+    flyingElement.style.opacity = 0;
+  }, 100);
+  setTimeout(() => {
+    document.body.removeChild(flyingElement);
+  }, 600);
+}
+
+// Hamburger menu
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+  hamburger.classList.toggle('active');
 });
 
-// theme toggle (simple)
-const themeToggle = document.getElementById("themeToggle");
-themeToggle && themeToggle.addEventListener("click", () => {
-  document.documentElement.classList.toggle("light");
-  themeToggle.textContent = document.documentElement.classList.contains("light") ? "🌤" : "🌙";
-});
-
-// buy featured
-document.getElementById("buyFeatured").addEventListener("click", ()=> {
-  alert("Buy flow for featured item — demo only");
-});
-
-// simulate initial loading
-window.addEventListener("load", () => {
-  setTimeout(()=> {
-    loader.classList.add("hide");
-    renderProducts(PRODUCTS);
-  }, 450);
-});
-
-// Accessibility: close modal on Esc
-window.addEventListener("keydown", (e) => {
-  if(e.key === "Escape") closeModal();
-});
+// Theme toggle placeholder
+// const themeToggle = document.getElementById('theme-toggle');
+// themeToggle.addEventListener('click', () => {
+//   document.body.classList.toggle('light-theme');
+// });
