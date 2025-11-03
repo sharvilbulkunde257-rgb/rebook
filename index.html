@@ -3,34 +3,69 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ReBook - Affordable Used Books</title>
+  <title>ReBook — Buy · Sell · Reuse</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <!-- ✅ Animated Green Gradient Background -->
-  <div class="background"></div>
+  <!-- ✅ Premium Animated Green Gradient Background -->
+  <div class="bg-gradient"></div>
 
   <!-- ✅ Header -->
   <header>
-    <h1>📚 ReBook</h1>
-    <p>Buy & Sell Used Books Instantly</p>
+    <div class="logo">📚 ReBook</div>
+    <nav>
+      <a href="#">Browse</a>
+      <a href="#">Sell</a>
+      <a href="#">How it Works</a>
+      <a href="#">Contact</a>
+      <button class="btn">List a Book</button>
+    </nav>
   </header>
+
+  <!-- ✅ Hero Section -->
+  <section class="hero">
+    <h1>Buy · Sell · Reuse — Instantly.</h1>
+    <p>Sell your used books in minutes — instant valuation, doorstep pickup & quick payments.</p>
+    <div class="cta-buttons">
+      <button class="btn">List Your Book</button>
+      <button class="btn outline">Browse Books</button>
+    </div>
+  </section>
 
   <!-- ✅ Books Section -->
   <section class="books-section">
     <h2>Available Books</h2>
-    <div id="books-container" class="books-container">
+    <div id="books-container" class="book-grid">
       <p>Loading books...</p>
+    </div>
+  </section>
+
+  <!-- ✅ Steps Section -->
+  <section class="steps">
+    <h2>Sell Your Book in 3 Easy Steps</h2>
+    <div class="step-grid">
+      <div class="step">
+        <h3>📸 Snap Cover</h3>
+        <p>Upload book photos & details. Instant recognition.</p>
+      </div>
+      <div class="step">
+        <h3>💬 Get Instant Offer</h3>
+        <p>AI valuation or set your own price in seconds.</p>
+      </div>
+      <div class="step">
+        <h3>🚚 Pickup & Payout</h3>
+        <p>We collect your book and send cash instantly.</p>
+      </div>
     </div>
   </section>
 
   <!-- ✅ Footer -->
   <footer>
-    <p>© 2025 ReBook | Making reading affordable for everyone 💚</p>
+    <p>© 2025 ReBook · Made with 💚 for Students</p>
   </footer>
 
-  <!-- ✅ JS Script -->
+  <!-- ✅ JS -->
   <script type="module" src="main.js"></script>
 </body>
 </html>
