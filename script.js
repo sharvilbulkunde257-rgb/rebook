@@ -1,41 +1,41 @@
-// ✅ Supabase connection setup (single import)
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+// ✅ ReBook script.js
 
-// 🔗 Supabase credentials
-const SUPABASE_URL = "https://rlqjfsaqnfsxjvelzzci.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk";
+// Supabase client setup
+const { createClient } = supabase;
+const supabaseUrl = "https://YOUR_PROJECT_URL.supabase.co";
+const supabaseKey = "YOUR_PUBLIC_ANON_KEY";
+const client = createClient(supabaseUrl, supabaseKey);
 
-// ✅ Create Supabase client
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// 📚 Function: Fetch books from Supabase
-async function loadBooks() {
-  const { data, error } = await supabase.from("books").select("*");
-
+// ✅ Function: Fetch books from Supabase
+async function fetchBooks() {
+  const { data, error } = await client.from("books").select("*");
   if (error) {
-    console.error("❌ Error fetching books:", error);
+    console.error("Error fetching books:", error);
     return;
   }
 
-  console.log("✅ Books fetched:", data);
+  const booksContainer = document.getElementById("books-list");
+  booksContainer.innerHTML = "";
 
-  // Agar HTML me koi container hai jaha dikhana hai:
-  const container = document.getElementById("books-container");
-  if (container) {
-    container.innerHTML = data
-      .map(
-        (book) => `
-        <div class="book-card">
-          <h3>${book.title}</h3>
-          <p>${book.author || "Unknown Author"}</p>
-          <p>₹${book.price || "N/A"}</p>
-        </div>
-      `
-      )
-      .join("");
+  if (data.length === 0) {
+    booksContainer.innerHTML = "<p>No books found. Add some!</p>";
+    return;
   }
+
+  data.forEach((book) => {
+    const card = document.createElement("div");
+    card.classList.add("book-card");
+
+    card.innerHTML = `
+      <img src="${book.image_url || 'https://via.placeholder.com/150'}" alt="${book.title}">
+      <h3>${book.title}</h3>
+      <p><strong>Author:</strong> ${book.author}</p>
+      <p><strong>Price:</strong> ₹${book.price}</p>
+    `;
+
+    booksContainer.appendChild(card);
+  });
 }
 
-// 🚀 Load books when page loads
-document.addEventListener("DOMContentLoaded", loadBooks);
+// ✅ Run when page loads
+fetchBooks();
