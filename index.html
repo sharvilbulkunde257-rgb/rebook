@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ReBook | Buy · Sell · Reuse</title>
   <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
 </head>
 <body>
   <header>
@@ -28,7 +27,7 @@
 
   <section class="books-section">
     <h2>Available Books</h2>
-    <div id="books-container" class="book-grid">
+    <div id="books" class="book-grid">
       <p>Loading books...</p>
     </div>
   </section>
@@ -54,5 +53,50 @@
   <footer>
     <p>© 2025 ReBook · Made with ❤️ for Students</p>
   </footer>
+
+  <!-- Supabase Integration -->
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const supabaseUrl = "https://rlqjfsaqnfsxjvelzzci.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk";
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    async function loadBooks() {
+      const container = document.getElementById("books");
+      container.innerHTML = "Loading books...";
+
+      const { data, error } = await supabase.from("books").select("*");
+
+      if (error) {
+        console.error("❌ Supabase Error:", error);
+        container.innerHTML = "Error loading books. Check console.";
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        container.innerHTML = "No books found.";
+        return;
+      }
+
+      container.innerHTML = data
+        .map(
+          (book) => `
+          <div class="book-card">
+            <img src="${book.image_url || 'https://via.placeholder.com/120x160'}" alt="${book.title}">
+            <div>
+              <h3>${book.title}</h3>
+              <p><strong>Author:</strong> ${book.author}</p>
+              <p><strong>Price:</strong> ₹${book.price}</p>
+            </div>
+          </div>
+        `
+        )
+        .join("");
+    }
+
+    document.addEventListener("DOMContentLoaded", loadBooks);
+  </script>
 </body>
 </html>
