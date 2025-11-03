@@ -1,39 +1,62 @@
-// ✅ Import Supabase client
+// ✅ Supabase client import
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-// ✅ Supabase configuration
+// ✅ Config
 const SUPABASE_URL = "https://rlqjfsaqnfsxjvelzzci.supabase.co";
 const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const container = document.getElementById("books-container");
 
-// ✅ Load all books
+// ✅ Demo fallback books (for empty DB)
+const demoBooks = [
+  {
+    title: "Physics for HSC",
+    author: "H. C. Verma",
+    price: 299,
+    image_url: "https://m.media-amazon.com/images/I/71D6nZkYwZL.jpg",
+  },
+  {
+    title: "Organic Chemistry",
+    author: "Morrison & Boyd",
+    price: 350,
+    image_url: "https://m.media-amazon.com/images/I/71IYy0s4kKL.jpg",
+  },
+  {
+    title: "Mathematics Vol 1",
+    author: "R. D. Sharma",
+    price: 249,
+    image_url: "https://m.media-amazon.com/images/I/81N4o3ZkJkL.jpg",
+  },
+  {
+    title: "Computer Science 12th",
+    author: "Sumita Arora",
+    price: 199,
+    image_url: "https://m.media-amazon.com/images/I/71qYdXJgU3L.jpg",
+  },
+];
+
+// ✅ Load books
 async function loadBooks() {
-  const container = document.getElementById("books-container");
   container.innerHTML = "<p>Loading books...</p>";
 
   const { data, error } = await supabase.from("books").select("*");
 
   if (error) {
-    console.error("❌ Supabase Error:", error);
-    container.innerHTML = "<p style='color:red;'>Error loading books.</p>";
-    return;
+    console.error("Supabase error:", error);
   }
 
-  if (!data || data.length === 0) {
-    container.innerHTML = "<p>No books available.</p>";
-    return;
-  }
+  const books = data && data.length > 0 ? data : demoBooks;
 
-  container.innerHTML = data
+  container.innerHTML = books
     .map(
-      (book) => `
+      (b) => `
       <div class="book-card">
-        <img src="${book.image_url || "https://via.placeholder.com/220x250"}" alt="${book.title}" />
-        <h3>${book.title}</h3>
-        <p><strong>Author:</strong> ${book.author || "Unknown"}</p>
-        <p><strong>Price:</strong> ₹${book.price || "N/A"}</p>
+        <img src="${b.image_url}" alt="${b.title}" />
+        <h3>${b.title}</h3>
+        <p>👤 ${b.author}</p>
+        <p>💰 ₹${b.price}</p>
       </div>
     `
     )
