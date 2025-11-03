@@ -1,212 +1,234 @@
-/* ========== Global Styles ========== */
-body {
-  font-family: "Poppins", sans-serif;
+/* ---------- Global Styles ---------- */
+* {
   margin: 0;
   padding: 0;
-  background: #f9fbfd;
-  color: #222;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
-/* ========== Header ========== */
+body {
+  background: #f9fafb;
+  color: #222;
+  line-height: 1.6;
+}
+
+/* ---------- Header ---------- */
 header {
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: white;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 3rem;
+  border-bottom: 1px solid #eee;
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
 header h1 {
-  color: #0077ff;
-  font-size: 1.8rem;
+  color: #0070f3;
   font-weight: 700;
-}
-
-nav {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  font-size: 1.6rem;
 }
 
 nav a {
+  margin: 0 1rem;
   text-decoration: none;
   color: #333;
   font-weight: 500;
-  transition: 0.3s;
+  transition: color 0.3s ease;
 }
 
 nav a:hover {
-  color: #0077ff;
+  color: #0070f3;
 }
 
 .list-btn {
-  background: #0077ff;
+  background: #0070f3;
   color: white;
   border: none;
-  padding: 8px 15px;
-  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
-  transition: 0.3s;
+  font-weight: 600;
+  transition: background 0.3s ease;
 }
 
 .list-btn:hover {
-  background: #005fcc;
+  background: #005cd6;
 }
 
-/* ========== Hero Section ========== */
+/* ---------- Hero Section ---------- */
 .hero {
   text-align: center;
-  padding: 90px 20px;
-  background: linear-gradient(135deg, #0077ff, #00c4ff);
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #0070f3, #00b4d8);
   color: white;
 }
 
 .hero h2 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
 
 .hero p {
-  font-size: 1.2rem;
-  opacity: 0.9;
-  margin-bottom: 25px;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+  font-size: 1.1rem;
 }
 
 .hero button {
   background: white;
-  color: #0077ff;
+  color: #0070f3;
   border: none;
-  padding: 10px 25px;
+  padding: 0.8rem 1.5rem;
+  margin: 0.3rem;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  margin: 5px;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
-.hero button.outline {
+.hero button:hover {
+  background: #f0f0f0;
+}
+
+.hero .outline {
   background: transparent;
   border: 2px solid white;
   color: white;
 }
 
-.hero button:hover {
-  transform: scale(1.05);
+.hero .outline:hover {
+  background: white;
+  color: #0070f3;
 }
 
-/* ========== Books Section ========== */
+/* ---------- Books Section ---------- */
 .books-section {
-  padding: 70px 30px;
+  padding: 3rem 2rem;
+  background: #fff;
   text-align: center;
 }
 
 .books-section h2 {
-  font-size: 2rem;
-  color: #0077ff;
-  margin-bottom: 40px;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
 }
 
 .book-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
   justify-items: center;
 }
 
 .book-card {
   background: white;
+  border: 1px solid #eee;
   border-radius: 12px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-  padding: 15px;
-  width: 240px;
+  padding: 1rem;
+  width: 220px;
+  text-align: left;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .book-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .book-card img {
   width: 100%;
-  height: 300px;
+  height: 250px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 8px;
+  margin-bottom: 0.7rem;
 }
 
 .book-card h3 {
   font-size: 1.1rem;
-  margin: 10px 0 5px;
+  margin-bottom: 0.3rem;
+  color: #0070f3;
 }
 
 .book-card p {
-  margin: 4px 0;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #555;
 }
 
-/* ========== Steps Section ========== */
+/* ---------- Steps Section ---------- */
 .steps {
-  background: #f1f5f9;
+  padding: 3rem 2rem;
+  background: #f9fafb;
   text-align: center;
-  padding: 60px 30px;
 }
 
 .steps h2 {
-  font-size: 2rem;
-  color: #0077ff;
-  margin-bottom: 30px;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
 }
 
 .step-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  justify-items: center;
 }
 
 .step {
   background: white;
   border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  width: 250px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* ========== Footer ========== */
+.step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.step h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.step p {
+  color: #555;
+}
+
+/* ---------- Footer ---------- */
 footer {
-  background: #0077ff;
+  background: #0070f3;
   color: white;
   text-align: center;
-  padding: 20px;
+  padding: 1rem;
+  margin-top: 3rem;
   font-size: 0.9rem;
-  margin-top: 50px;
 }
 
-/* ========== Responsive ========== */
+/* ---------- Responsive ---------- */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
-    padding: 15px;
   }
 
   nav {
-    flex-wrap: wrap;
-    justify-content: center;
+    margin-top: 0.5rem;
   }
 
   .hero h2 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
   .book-card {
     width: 90%;
   }
 
-  .book-card img {
-    height: 260px;
+  .step {
+    width: 90%;
   }
 }
