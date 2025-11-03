@@ -126,6 +126,7 @@
       border-top: 1px solid rgba(255,255,255,0.08);
       text-align: center;
     }
+
     #book-list h2 {
       font-size: 2rem;
       margin-bottom: 20px;
@@ -133,14 +134,32 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
     .book-card {
+      display: flex;
+      align-items: center;
       background: rgba(255,255,255,0.05);
       border-radius: 15px;
       padding: 20px;
-      margin: 10px auto;
-      max-width: 500px;
-      text-align: left;
+      margin: 15px auto;
+      max-width: 600px;
       border: 1px solid rgba(255,255,255,0.1);
+      gap: 20px;
+    }
+
+    .book-card img {
+      width: 90px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    @media (max-width: 768px) {
+      header { flex-direction: column; gap: 10px; padding: 15px; }
+      .hero h1 { font-size: 2.4rem; }
+      .book-card { flex-direction: column; text-align: center; }
+      .book-card img { margin-bottom: 10px; }
     }
   </style>
 </head>
@@ -160,7 +179,7 @@
 
   <section class="hero">
     <h1>Buy · Sell · Reuse — Instantly.</h1>
-    <p>Sell your used books in minutes — instant valuation, doorstep pickup & quick payments.  
+    <p>Sell your used books in minutes — instant valuation, doorstep pickup & quick payments.<br>
       Join 50,000+ readers saving money and reusing knowledge.</p>
     <div class="cta-buttons">
       <button class="btn">List Your Book</button>
@@ -192,12 +211,10 @@
     </div>
   </section>
 
-  <!-- ✅ Supabase Script -->
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
     const supabaseUrl = "https://rlqjfsaqnfsxjvelzzci.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     async function loadBooks() {
@@ -206,19 +223,20 @@
         console.error("❌ Error loading books:", error);
         return;
       }
-
       console.log("✅ Books fetched:", data);
 
       const container = document.getElementById("books");
       container.innerHTML = data.map(book => `
         <div class="book-card">
-          <h3>${book.title}</h3>
-          <p>Author: ${book.author}</p>
-          <p>Price: ₹${book.price}</p>
+          <img src="${book.image || 'https://via.placeholder.com/90x120'}" alt="${book.title}">
+          <div>
+            <h3>${book.title}</h3>
+            <p>Author: ${book.author}</p>
+            <p>Price: ₹${book.price}</p>
+          </div>
         </div>
       `).join("");
     }
-
     document.addEventListener("DOMContentLoaded", loadBooks);
   </script>
 </body>
