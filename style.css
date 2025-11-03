@@ -1,228 +1,176 @@
+/* ====== RESET ====== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
-  font-family: "Poppins", sans-serif;
   color: #eaffea;
-  background-color: #001f0f;
   overflow-x: hidden;
   position: relative;
 }
 
-/* ✅ Animated Green Background */
-.bg-gradient {
+/* ====== BACKGROUND ====== */
+.bg {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 20% 30%, #003322, #001a0e 70%);
+  background: linear-gradient(135deg, #003a1b, #002210, #001108);
+  background-size: 400% 400%;
+  animation: bgMove 10s ease infinite;
   z-index: -1;
 }
 
-.bg-gradient::before,
-.bg-gradient::after {
-  content: "";
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  filter: blur(180px);
-  opacity: 0.6;
-  animation: moveGlow 10s ease-in-out infinite alternate;
-}
-
-.bg-gradient::before {
-  background: #00ff88;
-  top: -200px;
-  left: -150px;
-}
-.bg-gradient::after {
-  background: #00ffaa;
-  bottom: -250px;
-  right: -150px;
-  animation-delay: 5s;
-}
-
-@keyframes moveGlow {
-  from {
-    transform: translate(0, 0) scale(1);
+@keyframes bgMove {
+  0% {
+    background-position: 0% 50%;
   }
-  to {
-    transform: translate(60px, 80px) scale(1.2);
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
-/* ✅ Header */
+/* ====== HEADER ====== */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 8%;
-  position: fixed;
+  padding: 18px 8%;
+  background: rgba(0, 25, 10, 0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
   top: 0;
-  width: 100%;
-  background: rgba(0, 20, 10, 0.6);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 1000;
+  z-index: 100;
 }
 
-.logo {
+header h1 {
+  color: #00ffaa;
   font-size: 1.5rem;
-  font-weight: 700;
-  background: linear-gradient(90deg, #00ff88, #00ffaa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-nav {
-  display: flex;
-  align-items: center;
-  gap: 25px;
 }
 
 nav a {
   text-decoration: none;
   color: #d6ffe2;
-  font-weight: 500;
-  transition: color 0.3s;
+  margin-left: 20px;
+  transition: 0.3s;
 }
 
 nav a:hover {
   color: #00ffaa;
 }
 
+/* ====== HERO ====== */
+.hero {
+  text-align: center;
+  padding: 100px 10% 60px;
+}
+
+.hero h2 {
+  font-size: 2.3rem;
+  margin-bottom: 15px;
+  color: #00ffaa;
+}
+
+.hero p {
+  max-width: 600px;
+  margin: 0 auto 25px;
+  color: #b8ffc9;
+  font-size: 1rem;
+}
+
 .btn {
-  background: linear-gradient(90deg, #00ffaa, #00ff88);
-  color: #00220f;
+  background: linear-gradient(90deg, #00ffaa, #00ff77);
+  color: #00250f;
   border: none;
-  padding: 10px 20px;
-  border-radius: 30px;
+  padding: 12px 28px;
+  border-radius: 25px;
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
 }
 
 .btn:hover {
-  box-shadow: 0 0 15px rgba(0, 255, 170, 0.4);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px rgba(0, 255, 128, 0.4);
 }
 
-.btn.outline {
-  background: transparent;
-  border: 2px solid #00ffaa;
+/* ====== BOOKS SECTION ====== */
+.books {
+  text-align: center;
+  padding: 70px 8%;
+}
+
+.books h2 {
+  font-size: 1.8rem;
+  margin-bottom: 35px;
   color: #00ffaa;
-}
-
-/* ✅ Hero Section */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 0 10%;
-}
-
-.hero h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-  background: linear-gradient(90deg, #00ffaa, #00ff88);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero p {
-  color: #b8ffc9;
-  max-width: 600px;
-  font-size: 1.1rem;
-  margin-bottom: 30px;
-}
-
-/* ✅ Books Section */
-.books-section {
-  text-align: center;
-  padding: 80px 10%;
-}
-
-.books-section h2 {
-  font-size: 2rem;
-  background: linear-gradient(90deg, #00ffaa, #00ff88);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 30px;
 }
 
 .book-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 25px;
 }
 
 .book-card {
   background: rgba(255, 255, 255, 0.05);
-  padding: 20px;
-  border-radius: 15px;
   border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
   transition: 0.3s;
 }
 
 .book-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(0, 255, 128, 0.3);
 }
 
 .book-card img {
   width: 100%;
-  height: 250px;
+  height: 230px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 8px;
   margin-bottom: 10px;
 }
 
-/* ✅ Steps Section */
-.steps {
-  text-align: center;
-  padding: 80px 10%;
-}
-
-.steps h2 {
-  font-size: 2rem;
-  margin-bottom: 40px;
-  background: linear-gradient(90deg, #00ffaa, #00ff88);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.step-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 30px;
-}
-
-.step {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  padding: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: 0.3s;
-}
-
-.step:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 25px rgba(0, 255, 170, 0.3);
-}
-
-/* ✅ Footer */
-footer {
-  text-align: center;
-  padding: 25px 0;
-  background: rgba(0, 20, 10, 0.8);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+.book-card h3 {
+  font-size: 1.1rem;
   color: #aaffc4;
+  margin-bottom: 5px;
+}
+
+.book-card p {
+  color: #b6ffcf;
+  font-size: 0.9rem;
+}
+
+/* ====== FOOTER ====== */
+footer {
+  background: rgba(0, 25, 10, 0.9);
+  text-align: center;
+  padding: 20px 0;
+  color: #aaffc4;
+  font-size: 0.9rem;
+}
+
+/* ====== MOBILE ====== */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+  }
+  nav a {
+    margin: 8px;
+  }
+  .hero h2 {
+    font-size: 1.8rem;
+  }
+  .book-card img {
+    height: 200px;
+  }
 }
