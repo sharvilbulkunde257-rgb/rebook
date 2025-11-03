@@ -214,7 +214,7 @@
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
     const supabaseUrl = "https://rlqjfsaqnfsxjvelzzci.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
+    const supabaseKey = "YOUR_PUBLIC_ANON_KEY"; // Replace this
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     async function loadBooks() {
@@ -223,12 +223,11 @@
         console.error("❌ Error loading books:", error);
         return;
       }
-      console.log("✅ Books fetched:", data);
 
       const container = document.getElementById("books");
       container.innerHTML = data.map(book => `
         <div class="book-card">
-          <img src="${book.image || 'https://via.placeholder.com/90x120'}" alt="${book.title}">
+          <img src="${book.image_url || 'https://via.placeholder.com/90x120'}" alt="${book.title}">
           <div>
             <h3>${book.title}</h3>
             <p>Author: ${book.author}</p>
@@ -237,6 +236,7 @@
         </div>
       `).join("");
     }
+
     document.addEventListener("DOMContentLoaded", loadBooks);
   </script>
 </body>
