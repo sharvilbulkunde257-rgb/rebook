@@ -3,100 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ReBook | Buy · Sell · Reuse</title>
+  <title>ReBook - Affordable Used Books</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+  <!-- ✅ Animated Green Gradient Background -->
+  <div class="background"></div>
+
+  <!-- ✅ Header -->
   <header>
-    <h1>ReBook</h1>
-    <nav>
-      <a href="#">Browse</a>
-      <a href="#">Sell</a>
-      <a href="#">How it Works</a>
-      <a href="#">Contact</a>
-      <button class="list-btn">List a Book</button>
-    </nav>
+    <h1>📚 ReBook</h1>
+    <p>Buy & Sell Used Books Instantly</p>
   </header>
 
-  <section class="hero">
-    <h2>Buy · Sell · Reuse — Instantly</h2>
-    <p>Sell your used books in minutes — instant valuation, doorstep pickup & quick payments.</p>
-    <button>List Your Book</button>
-    <button class="outline">Browse Books</button>
-  </section>
-
+  <!-- ✅ Books Section -->
   <section class="books-section">
     <h2>Available Books</h2>
-    <div id="books" class="book-grid">
+    <div id="books-container" class="books-container">
       <p>Loading books...</p>
     </div>
   </section>
 
-  <section class="steps">
-    <h2>Sell Your Book in 3 Easy Steps</h2>
-    <div class="step-grid">
-      <div class="step">
-        <h3>📸 Snap Cover</h3>
-        <p>Upload book photos & details. Instant recognition.</p>
-      </div>
-      <div class="step">
-        <h3>💬 Get Instant Offer</h3>
-        <p>AI valuation or set your own price in seconds.</p>
-      </div>
-      <div class="step">
-        <h3>🚚 Pickup & Payout</h3>
-        <p>We collect your book and send cash instantly.</p>
-      </div>
-    </div>
-  </section>
-
+  <!-- ✅ Footer -->
   <footer>
-    <p>© 2025 ReBook · Made with ❤️ for Students</p>
+    <p>© 2025 ReBook | Making reading affordable for everyone 💚</p>
   </footer>
 
-  <!-- Supabase Integration -->
-  <script type="module">
-    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
-    const supabaseUrl = "https://rlqjfsaqnfsxjvelzzci.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk";
-
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
-    async function loadBooks() {
-      const container = document.getElementById("books");
-      container.innerHTML = "Loading books...";
-
-      const { data, error } = await supabase.from("books").select("*");
-
-      if (error) {
-        console.error("❌ Supabase Error:", error);
-        container.innerHTML = "Error loading books. Check console.";
-        return;
-      }
-
-      if (!data || data.length === 0) {
-        container.innerHTML = "No books found.";
-        return;
-      }
-
-      container.innerHTML = data
-        .map(
-          (book) => `
-          <div class="book-card">
-            <img src="${book.image_url || 'https://via.placeholder.com/120x160'}" alt="${book.title}">
-            <div>
-              <h3>${book.title}</h3>
-              <p><strong>Author:</strong> ${book.author}</p>
-              <p><strong>Price:</strong> ₹${book.price}</p>
-            </div>
-          </div>
-        `
-        )
-        .join("");
-    }
-
-    document.addEventListener("DOMContentLoaded", loadBooks);
-  </script>
+  <!-- ✅ JS Script -->
+  <script type="module" src="main.js"></script>
 </body>
 </html>
