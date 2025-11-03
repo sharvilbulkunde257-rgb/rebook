@@ -189,13 +189,63 @@
 
   <section id="book-list">
     <h2>Available Books</h2>
-   <h2>Available Books</h2>
-<div id="books-list" class="books-container">
-  <p>Loading books...</p>
-</div>
- <div id="books"></div>
+    <div id="books">Loading books...</div>
   </section>
 
   <section class="features" id="how">
     <h2>Sell Your Book in 3 Easy Steps</h2>
-    <p>Fast, secure, and student-friendly
+    <p>Fast, secure, and student-friendly process.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>📸 Snap Cover</h3>
+        <p>Upload book photos & details. Instant recognition.</p>
+      </div>
+      <div class="feature-card">
+        <h3>💬 Get Instant Offer</h3>
+        <p>AI valuation or set your own price in seconds.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🚚 Pickup & Payout</h3>
+        <p>We collect your book and send cash instantly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✅ Supabase Integration -->
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+    const supabaseUrl = "https://rlqjfsaqnfsxjvelzzci.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk";
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    async function loadBooks() {
+      const { data, error } = await supabase.from("books").select("*");
+      const container = document.getElementById("books");
+
+      if (error) {
+        container.innerHTML = "⚠️ Error loading books.";
+        console.error("Supabase error:", error);
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        container.innerHTML = "No books found.";
+        return;
+      }
+
+      container.innerHTML = data.map(book => `
+        <div class="book-card">
+          <img src="${book.image_url || 'https://via.placeholder.com/90x120'}" alt="${book.title}">
+          <div>
+            <h3>${book.title}</h3>
+            <p>Author: ${book.author}</p>
+            <p>Price: ₹${book.price}</p>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    document.addEventListener("DOMContentLoaded", loadBooks);
+  </script>
+</body>
+</html>
