@@ -1,41 +1,47 @@
-// ✅ ReBook script.js
+// ✅ ReBook script.js — Final Version
 
-// Supabase client setup
-const { createClient } = supabase;
-const supabaseUrl = "https://YOUR_PROJECT_URL.supabase.co";
-const supabaseKey = "YOUR_PUBLIC_ANON_KEY";
-const client = createClient(supabaseUrl, supabaseKey);
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// ✅ Function: Fetch books from Supabase
-async function fetchBooks() {
-  const { data, error } = await client.from("books").select("*");
+// ⚙️ Apna Supabase details
+const supabaseUrl = "https://rlqjfsaqnfsxjvelzzci.supabase.co";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk";
+
+// ✅ Supabase client
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// ✅ Fetch and display books
+async function loadBooks() {
+  const { data, error } = await supabase.from("books").select("*");
+
+  const container = document.getElementById("books-list");
+  container.innerHTML = ""; // clear old
+
   if (error) {
-    console.error("Error fetching books:", error);
+    container.innerHTML = "<p>Error loading books!</p>";
+    console.error(error);
     return;
   }
 
-  const booksContainer = document.getElementById("books-list");
-  booksContainer.innerHTML = "";
-
-  if (data.length === 0) {
-    booksContainer.innerHTML = "<p>No books found. Add some!</p>";
+  if (!data || data.length === 0) {
+    container.innerHTML = "<p>No books found. Add some!</p>";
     return;
   }
 
   data.forEach((book) => {
-    const card = document.createElement("div");
-    card.classList.add("book-card");
+    const bookCard = document.createElement("div");
+    bookCard.classList.add("book-card");
 
-    card.innerHTML = `
+    bookCard.innerHTML = `
       <img src="${book.image_url || 'https://via.placeholder.com/150'}" alt="${book.title}">
       <h3>${book.title}</h3>
       <p><strong>Author:</strong> ${book.author}</p>
       <p><strong>Price:</strong> ₹${book.price}</p>
     `;
 
-    booksContainer.appendChild(card);
+    container.appendChild(bookCard);
   });
 }
 
-// ✅ Run when page loads
-fetchBooks();
+// ✅ Page load pe books fetch karna
+document.addEventListener("DOMContentLoaded", loadBooks);
