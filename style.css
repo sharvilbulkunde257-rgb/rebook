@@ -56,7 +56,9 @@ nav a:hover {
 
 /* 🌿 AUTH SECTION STYLES (New) */
 .auth-section {
-    display: flex;
+    /* --- THE FIX IS HERE --- */
+    display: none; /* Default hidden, JS will change this to 'flex' */
+    /* ---------------------- */
     justify-content: center;
     align-items: center;
     height: 70vh; 
