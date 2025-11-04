@@ -36,18 +36,28 @@ window.scrollToSection = (id) => {
 
 // Function to show the auth forms and hide all main content
 function showAuthForms() {
-    authForms.style.display = 'flex';
+    // 1. Auth forms ko dikhana
+    authForms.style.display = 'flex'; 
+
+    // 2. Baaki sabhi sections ko chhupana
     homeSection.style.display = 'none';
     booksSection.style.display = 'none';
     sellBookSection.style.display = 'none';
+
+    // 3. Current URL mein hash add karna (optional, for history)
+    window.location.hash = '#auth'; 
 }
 
 // UI ko reset aur refresh karna
 function resetUI() {
-    authForms.style.display = 'none';
+    // Auth forms ko chhupana
+    authForms.style.display = 'none'; 
+    
+    // Baaki sections ko wapas dikhana
     homeSection.style.display = 'block';
     booksSection.style.display = 'block';
-    sellBookSection.style.display = 'block'; // Sell section hamesha dikhega, button status handleUserStatus karega
+    sellBookSection.style.display = 'block'; 
+    
     handleUserStatus(); // User status check karke Sell Section update karega
     loadBooks(); // Books reload karo
 }
@@ -105,7 +115,7 @@ async function loadBooks() {
         .map(
             (book) => `
           <div class="book-card">
-            <img src="${book.image_url}" alt="${book.title}" />
+            <img src="${book.image_url}" onerror="this.onerror=null; this.src='https://placehold.co/250x300/16a085/ffffff?text=Book+Cover';" alt="${book.title}" />
             <div class="book-info">
               <h3>${book.title}</h3>
               <p>Author: ${book.author}</p>
@@ -237,8 +247,15 @@ if (form) {
 }
 
 // Initial load aur Auth state change par status check karo
-loadBooks(); // Books load karna
-handleUserStatus(); // Initial UI status set karna
+// --- Initial Load Logic ---
+function initialLoad() {
+    loadBooks(); 
+    handleUserStatus(); 
+}
+
+// Ensure the DOM is fully loaded before running initial logic
+document.addEventListener('DOMContentLoaded', initialLoad);
+
 
 // Supabase Auth State Change Listener
 supabase.auth.onAuthStateChange((event, session) => {
