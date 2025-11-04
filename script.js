@@ -12,6 +12,8 @@ const authButton = document.getElementById('auth-button');
 const authForms = document.getElementById('auth-forms');
 const userInfoSpan = document.getElementById('user-info');
 const sellBookSection = document.getElementById('sell-book');
+const homeSection = document.getElementById('home');
+const booksSection = document.getElementById('books-section');
 
 const signupForm = document.getElementById('signup-form');
 const loginForm = document.getElementById('login-form');
@@ -21,19 +23,31 @@ const signupCard = document.getElementById('signup-card');
 const loginCard = document.getElementById('login-card');
 const signupMessage = document.getElementById('signup-message');
 const loginMessage = document.getElementById('login-message');
+const form = document.getElementById("sell-form");
+const message = document.getElementById("message");
+
 
 // ✅ Smooth scroll helper
 window.scrollToSection = (id) => {
     document.getElementById(id).scrollIntoView({ behavior: "smooth" });
 };
 
-// --- CORE FUNCTIONS ---
+// --- CORE UI/AUTH FUNCTIONS ---
+
+// Function to show the auth forms and hide all main content
+function showAuthForms() {
+    authForms.style.display = 'flex';
+    homeSection.style.display = 'none';
+    booksSection.style.display = 'none';
+    sellBookSection.style.display = 'none';
+}
 
 // UI ko reset aur refresh karna
 function resetUI() {
     authForms.style.display = 'none';
-    document.getElementById('home').style.display = 'block';
-    document.getElementById('books-section').style.display = 'block';
+    homeSection.style.display = 'block';
+    booksSection.style.display = 'block';
+    sellBookSection.style.display = 'block'; // Sell section hamesha dikhega, button status handleUserStatus karega
     handleUserStatus(); // User status check karke Sell Section update karega
     loadBooks(); // Books reload karo
 }
@@ -64,12 +78,12 @@ async function handleUserStatus() {
         // Sell Book Form Disable (as per RLS policy)
         sellFormButton.textContent = 'Login to Upload';
         sellFormButton.disabled = true; // Button ko disable karna
-        message.textContent = '⚠️ Please login to sell your book.';
+        message.textContent = '⚠️ Please log in to sell your book.';
     }
 }
 
 
-// ✅ Load available books (existing function)
+// ✅ Load available books
 async function loadBooks() {
     const container = document.getElementById("books-container");
     container.innerHTML = "<p>Loading books...</p>";
@@ -77,8 +91,8 @@ async function loadBooks() {
     const { data, error } = await supabase.from("books").select("*").order("id", { ascending: false });
 
     if (error) {
-        container.innerHTML = "<p style='color:red;'>⚠️ Error loading books.</p>";
-        console.error(error);
+        container.innerHTML = "<p style='color:red;'>⚠️ Error loading books: " + error.message + "</p>";
+        console.error("Supabase Load Books Error:", error);
         return;
     }
 
@@ -109,15 +123,10 @@ async function loadBooks() {
 
 // Auth button click par forms dikhao ya logout karo
 authButton.addEventListener('click', () => {
-    // Agar user logged in hai, toh logout karo
     if (authButton.textContent === 'Logout') {
         handleLogout();
     } else {
-        // Agar logged out hai, toh forms dikhao
-        authForms.style.display = 'flex';
-        document.getElementById('home').style.display = 'none';
-        document.getElementById('books-section').style.display = 'none';
-        sellBookSection.style.display = 'none';
+        showAuthForms();
     }
 });
 
@@ -185,15 +194,12 @@ async function handleLogout() {
     }
 }
 
-// ✅ Handle Sell Book form (Existing logic updated to rely on Auth status)
-const form = document.getElementById("sell-form");
-const message = document.getElementById("message");
 
+// ✅ Handle Sell Book form (existing logic)
 if (form) {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // Check if user is logged in before proceeding (redundant but good practice)
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) {
              message.textContent = "❌ Please log in to upload a book!";
@@ -213,14 +219,13 @@ if (form) {
             return;
         }
 
-        // seller_id automatic auth.uid() se fill ho jayega
         const { error } = await supabase.from("books").insert([
             { title, author, price, condition, image_url },
         ]);
 
         if (error) {
-            console.error(error);
-            message.textContent = "⚠️ Error uploading book! Check RLS policies.";
+            console.error("Insert Book Error:", error);
+            message.textContent = "⚠️ Error uploading book! RLS policy issue ho sakta hai.";
             message.style.color = "red";
         } else {
             message.textContent = "✅ Book uploaded successfully!";
@@ -232,11 +237,12 @@ if (form) {
 }
 
 // Initial load aur Auth state change par status check karo
-loadBooks();
-handleUserStatus();
+loadBooks(); // Books load karna
+handleUserStatus(); // Initial UI status set karna
 
 // Supabase Auth State Change Listener
 supabase.auth.onAuthStateChange((event, session) => {
+    // Ye listener login/logout ke baad UI ko reset karta hai
     handleUserStatus();
     if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
         resetUI();
