@@ -1,87 +1,50 @@
-// ✅ Import Supabase client from CDN
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
-// ✅ Supabase credentials
-const SUPABASE_URL = "https://rlqjfsaqnfsxjvelzzci.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk";
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// ✅ Smooth scroll helper
-window.scrollToSection = (id) => {
-  document.getElementById(id).scrollIntoView({ behavior: "smooth" });
-};
-
-// ✅ Load available books
-async function loadBooks() {
-  const container = document.getElementById("books-container");
-  container.innerHTML = "<p>Loading books...</p>";
-
-  const { data, error } = await supabase.from("books").select("*").order("id", { ascending: false });
-
-  if (error) {
-    container.innerHTML = "<p style='color:red;'>⚠️ Error loading books.</p>";
-    console.error(error);
-    return;
-  }
-
-  if (!data || data.length === 0) {
-    container.innerHTML = "<p>No books available yet. Be the first to sell one!</p>";
-    return;
-  }
-
-  container.innerHTML = data
-    .map(
-      (book) => `
-      <div class="book-card">
-        <img src="${book.image_url}" alt="${book.title}" />
-        <div class="book-info">
-          <h3>${book.title}</h3>
-          <p>Author: ${book.author}</p>
-          <p>Condition: ${book.condition}</p>
-          <p><strong>₹${book.price}</strong></p>
-        </div>
-      </div>
-    `
-    )
-    .join("");
-}
-
-loadBooks();
-
-// ✅ Handle Sell Book form
-const form = document.getElementById("sell-form");
-const message = document.getElementById("message");
-
-if (form) {
-  form.addEventListener("submit", async (e) => {
+// Handle SIGNUP
+signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+    signupMessage.textContent = 'Signing up...';
 
-    const title = document.getElementById("title").value.trim();
-    const author = document.getElementById("author").value.trim();
-    const price = document.getElementById("price").value.trim();
-    const condition = document.getElementById("condition").value.trim();
-    const image_url = document.getElementById("image_url").value.trim();
-
-    if (!title || !author || !price || !condition || !image_url) {
-      message.textContent = "❌ Please fill all fields!";
-      message.style.color = "red";
-      return;
-    }
-
-    const { error } = await supabase.from("books").insert([
-      { title, author, price, condition, image_url },
-    ]);
+    const { error } = await supabase.auth.signUp({ email, password });
 
     if (error) {
-      console.error(error);
-      message.textContent = "⚠️ Error uploading book!";
-      message.style.color = "red";
+        signupMessage.textContent = `Error: ${error.message}`;
+        signupMessage.style.color = 'red';
     } else {
-      message.textContent = "✅ Book uploaded successfully!";
-      message.style.color = "green";
-      form.reset();
-      loadBooks();
+        signupMessage.textContent = '✅ Success! Please check your email to confirm your account.';
+        signupMessage.style.color = 'green';
+        signupForm.reset();
+        // Wait for confirmation
     }
-  });
+});
+
+// Handle LOGIN
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    loginMessage.textContent = 'Logging in...';
+
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+        loginMessage.textContent = `Error: ${error.message}`;
+        loginMessage.style.color = 'red';
+    } else {
+        loginMessage.textContent = '✅ Logged in successfully!';
+        loginMessage.style.color = 'green';
+        loginForm.reset();
+        resetUI(); // UI update karo
+    }
+});
+
+// Handle LOGOUT
+async function handleLogout() {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+        console.error('Logout Error:', error);
+    } else {
+        // Reset UI and show logged-out state
+        resetUI();
+    }
 }
