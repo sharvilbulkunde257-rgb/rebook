@@ -1,9 +1,146 @@
+// ✅ Import Supabase client from CDN
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+// ✅ Supabase credentials
+const SUPABASE_URL = "https://rlqjfsaqnfsxjvelzzci.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk";
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// --- AUTHENTICATION & UI ELEMENTS ---
+const authButton = document.getElementById('auth-button');
+const authForms = document.getElementById('auth-forms');
+const userInfoSpan = document.getElementById('user-info');
+const sellBookSection = document.getElementById('sell-book');
+
+const signupForm = document.getElementById('signup-form');
+const loginForm = document.getElementById('login-form');
+const showLoginLink = document.getElementById('show-login');
+const showSignupLink = document.getElementById('show-signup');
+const signupCard = document.getElementById('signup-card');
+const loginCard = document.getElementById('login-card');
+const signupMessage = document.getElementById('signup-message');
+const loginMessage = document.getElementById('login-message');
+
+// ✅ Smooth scroll helper
+window.scrollToSection = (id) => {
+    document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+};
+
+// --- CORE FUNCTIONS ---
+
+// UI ko reset aur refresh karna
+function resetUI() {
+    authForms.style.display = 'none';
+    document.getElementById('home').style.display = 'block';
+    document.getElementById('books-section').style.display = 'block';
+    handleUserStatus(); // User status check karke Sell Section update karega
+    loadBooks(); // Books reload karo
+}
+
+// User ka status check aur UI update karo (Login/Logout)
+async function handleUserStatus() {
+    const { data: { user } } = await supabase.auth.getUser();
+    const sellFormButton = form.querySelector('button');
+
+    if (user) {
+        // Logged In State
+        authButton.textContent = 'Logout';
+        authButton.classList.remove('primary');
+        authButton.classList.add('outline');
+        userInfoSpan.textContent = `Welcome, ${user.email.split('@')[0]}!`;
+
+        // Sell Book Form Enable
+        sellFormButton.textContent = 'Upload Book';
+        sellFormButton.disabled = false;
+        message.textContent = '';
+    } else {
+        // Logged Out State
+        authButton.textContent = 'Login / Signup';
+        authButton.classList.remove('outline');
+        authButton.classList.add('primary');
+        userInfoSpan.textContent = '';
+
+        // Sell Book Form Disable (as per RLS policy)
+        sellFormButton.textContent = 'Login to Upload';
+        sellFormButton.disabled = true; // Button ko disable karna
+        message.textContent = '⚠️ Please login to sell your book.';
+    }
+}
+
+
+// ✅ Load available books (existing function)
+async function loadBooks() {
+    const container = document.getElementById("books-container");
+    container.innerHTML = "<p>Loading books...</p>";
+
+    const { data, error } = await supabase.from("books").select("*").order("id", { ascending: false });
+
+    if (error) {
+        container.innerHTML = "<p style='color:red;'>⚠️ Error loading books.</p>";
+        console.error(error);
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        container.innerHTML = "<p>No books available yet. Be the first to sell one!</p>";
+        return;
+    }
+
+    container.innerHTML = data
+        .map(
+            (book) => `
+          <div class="book-card">
+            <img src="${book.image_url}" alt="${book.title}" />
+            <div class="book-info">
+              <h3>${book.title}</h3>
+              <p>Author: ${book.author}</p>
+              <p>Condition: ${book.condition}</p>
+              <p><strong>₹${book.price}</strong></p>
+              ${book.seller_id ? `<p style="font-size:0.8rem; color: #00b894;">Seller ID: ${book.seller_id.substring(0, 8)}...</p>` : ''}
+            </div>
+          </div>
+        `
+        )
+        .join("");
+}
+
+// --- EVENT LISTENERS ---
+
+// Auth button click par forms dikhao ya logout karo
+authButton.addEventListener('click', () => {
+    // Agar user logged in hai, toh logout karo
+    if (authButton.textContent === 'Logout') {
+        handleLogout();
+    } else {
+        // Agar logged out hai, toh forms dikhao
+        authForms.style.display = 'flex';
+        document.getElementById('home').style.display = 'none';
+        document.getElementById('books-section').style.display = 'none';
+        sellBookSection.style.display = 'none';
+    }
+});
+
+// Forms ko toggle karna
+showLoginLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    signupCard.style.display = 'none';
+    loginCard.style.display = 'block';
+});
+
+showSignupLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    loginCard.style.display = 'none';
+    signupCard.style.display = 'block';
+});
+
 // Handle SIGNUP
 signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('signup-email').value;
     const password = document.getElementById('signup-password').value;
     signupMessage.textContent = 'Signing up...';
+    signupMessage.style.color = 'black';
 
     const { error } = await supabase.auth.signUp({ email, password });
 
@@ -14,7 +151,6 @@ signupForm.addEventListener('submit', async (e) => {
         signupMessage.textContent = '✅ Success! Please check your email to confirm your account.';
         signupMessage.style.color = 'green';
         signupForm.reset();
-        // Wait for confirmation
     }
 });
 
@@ -24,6 +160,7 @@ loginForm.addEventListener('submit', async (e) => {
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
     loginMessage.textContent = 'Logging in...';
+    loginMessage.style.color = 'black';
 
     const { error } = await supabase.auth.signInWithPassword({ email, password });
 
@@ -44,7 +181,64 @@ async function handleLogout() {
     if (error) {
         console.error('Logout Error:', error);
     } else {
-        // Reset UI and show logged-out state
         resetUI();
     }
 }
+
+// ✅ Handle Sell Book form (Existing logic updated to rely on Auth status)
+const form = document.getElementById("sell-form");
+const message = document.getElementById("message");
+
+if (form) {
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Check if user is logged in before proceeding (redundant but good practice)
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+             message.textContent = "❌ Please log in to upload a book!";
+             message.style.color = "red";
+             return;
+        }
+
+        const title = document.getElementById("title").value.trim();
+        const author = document.getElementById("author").value.trim();
+        const price = document.getElementById("price").value.trim();
+        const condition = document.getElementById("condition").value.trim();
+        const image_url = document.getElementById("image_url").value.trim();
+
+        if (!title || !author || !price || !condition || !image_url) {
+            message.textContent = "❌ Please fill all fields!";
+            message.style.color = "red";
+            return;
+        }
+
+        // seller_id automatic auth.uid() se fill ho jayega
+        const { error } = await supabase.from("books").insert([
+            { title, author, price, condition, image_url },
+        ]);
+
+        if (error) {
+            console.error(error);
+            message.textContent = "⚠️ Error uploading book! Check RLS policies.";
+            message.style.color = "red";
+        } else {
+            message.textContent = "✅ Book uploaded successfully!";
+            message.style.color = "green";
+            form.reset();
+            loadBooks();
+        }
+    });
+}
+
+// Initial load aur Auth state change par status check karo
+loadBooks();
+handleUserStatus();
+
+// Supabase Auth State Change Listener
+supabase.auth.onAuthStateChange((event, session) => {
+    handleUserStatus();
+    if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
+        resetUI();
+    }
+});
