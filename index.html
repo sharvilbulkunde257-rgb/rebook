@@ -1,58 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ReBook | Buy · Sell · Reuse</title>
-  <link rel="stylesheet" href="style.css" />
-  <script type="module" src="script.js"></script>
-</head>
-<body>
-  <header>
-    <h1>📚 ReBook</h1>
-    <nav>
-      <a href="#">Browse</a>
-      <a href="#">Sell</a>
-      <a href="#">How it Works</a>
-      <a href="#">Contact</a>
-      <button class="list-btn">List a Book</button>
-    </nav>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReBook - Buy & Sell Used Books</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ✅ Header -->
+    <header>
+      <h1>📚 ReBook</h1>
+      <p>Buy & Sell Used Books Instantly</p>
+    </header>
 
-  <section class="hero">
-    <h2>Buy · Sell · Reuse — Instantly</h2>
-    <p>Sell your used books in minutes — instant valuation, doorstep pickup & quick payments.</p>
-    <button class="primary">List Your Book</button>
-    <button class="outline">Browse Books</button>
-  </section>
-
-  <section class="books-section">
-    <h2>Available Books</h2>
-    <div id="books-container" class="book-grid">
-      <p>Loading books...</p>
-    </div>
-  </section>
-
-  <section class="steps">
-    <h2>Sell Your Book in 3 Easy Steps</h2>
-    <div class="step-grid">
-      <div class="step">
-        <h3>📸 Snap Cover</h3>
-        <p>Upload book photos & details. Instant recognition.</p>
+    <!-- ✅ Available Books Section -->
+    <section class="books-section">
+      <h2>Available Books</h2>
+      <div id="books-container" class="books-container">
+        <p>Loading books...</p>
       </div>
-      <div class="step">
-        <h3>💬 Get Instant Offer</h3>
-        <p>AI valuation or set your own price in seconds.</p>
-      </div>
-      <div class="step">
-        <h3>🚚 Pickup & Payout</h3>
-        <p>We collect your book and send cash instantly.</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <footer>
-    <p>© 2025 ReBook · Made with ❤️ for Students</p>
-  </footer>
-</body>
+    <!-- ✅ Sell Your Book Section -->
+    <section id="sell-book">
+      <h2>Sell Your Book</h2>
+      <form id="sell-form">
+        <input type="text" id="title" placeholder="Book Title" required />
+        <input type="text" id="author" placeholder="Author Name" required />
+        <input type="number" id="price" placeholder="Price (₹)" required />
+        <input type="text" id="condition" placeholder="Condition (Good / Like New)" required />
+        <input type="url" id="image_url" placeholder="Image URL" required />
+        <button type="submit">Sell Book</button>
+      </form>
+      <p id="message"></p>
+    </section>
+
+    <!-- ✅ Footer -->
+    <footer>
+      <p>© 2025 ReBook | Making reading affordable for everyone 💚</p>
+    </footer>
+
+    <!-- ✅ Script -->
+    <script type="module" src="main.js"></script>
+  </body>
 </html>
