@@ -1,46 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ReBook - Buy & Sell Used Books</title>
     <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
+  </head>  <body>
     <!-- ✅ Header -->
     <header>
       <h1>📚 ReBook</h1>
-      <p>Buy & Sell Used Books Instantly</p>
-    </header>
+      <nav>
+        <a href="#books-section">Available Books</a>
+        <a href="#sell-book">Sell Your Book</a>
+      </nav>
+    </header><!-- ✅ Hero Section -->
+<section class="hero">
+  <h2>Buy & Sell Used Books Instantly</h2>
+  <p>Affordable books for students, easy selling for everyone 💚</p>
+</section>
 
-    <!-- ✅ Available Books Section -->
-    <section class="books-section">
-      <h2>Available Books</h2>
-      <div id="books-container" class="books-container">
-        <p>Loading books...</p>
-      </div>
-    </section>
+<!-- ✅ Available Books Section -->
+<section class="books-section" id="books-section">
+  <h2>Available Books</h2>
+  <div id="books-container" class="books-container">
+    <p>Loading books...</p>
+  </div>
+</section>
 
-    <!-- ✅ Sell Your Book Section -->
-    <section id="sell-book">
-      <h2>Sell Your Book</h2>
-      <form id="sell-form">
-        <input type="text" id="title" placeholder="Book Title" required />
-        <input type="text" id="author" placeholder="Author Name" required />
-        <input type="number" id="price" placeholder="Price (₹)" required />
-        <input type="text" id="condition" placeholder="Condition (Good / Like New)" required />
-        <input type="url" id="image_url" placeholder="Image URL" required />
-        <button type="submit">Sell Book</button>
-      </form>
-      <p id="message"></p>
-    </section>
+<!-- ✅ Sell Your Book Section -->
+<section id="sell-book" class="sell-section">
+  <h2>Sell Your Book</h2>
+  <form id="sell-form" class="sell-form">
+    <input type="text" id="title" placeholder="Book Title" required />
+    <input type="text" id="author" placeholder="Author Name" required />
+    <input type="number" id="price" placeholder="Price (₹)" required />
+    <input type="text" id="condition" placeholder="Condition (Good / Like New)" required />
+    <input type="url" id="image_url" placeholder="Image URL" required />
+    <button type="submit">Add Book</button>
+  </form>
+  <p id="message"></p>
+</section>
 
-    <!-- ✅ Footer -->
-    <footer>
-      <p>© 2025 ReBook | Making reading affordable for everyone 💚</p>
-    </footer>
+<!-- ✅ Footer -->
+<footer>
+  <p>© 2025 ReBook | Making reading affordable for everyone 💚</p>
+</footer>
 
-    <!-- ✅ Script -->
-    <script type="module" src="main.js"></script>
+<!-- ✅ JS -->
+<script type="module" src="main.js"></script>
+
   </body>
 </html>
