@@ -1,171 +1,215 @@
-    /* 🌿 RESET */
-
+/* 🌿 RESET */
 * {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
 /* 🌿 BODY */
 body {
-background: linear-gradient(135deg, #00b894, #55efc4);
-color: #fff;
-min-height: 100vh;
+  background: #f8fff9;
+  color: #2d3436;
 }
 
 /* 🌿 HEADER */
 header {
-text-align: center;
-padding: 25px 15px;
-background: rgba(0, 0, 0, 0.25);
-backdrop-filter: blur(10px);
-position: sticky;
-top: 0;
-z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 60px;
+  background: #00b894;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-header h1 {
-font-size: 2rem;
-font-weight: 700;
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
-header p {
-font-size: 1rem;
-margin-top: 5px;
-color: #dfffea;
+nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
 }
 
-/* 🌿 AVAILABLE BOOKS */
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* 🌿 HERO SECTION */
+.hero {
+  text-align: center;
+  padding: 100px 30px;
+  background: linear-gradient(135deg, #00b894, #00cec9);
+  color: white;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+}
+
+.hero h1 {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+}
+
+.hero-buttons button {
+  margin: 10px;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: 0.3s;
+}
+
+button.primary {
+  background: #fff;
+  color: #00b894;
+  font-weight: 600;
+}
+
+button.outline {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* 🌿 BOOK GRID */
 .books-section {
-text-align: center;
-padding: 60px 20px;
-background: #f8fff8;
-color: #2d3436;
+  text-align: center;
+  padding: 60px 20px;
 }
 
 .books-section h2 {
-color: #00b894;
-margin-bottom: 25px;
-font-size: 1.8rem;
+  color: #00b894;
+  margin-bottom: 30px;
 }
 
-.books-container {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-gap: 25px;
-padding: 20px;
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+  padding: 10px;
 }
 
 .book-card {
-background: #fff;
-border-radius: 15px;
-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-overflow: hidden;
-color: #2d3436;
-transition: transform 0.25s ease-in-out;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .book-card:hover {
-transform: translateY(-6px);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 184, 148, 0.3);
 }
 
 .book-card img {
-width: 100%;
-height: 250px;
-object-fit: cover;
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
 }
 
-.book-card h3 {
-margin: 12px 0 5px;
-font-size: 1.1rem;
+.book-info {
+  padding: 15px;
+  text-align: left;
 }
 
-.book-card p {
-margin-bottom: 10px;
+.book-info h3 {
+  margin-bottom: 6px;
+  font-size: 1.1rem;
+  color: #2d3436;
 }
 
-/* 🌿 SELL YOUR BOOK FORM */
-#sell-book {
-background: #ffffff;
-color: #2d3436;
-max-width: 600px;
-margin: 60px auto;
-padding: 35px 25px;
-border-radius: 15px;
-box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-text-align: center;
+.book-info p {
+  font-size: 0.95rem;
+  margin-bottom: 4px;
 }
 
-#sell-book h2 {
-color: #00b894;
-margin-bottom: 25px;
+/* 🌿 UPLOAD SECTION */
+.upload-section {
+  max-width: 600px;
+  margin: 60px auto;
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-#sell-form {
-display: flex;
-flex-direction: column;
-gap: 15px;
+.upload-section h2 {
+  text-align: center;
+  color: #00b894;
+  margin-bottom: 25px;
 }
 
-#sell-form input {
-padding: 12px;
-border-radius: 8px;
-border: 1px solid #ccc;
-font-size: 1rem;
+.upload-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-#sell-form input:focus {
-outline: none;
-border-color: #00b894;
-box-shadow: 0 0 5px #00b894;
+.upload-section input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
 }
 
-#sell-form button {
-background: #00b894;
-color: #fff;
-border: none;
-padding: 12px;
-border-radius: 8px;
-cursor: pointer;
-font-weight: 600;
-transition: 0.3s;
+.upload-section button {
+  background: #00b894;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
-#sell-form button:hover {
-background: #019875;
-}
-
-#message {
-margin-top: 15px;
-font-weight: 500;
+.upload-section button:hover {
+  background: #019875;
 }
 
 /* 🌿 FOOTER */
 footer {
-text-align: center;
-padding: 20px;
-background: #00b894;
-color: white;
-font-weight: 500;
+  text-align: center;
+  padding: 20px;
+  background: #00b894;
+  color: white;
+  font-weight: 500;
 }
 
 /* 🌿 RESPONSIVE */
 @media (max-width: 768px) {
-header h1 {
-font-size: 1.7rem;
-}
+  header {
+    flex-direction: column;
+    padding: 15px 25px;
+  }
 
-.books-container {
-grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-}
+  nav {
+    margin-top: 10px;
+  }
 
-#sell-book {
-margin: 30px 15px;
-padding: 25px;
-}
+  .book-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
 
-.book-card img {
-height: 200px;
-}
+  .hero h1 {
+    font-size: 1.9rem;
+  }
 }
