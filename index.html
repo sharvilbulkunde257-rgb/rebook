@@ -8,6 +8,7 @@
     <script type="module" src="main.js" defer></script>
   </head>
   <body>
+    <!-- 🌿 HEADER (UPDATED) -->
     <header>
       <div class="logo">📚 ReBook</div>
       <nav>
@@ -15,14 +16,17 @@
         <a href="#books-section">Buy Books</a>
         <a href="#sell-book">Sell Book</a>
       </nav>
+      <!-- AUTHENTICATION STATUS & BUTTONS -->
       <div class="auth-status">
         <span id="user-info" style="margin-right: 15px; font-weight: 500;"></span>
         <button id="auth-button" class="primary">Login / Signup</button>
       </div>
     </header>
 
-    <section class="auth-section" id="auth-forms" style="display: none;">
+    <!-- 🌿 AUTHENTICATION SECTIONS (NEW) -->
+    <section class="auth-section" id="auth-forms">
       <div class="auth-container">
+        <!-- SIGNUP FORM -->
         <div id="signup-card">
           <h2>Create Account</h2>
           <form id="signup-form">
@@ -34,6 +38,7 @@
           <p id="signup-message" class="message"></p>
         </div>
 
+        <!-- LOGIN FORM -->
         <div id="login-card" style="display: none;">
           <h2>Login to ReBook</h2>
           <form id="login-form">
@@ -47,6 +52,7 @@
       </div>
     </section>
 
+    <!-- 🌿 HERO SECTION -->
     <section class="hero" id="home">
       <h1>Buy & Sell Used Books Easily</h1>
       <p>Affordable reads for every student and book lover 💚</p>
@@ -56,6 +62,7 @@
       </div>
     </section>
 
+    <!-- 🌿 BOOK LIST SECTION -->
     <section class="books-section" id="books-section">
       <h2>Available Books</h2>
       <div id="books-container" class="book-grid">
@@ -63,6 +70,7 @@
       </div>
     </section>
 
+    <!-- 🌿 SELL YOUR BOOK SECTION -->
     <section class="upload-section" id="sell-book">
       <h2>Sell Your Book</h2>
       <form id="sell-form">
@@ -76,6 +84,7 @@
       <p id="message"></p>
     </section>
 
+    <!-- 🌿 FOOTER -->
     <footer>
       <p>© 2025 ReBook | Making Reading Affordable for Everyone 💚</p>
     </footer>
