@@ -1,4 +1,4 @@
-/* ✅ General Reset */
+/* 🌿 RESET */
 * {
   margin: 0;
   padding: 0;
@@ -6,28 +6,29 @@
   font-family: "Poppins", sans-serif;
 }
 
-/* ✅ Body */
+/* 🌿 BODY */
 body {
   background: linear-gradient(135deg, #00b894, #55efc4);
   color: #fff;
   min-height: 100vh;
 }
 
-/* ✅ Header */
+/* 🌿 HEADER */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 60px;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(10px);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 10;
 }
 
 header h1 {
   font-size: 1.8rem;
+  font-weight: 700;
 }
 
 nav a {
@@ -35,6 +36,10 @@ nav a {
   color: white;
   text-decoration: none;
   font-weight: 500;
+}
+
+nav a:hover {
+  color: #c8ffeb;
 }
 
 .list-btn {
@@ -51,19 +56,26 @@ nav a {
   background: #dfe6e9;
 }
 
-/* ✅ Hero Section */
+/* 🌿 HERO SECTION */
 .hero {
   text-align: center;
-  padding: 80px 20px;
+  padding: 90px 20px;
+  background: linear-gradient(135deg, #00b894, #00cec9);
 }
 
 .hero h2 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
 }
 
 .hero button {
-  margin: 10px;
+  margin: 8px;
   padding: 12px 25px;
   border-radius: 8px;
   border: none;
@@ -83,37 +95,38 @@ button.outline {
   color: #fff;
 }
 
-/* ✅ Books Section */
+/* 🌿 AVAILABLE BOOKS */
 .books-section {
   text-align: center;
   padding: 60px 20px;
-  background: #f7fff7;
+  background: #f9fff9;
   color: #2d3436;
 }
 
 .books-section h2 {
   color: #00b894;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
 }
 
 .book-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+  gap: 25px;
   padding: 20px;
 }
 
 .book-card {
-  background: white;
+  background: #fff;
   border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: #2d3436;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: transform 0.2s ease-in-out;
+  color: #2d3436;
+  transition: transform 0.25s ease-in-out;
 }
 
 .book-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
 }
 
 .book-card img {
@@ -123,7 +136,7 @@ button.outline {
 }
 
 .book-card h3 {
-  margin: 10px 0;
+  margin: 12px 0 5px;
   font-size: 1.1rem;
 }
 
@@ -131,10 +144,10 @@ button.outline {
   margin-bottom: 10px;
 }
 
-/* ✅ Steps Section */
+/* 🌿 3 STEPS */
 .steps {
   text-align: center;
-  padding: 60px 20px;
+  padding: 70px 20px;
   background: linear-gradient(135deg, #00cec9, #0984e3);
   color: white;
 }
@@ -143,25 +156,35 @@ button.outline {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 25px;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .step {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   padding: 25px;
   border-radius: 15px;
   backdrop-filter: blur(8px);
+  font-size: 1rem;
 }
 
-/* ✅ Upload Form (Backend Page Styling) */
+/* 🌿 FOOTER */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: #00b894;
+  color: white;
+  font-weight: 500;
+}
+
+/* 🌿 UPLOAD FORM PAGE */
 .upload-section {
-  background: #fff;
-  color: #2d3436;
-  padding: 40px 25px;
   max-width: 600px;
-  margin: 60px auto;
+  background: #ffffff;
+  color: #2d3436;
+  padding: 40px 30px;
   border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  margin: 60px auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 .upload-section h2 {
@@ -188,7 +211,7 @@ button.outline {
 .upload-section textarea:focus {
   outline: none;
   border-color: #00b894;
-  box-shadow: 0 0 4px #00b894;
+  box-shadow: 0 0 5px #00b894;
 }
 
 .upload-section button {
@@ -205,19 +228,11 @@ button.outline {
   background: #019875;
 }
 
-/* ✅ Footer */
-footer {
-  text-align: center;
-  padding: 20px;
-  background: #00b894;
-  color: white;
-}
-
-/* ✅ Responsive Design */
+/* 🌿 RESPONSIVE */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
-    padding: 15px 20px;
+    padding: 15px 25px;
   }
 
   nav {
@@ -226,6 +241,10 @@ footer {
 
   .book-grid {
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .hero h2 {
+    font-size: 1.7rem;
   }
 
   .upload-section {
