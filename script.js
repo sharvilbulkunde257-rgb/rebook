@@ -26,7 +26,6 @@ const loginMessage = document.getElementById('login-message');
 const form = document.getElementById("sell-form");
 const message = document.getElementById("message");
 
-
 // ✅ Smooth scroll helper
 window.scrollToSection = (id) => {
     document.getElementById(id).scrollIntoView({ behavior: "smooth" });
@@ -44,7 +43,11 @@ function showAuthForms() {
     booksSection.style.display = 'none';
     sellBookSection.style.display = 'none';
 
-    // 3. Current URL mein hash add karna (optional, for history)
+    // 3. Default mein Signup form dikhao (kyunki user ne signup pe click kiya hai)
+    signupCard.style.display = 'block';
+    loginCard.style.display = 'none';
+
+    // 4. Current URL mein hash add karna (optional, for history)
     window.location.hash = '#auth'; 
 }
 
@@ -91,7 +94,6 @@ async function handleUserStatus() {
         message.textContent = '⚠️ Please log in to sell your book.';
     }
 }
-
 
 // ✅ Load available books
 async function loadBooks() {
@@ -204,7 +206,6 @@ async function handleLogout() {
     }
 }
 
-
 // ✅ Handle Sell Book form (existing logic)
 if (form) {
     form.addEventListener("submit", async (e) => {
@@ -255,7 +256,6 @@ function initialLoad() {
 
 // Ensure the DOM is fully loaded before running initial logic
 document.addEventListener('DOMContentLoaded', initialLoad);
-
 
 // Supabase Auth State Change Listener
 supabase.auth.onAuthStateChange((event, session) => {
