@@ -1,4 +1,4 @@
-// ✅ Import Supabase client from CDN
+// ✅ Import Supabase client
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 // ✅ Supabase credentials
@@ -8,134 +8,21 @@ const SUPABASE_KEY =
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ✅ Helper to smooth scroll
+// 🌿 DOM elements
+const authSection = document.getElementById("auth-section");
+const booksSection = document.getElementById("books-section");
+const sellSection = document.getElementById("sell-book");
+const logoutBtn = document.getElementById("logout-btn");
+const message = document.getElementById("message");
+
+// 🌿 Hide main content initially
+booksSection.style.display = "none";
+sellSection.style.display = "none";
+
+// ✅ Smooth scroll helper
 window.scrollToSection = (id) => {
   document.getElementById(id).scrollIntoView({ behavior: "smooth" });
 };
-
-// ✅ Elements
-const appContainer = document.body;
-const booksSection = document.querySelector(".books-section");
-const uploadSection = document.querySelector(".upload-section");
-const header = document.querySelector("header");
-const hero = document.querySelector(".hero");
-
-// ✅ AUTH UI SETUP
-function showAuthUI() {
-  appContainer.innerHTML = `
-    <div class="auth-container">
-      <h1>📚 ReBook Login / Signup</h1>
-      <input type="email" id="email" placeholder="Enter your email" required />
-      <input type="password" id="password" placeholder="Enter password" required />
-      <button id="signup-btn">Sign Up</button>
-      <button id="login-btn" class="outline">Login</button>
-      <p id="auth-msg"></p>
-    </div>
-  `;
-
-  document.getElementById("signup-btn").addEventListener("click", signupUser);
-  document.getElementById("login-btn").addEventListener("click", loginUser);
-}
-
-// ✅ SIGNUP
-async function signupUser() {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const msg = document.getElementById("auth-msg");
-
-  const { data, error } = await supabase.auth.signUp({ email, password });
-  if (error) {
-    msg.textContent = "⚠️ " + error.message;
-    msg.style.color = "red";
-  } else {
-    msg.textContent = "✅ Signup successful! Please check your email to confirm.";
-    msg.style.color = "green";
-  }
-}
-
-// ✅ LOGIN
-async function loginUser() {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const msg = document.getElementById("auth-msg");
-
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) {
-    msg.textContent = "⚠️ " + error.message;
-    msg.style.color = "red";
-  } else {
-    msg.textContent = "✅ Logged in successfully!";
-    msg.style.color = "green";
-    setTimeout(() => location.reload(), 1000);
-  }
-}
-
-// ✅ LOGOUT
-async function logoutUser() {
-  await supabase.auth.signOut();
-  location.reload();
-}
-
-// ✅ Check if logged in
-async function checkAuth() {
-  const { data } = await supabase.auth.getUser();
-  if (!data.user) {
-    showAuthUI();
-  } else {
-    renderAppUI(data.user);
-  }
-}
-
-// ✅ MAIN UI
-function renderAppUI(user) {
-  document.body.innerHTML = `
-    <header>
-      <div class="logo">📚 ReBook</div>
-      <nav>
-        <a href="#books-section">Buy Books</a>
-        <a href="#sell-book">Sell Book</a>
-        <button id="logout-btn" class="logout-btn">Logout</button>
-      </nav>
-    </header>
-
-    <section class="hero" id="home">
-      <h1>Welcome, ${user.email.split("@")[0]} 👋</h1>
-      <p>Buy & Sell Used Books in Seconds</p>
-      <div class="hero-buttons">
-        <button class="primary" onclick="scrollToSection('books-section')">Browse Books</button>
-        <button class="outline" onclick="scrollToSection('sell-book')">Sell Your Book</button>
-      </div>
-    </section>
-
-    <section class="books-section" id="books-section">
-      <h2>Available Books</h2>
-      <div id="books-container" class="book-grid"><p>Loading books...</p></div>
-    </section>
-
-    <section class="upload-section" id="sell-book">
-      <h2>Sell Your Book</h2>
-      <form id="sell-form">
-        <input type="text" id="title" placeholder="Book Title" required />
-        <input type="text" id="author" placeholder="Author Name" required />
-        <input type="number" id="price" placeholder="Price (₹)" required />
-        <input type="text" id="condition" placeholder="Condition (Good / Like New)" required />
-        <input type="url" id="image_url" placeholder="Book Image URL" required />
-        <button type="submit">Upload Book</button>
-      </form>
-      <p id="message"></p>
-    </section>
-
-    <footer>
-      <p>© 2025 ReBook | Making Reading Affordable for Everyone 💚</p>
-    </footer>
-  `;
-
-  document.getElementById("logout-btn").addEventListener("click", logoutUser);
-
-  // After rendering, reload books and form logic
-  loadBooks();
-  setupSellForm();
-}
 
 // ✅ Load available books
 async function loadBooks() {
@@ -149,6 +36,7 @@ async function loadBooks() {
 
   if (error) {
     container.innerHTML = "<p style='color:red;'>⚠️ Error loading books.</p>";
+    console.error(error);
     return;
   }
 
@@ -174,9 +62,109 @@ async function loadBooks() {
     .join("");
 }
 
-// ✅ Handle Sell Book Form
-function setupSellForm() {
-  const form = document.getElementById("sell-form");
-  const message = document.getElementById("message");
+// ✅ Sell Book form
+const form = document.getElementById("sell-form");
 
-  if (form) {
+if (form) {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const title = document.getElementById("title").value.trim();
+    const author = document.getElementById("author").value.trim();
+    const price = document.getElementById("price").value.trim();
+    const condition = document.getElementById("condition").value.trim();
+    const image_url = document.getElementById("image_url").value.trim();
+
+    if (!title || !author || !price || !condition || !image_url) {
+      message.textContent = "❌ Please fill all fields!";
+      message.style.color = "red";
+      return;
+    }
+
+    const { error } = await supabase.from("books").insert([{ title, author, price, condition, image_url }]);
+
+    if (error) {
+      console.error(error);
+      message.textContent = "⚠️ Error uploading book!";
+      message.style.color = "red";
+    } else {
+      message.textContent = "✅ Book uploaded successfully!";
+      message.style.color = "green";
+      form.reset();
+      loadBooks();
+    }
+  });
+}
+
+// ✅ AUTH SYSTEM
+const signupForm = document.getElementById("signup-form");
+const loginForm = document.getElementById("login-form");
+const authMsg = document.getElementById("auth-message");
+
+// Signup
+signupForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+
+  const { error } = await supabase.auth.signUp({ email, password });
+
+  if (error) {
+    authMsg.textContent = "❌ " + error.message;
+    authMsg.style.color = "red";
+  } else {
+    authMsg.textContent = "✅ Signup successful! Check your email.";
+    authMsg.style.color = "green";
+  }
+});
+
+// Login
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    authMsg.textContent = "❌ " + error.message;
+    authMsg.style.color = "red";
+  } else {
+    authMsg.textContent = "✅ Login successful!";
+    authMsg.style.color = "green";
+    showMainContent();
+  }
+});
+
+// Logout
+logoutBtn.addEventListener("click", async () => {
+  await supabase.auth.signOut();
+  hideMainContent();
+});
+
+// ✅ Check user session on page load
+async function checkUserSession() {
+  const { data } = await supabase.auth.getSession();
+  if (data.session) {
+    showMainContent();
+  } else {
+    hideMainContent();
+  }
+}
+
+function showMainContent() {
+  authSection.style.display = "none";
+  booksSection.style.display = "block";
+  sellSection.style.display = "block";
+  logoutBtn.style.display = "inline-block";
+  loadBooks();
+}
+
+function hideMainContent() {
+  authSection.style.display = "block";
+  booksSection.style.display = "none";
+  sellSection.style.display = "none";
+  logoutBtn.style.display = "none";
+}
+
+checkUserSession();
