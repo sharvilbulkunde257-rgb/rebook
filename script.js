@@ -1,12 +1,8 @@
-// main.js (type=module)
-
-// ✅ Import Supabase client (CDN ES module)
+// Import Supabase client (CDN ES module)
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-// --------- Your Supabase project credentials (you confirmed to use these) ----------
 const SUPABASE_URL = "https://rlqjfsaqnfsxjvelzzci.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk";
-// ---------------------------------------------------------------------------------
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // DOM elements
@@ -28,7 +24,7 @@ const sellForm = document.getElementById("sell-form");
 const message = document.getElementById("message");
 const clearFormBtn = document.getElementById("clear-form");
 
-// Utility: show / hide auth modal
+// Utility: show/hide auth modal
 function showAuth() {
   authSection.style.display = "flex";
   authSection.setAttribute("aria-hidden", "false");
@@ -55,78 +51,68 @@ tabSignup.addEventListener("click", () => {
   loginMessage.textContent = "";
   signupMessage.textContent = "";
 });
-
 openAuthBtn.addEventListener("click", showAuth);
 closeAuthBtn.addEventListener("click", hideAuth);
 
-// ---------- AUTH: Sign up ----------
+// AUTH: Sign up
 signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   signupMessage.textContent = "Please wait...";
   const email = document.getElementById("signup-email").value.trim();
   const password = document.getElementById("signup-password").value.trim();
-
   if (!email || !password) {
     signupMessage.textContent = "Fill email & password.";
     return;
   }
-
-  // sign up (magic link or password depending on project settings) - we use password signUp
   const { data, error } = await supabase.auth.signUp({ email, password });
-
   if (error) {
-    signupMessage.style.color = "salmon";
+    signupMessage.style.color = "var(--danger)";
     signupMessage.textContent = error.message;
   } else {
-    signupMessage.style.color = "lightgreen";
-    signupMessage.textContent = "Signup success. Check email (verify) — then login.";
+    signupMessage.style.color = "var(--accent)";
+    signupMessage.textContent = "Signup success. Check your email to verify, then login.";
   }
 });
 
-// ---------- AUTH: Login ----------
+// AUTH: Login
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   loginMessage.textContent = "Logging in...";
-
   const email = document.getElementById("login-email").value.trim();
   const password = document.getElementById("login-password").value.trim();
   if (!email || !password) {
     loginMessage.textContent = "Enter both email & password.";
     return;
   }
-
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
   if (error) {
-    loginMessage.style.color = "salmon";
+    loginMessage.style.color = "var(--danger)";
     loginMessage.textContent = error.message;
   } else {
-    loginMessage.style.color = "lightgreen";
+    loginMessage.style.color = "var(--accent)";
     loginMessage.textContent = "Logged in!";
     hideAuth();
-    await showUser(data.session?.user ?? null);
-    // reload book list for any user-specific logic
+    await checkSessionOnLoad();
     loadBooks();
   }
 });
 
-// ---------- AUTH: Logout ----------
+// AUTH: Logout
 logoutBtn.addEventListener("click", async () => {
   await supabase.auth.signOut();
-  await showUser(null);
+  await checkSessionOnLoad();
+  loadBooks();
 });
 
-// show user / hide user panel
 async function showUser(user) {
   if (!user) {
     userArea.style.display = "none";
-    document.getElementById("open-auth-btn").style.display = "";
+    openAuthBtn.style.display = "";
     welcomeText.textContent = "";
-    // keep sell form disabled / message
     return;
   }
   userArea.style.display = "flex";
-  document.getElementById("open-auth-btn").style.display = "none";
+  openAuthBtn.style.display = "none";
   welcomeText.textContent = `Welcome, ${user.email}`;
 }
 
@@ -139,14 +125,12 @@ async function checkSessionOnLoad() {
     await showUser(null);
   }
 }
-
-// listen to auth changes (e.g. email link sign-in)
 supabase.auth.onAuthStateChange((_event, session) => {
   if (session?.user) showUser(session.user);
   else showUser(null);
 });
 
-// ---------- BOOKS: load & render ----------
+// Books loading
 async function loadBooks() {
   booksContainer.innerHTML = '<div class="loader">Loading books...</div>';
   try {
@@ -154,95 +138,84 @@ async function loadBooks() {
       .from("books")
       .select("*")
       .order("id", { ascending: false });
-
     if (error) {
-      booksContainer.innerHTML = `<div class="loader" style="color:salmon">Error loading books.</div>`;
+      booksContainer.innerHTML = `<div class="loader" style="color:var(--danger)">Error loading books.</div>`;
       console.error(error);
       return;
     }
-
     if (!data || data.length === 0) {
       booksContainer.innerHTML = `<div class="loader">No books yet. Be the first to sell one!</div>`;
       return;
     }
-
     booksContainer.innerHTML = data
       .map((b) => {
-        const img = b.image_url && b.image_url.length ? b.image_url : "https://via.placeholder.com/600x800?text=No+Image";
+        const img = b.image_url?.length
+          ? b.image_url
+          : "https://via.placeholder.com/200x280?text=No+Image";
         return `
-        <div class="book-card">
-          <img src="${img}" alt="${escapeHtml(b.title || "Book")}" />
-          <div class="book-info">
-            <h3>${escapeHtml(b.title || "Untitled")}</h3>
-            <p>Author: ${escapeHtml(b.author || "Unknown")}</p>
-            <p>Condition: ${escapeHtml(b.condition || "-")}</p>
-            <p style="margin-top:8px;font-weight:700;color:var(--accent)">₹${b.price ?? "N/A"}</p>
+          <div class="book-card">
+            <img src="${img}" alt="${escapeHtml(b.title || "Book")}" />
+            <div class="book-info">
+              <h3>${escapeHtml(b.title || "Untitled")}</h3>
+              <p>Author: ${escapeHtml(b.author || "Unknown")}</p>
+              <p>Condition: ${escapeHtml(b.condition || "-")}</p>
+              <p style="margin-top:8px;font-weight:700;color:var(--accent)">₹${b.price ?? "N/A"}</p>
+            </div>
           </div>
-        </div>
-      `;
+        `;
       })
       .join("");
   } catch (err) {
     console.error(err);
-    booksContainer.innerHTML = `<div class="loader" style="color:salmon">Error loading books.</div>`;
+    booksContainer.innerHTML = `<div class="loader" style="color:var(--danger)">Error loading books.</div>`;
   }
 }
-
-// basic XSS-escape
 function escapeHtml(str = "") {
   return String(str)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    .replaceAll("'", "'");
 }
 
-// ---------- SELL FORM: upload book ----------
+// SELL FORM: upload book
 if (sellForm) {
   sellForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    // ensure user logged in
     const { data: sessionData } = await supabase.auth.getSession();
     if (!sessionData?.session?.user) {
-      message.style.color = "salmon";
+      message.style.color = "var(--danger)";
       message.textContent = "You must be logged in to upload a book.";
       return;
     }
-
-    // read inputs
     const title = document.getElementById("title").value.trim();
     const author = document.getElementById("author").value.trim();
     const price = document.getElementById("price").value.trim();
     const condition = document.getElementById("condition").value.trim();
     const image_url = document.getElementById("image_url").value.trim();
-
     if (!title || !author || !price || !condition || !image_url) {
-      message.style.color = "salmon";
+      message.style.color = "var(--danger)";
       message.textContent = "Fill all fields.";
       return;
     }
-
-    // insert
-    message.style.color = "white";
+    message.style.color = "";
     message.textContent = "Uploading...";
-
-    const { error } = await supabase.from("books").insert([{ title, author, price, condition, image_url }]);
-
+    const { error } = await supabase
+      .from("books")
+      .insert([{ title, author, price, condition, image_url }]);
     if (error) {
       console.error(error);
-      message.style.color = "salmon";
+      message.style.color = "var(--danger)";
       message.textContent = "Error uploading. Check console.";
     } else {
-      message.style.color = "lightgreen";
+      message.style.color = "var(--accent)";
       message.textContent = "Book uploaded!";
       sellForm.reset();
-      loadBooks(); // refresh list
+      loadBooks();
     }
   });
 }
-
 if (clearFormBtn) {
   clearFormBtn.addEventListener("click", () => {
     sellForm.reset();
@@ -250,9 +223,8 @@ if (clearFormBtn) {
   });
 }
 
-// ---------- init ----------
+// INIT
 window.addEventListener("DOMContentLoaded", async () => {
-  // hide auth by default
   hideAuth();
   await checkSessionOnLoad();
   await loadBooks();
