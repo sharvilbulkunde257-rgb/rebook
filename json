@@ -1,0 +1,11 @@
+{
+  "name": "rebook",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "live-server",
+    "build": "echo 'No build step needed for vanilla JS'"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.0.0"
+  }
+}
