@@ -1,202 +1,181 @@
-// ✅ Import Supabase client
+// main.js (module)
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-// --- Supabase credentials (tumne ye diye they) ---
+// ✅ Your Supabase credentials
 const SUPABASE_URL = "https://rlqjfsaqnfsxjvelzzci.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk";
+const TABLE = "books"; // change if your table name is different
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+// ✅ Create Supabase client
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ---------- DOM refs ----------
-const loginToggle = document.getElementById("login-toggle");
-const signupToggle = document.getElementById("signup-toggle");
-const logoutBtn = document.getElementById("logout-btn");
+// DOM elements
+const booksGrid = document.getElementById("booksGrid");
+const loader = document.getElementById("loader");
+const emptyState = document.getElementById("emptyState");
+const booksCount = document.getElementById("booksCount");
+const searchInput = document.getElementById("searchInput");
+const sortSelect = document.getElementById("sortSelect");
+const refreshBtn = document.getElementById("refreshBtn");
 
-const loginCard = document.getElementById("login-card");
-const signupCard = document.getElementById("signup-card");
-const authSection = document.getElementById("auth-section");
+let allBooks = [];
 
-const appSection = document.getElementById("app-section");
-const welcomeText = document.getElementById("welcome-text");
-const welcomeUser = document.getElementById("welcome-user");
-
-const loginForm = document.getElementById("login-form");
-const signupForm = document.getElementById("signup-form");
-const loginMessage = document.getElementById("login-message");
-const signupMessage = document.getElementById("signup-message");
-
-const sellForm = document.getElementById("sell-form");
-const sellMessage = document.getElementById("sell-message");
-const booksContainer = document.getElementById("books-container");
-
-// ---------- UI helpers ----------
-function showLogin(){ loginCard.style.display = "block"; signupCard.style.display = "none"; }
-function showSignup(){ loginCard.style.display = "none"; signupCard.style.display = "block"; }
-function showApp(user){ authSection.style.display = "none"; appSection.style.display = "block"; logoutBtn.style.display = "inline-block"; welcomeText.style.display = "inline-block"; welcomeText.textContent = `Hi, ${user.email}`; welcomeUser.textContent = `Welcome, ${user.email.split('@')[0]}!`; }
-function hideApp(){ authSection.style.display = "flex"; appSection.style.display = "none"; logoutBtn.style.display = "none"; welcomeText.style.display = "none"; welcomeText.textContent = ""; }
-
-// toggle handlers
-loginToggle.addEventListener("click", ()=>{ showLogin(); });
-signupToggle.addEventListener("click", ()=>{ showSignup(); });
-document.getElementById("show-signup").addEventListener("click", (e)=>{ e.preventDefault(); showSignup(); });
-document.getElementById("show-login").addEventListener("click", (e)=>{ e.preventDefault(); showLogin(); });
-
-// ---------- Auth: signup ----------
-signupForm.addEventListener("submit", async (e)=>{
-  e.preventDefault();
-  signupMessage.textContent = "Creating account...";
-  const email = document.getElementById("signup-email").value;
-  const password = document.getElementById("signup-password").value;
-
-  try{
-    const { error } = await supabase.auth.signUp({ email, password });
-    if (error) {
-      signupMessage.textContent = "❌ " + error.message;
-      signupMessage.style.color = "red";
-    } else {
-      signupMessage.textContent = "✅ Check your email to confirm (if needed).";
-      signupMessage.style.color = "green";
-    }
-  } catch(err){
-    signupMessage.textContent = "❌ " + err.message;
-    signupMessage.style.color = "red";
-  }
-});
-
-// ---------- Auth: login ----------
-loginForm.addEventListener("submit", async (e)=>{
-  e.preventDefault();
-  loginMessage.textContent = "Logging in...";
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
-
-  try{
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      loginMessage.textContent = "❌ " + error.message;
-      loginMessage.style.color = "red";
-    } else {
-      loginMessage.textContent = "✅ Logged in!";
-      loginMessage.style.color = "green";
-      await checkSessionAndUpdateUI();
-    }
-  } catch(err){
-    loginMessage.textContent = "❌ " + err.message;
-    loginMessage.style.color = "red";
-  }
-});
-
-// ---------- Auth: logout ----------
-logoutBtn.addEventListener("click", async ()=>{
-  await supabase.auth.signOut();
-  hideApp();
-});
-
-// ---------- Session check + listen ----------
-async function checkSessionAndUpdateUI(){
-  const { data } = await supabase.auth.getSession();
-  const session = data.session;
-  if (session && session.user) {
-    showApp(session.user);
-    loadBooks();
-  } else {
-    hideApp();
-    loadBooks(); // still load (public) — but if you enabled RLS requiring auth, it will return empty unless policies allow anon read
-  }
+// Helper functions
+function showLoader(on = true) {
+  loader.style.display = on ? "block" : "none";
+}
+function showEmpty(on = true) {
+  emptyState.style.display = on ? "block" : "none";
+}
+function setCount(n) {
+  booksCount.textContent = n;
 }
 
-// react to auth changes (login via magic link / other tab)
-supabase.auth.onAuthStateChange((event, session) => {
-  if (session && session.user) showApp(session.user);
-  else hideApp();
-});
+// Render each book card
+function renderCard(book) {
+  const title = book.title || "Untitled";
+  const author = book.author || book.seller_name || "Unknown";
+  const price = book.price != null ? `₹ ${book.price}` : "Free";
+  const condition = book.condition || "Good";
+  const img = book.image_url || book.image || "";
 
-// ---------- Load books ----------
-async function loadBooks(){
-  if (!booksContainer) return;
-  booksContainer.innerHTML = "<p>Loading books...</p>";
-  try{
-    const { data, error } = await supabase.from("books").select("*").order("id", { ascending: false });
-
-    if (error) {
-      booksContainer.innerHTML = "<p style='color:crimson'>Error loading books. See console.</p>";
-      console.error("Supabase loadBooks error:", error);
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      booksContainer.innerHTML = "<p>No books yet — be the first to sell!</p>";
-      return;
-    }
-
-    booksContainer.innerHTML = data.map(book=>{
-      const img = book.image_url || "https://via.placeholder.com/400x520?text=No+Image";
-      return `
-        <div class="book-card">
-          <img src="${img}" alt="${escapeHtml(book.title || 'Book')}" />
-          <div class="book-info">
-            <h4>${escapeHtml(book.title || "Untitled")}</h4>
-            <p class="muted">Author: ${escapeHtml(book.author || "Unknown")}</p>
-            <p class="muted">Condition: ${escapeHtml(book.condition || "N/A")}</p>
-            <p class="book-price">₹${book.price ?? "N/A"}</p>
-          </div>
-        </div>
-      `;
-    }).join("");
-
-  } catch(err){
-    console.error("loadBooks exception:", err);
-    booksContainer.innerHTML = "<p style='color:crimson'>Something went wrong.</p>";
-  }
-}
-
-// ---------- Sell book (insert) ----------
-if (sellForm) {
-  sellForm.addEventListener("submit", async (e)=>{
-    e.preventDefault();
-    sellMessage.textContent = "Uploading...";
-    const title = document.getElementById("title").value.trim();
-    const author = document.getElementById("author").value.trim();
-    const price = document.getElementById("price").value.trim();
-    const condition = document.getElementById("condition").value.trim();
-    const image_url = document.getElementById("image_url").value.trim();
-
-    if (!title || !author || !price || !condition || !image_url) {
-      sellMessage.textContent = "❌ Please fill all fields.";
-      sellMessage.style.color = "red";
-      return;
-    }
-
-    try{
-      const { error } = await supabase.from("books").insert([{ title, author, price, condition, image_url }]);
-      if (error) {
-        sellMessage.textContent = "⚠️ " + error.message;
-        sellMessage.style.color = "red";
-        console.error(error);
-      } else {
-        sellMessage.textContent = "✅ Uploaded successfully!";
-        sellMessage.style.color = "green";
-        sellForm.reset();
-        loadBooks();
+  const div = document.createElement("div");
+  div.className = "card";
+  div.innerHTML = `
+    <div class="thumb">
+      ${
+        img
+          ? `<img src="${img}" alt="${escapeHtml(title)}" loading="lazy" />`
+          : `<div style="padding:8px;color:var(--muted);font-size:12px">No Image</div>`
       }
-    } catch(err){
-      sellMessage.textContent = "⚠️ " + err.message;
-      sellMessage.style.color = "red";
-      console.error(err);
+    </div>
+    <div class="meta" style="flex:1;">
+      <h3>${escapeHtml(title)}</h3>
+      <p>${escapeHtml(author)} • <span style="color:var(--muted)">${escapeHtml(
+    condition
+  )}</span></p>
+      <div class="row">
+        <div class="price">${escapeHtml(price)}</div>
+        <button class="cta" data-id="${book.id}">View</button>
+      </div>
+    </div>
+  `;
+
+  const btn = div.querySelector(".cta");
+  btn.style.border = "none";
+  btn.style.background = "linear-gradient(90deg,var(--accent), #ff9a66)";
+  btn.style.padding = "6px 10px";
+  btn.style.color = "#032027";
+  btn.style.borderRadius = "8px";
+  btn.style.cursor = "pointer";
+
+  btn.addEventListener("click", () => {
+    const seller = book.seller_contact || book.seller_email || "";
+    if (seller) {
+      window.open(
+        `mailto:${seller}?subject=Interested in your book: ${encodeURIComponent(
+          title
+        )}`
+      );
+    } else {
+      alert(`Interested in "${title}". Seller contact not available.`);
     }
+  });
+
+  return div;
+}
+
+// Escape HTML
+function escapeHtml(text) {
+  if (text == null) return "";
+  return String(text).replace(/[&<>"']/g, function (m) {
+    return {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    }[m];
   });
 }
 
-// ---------- small helpers ----------
-function escapeHtml(text){
-  if (!text) return "";
-  return text.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+// Fetch books from Supabase
+async function fetchBooks({ search = "", sort = "new" } = {}) {
+  showLoader(true);
+  showEmpty(false);
+  booksGrid.innerHTML = "";
+
+  try {
+    let query = supabase.from(TABLE).select("*");
+
+    // Search by title/author/subject
+    if (search && search.trim().length > 0) {
+      const s = `%${search.trim()}%`;
+      query = query.or(`title.ilike.${s},author.ilike.${s},subject.ilike.${s}`);
+    }
+
+    // Sort logic
+    if (sort === "price_asc") query = query.order("price", { ascending: true });
+    else if (sort === "price_desc")
+      query = query.order("price", { ascending: false });
+    else query = query.order("created_at", { ascending: false });
+
+    const { data, error } = await query.limit(500);
+
+    if (error) {
+      console.error("Supabase error:", error);
+      alert("Error fetching books. Check console for details.");
+      showLoader(false);
+      return;
+    }
+
+    allBooks = data || [];
+    setCount(allBooks.length);
+
+    if (!allBooks.length) {
+      showEmpty(true);
+      showLoader(false);
+      return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    allBooks.forEach((b) => fragment.appendChild(renderCard(b)));
+    booksGrid.appendChild(fragment);
+  } catch (err) {
+    console.error(err);
+    alert("Unexpected error while fetching books.");
+  } finally {
+    showLoader(false);
+  }
 }
 
-// ---------- init ----------
-document.addEventListener("DOMContentLoaded", async ()=>{
-  showLogin(); // by default show login form
-  await checkSessionAndUpdateUI();
-  // load books even if not logged in (if your RLS allows anon SELECT)
-  await loadBooks();
+// Debounce utility
+function debounce(fn, wait = 300) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), wait);
+  };
+}
+
+// Event listeners
+searchInput.addEventListener(
+  "input",
+  debounce(() => {
+    const q = searchInput.value.trim();
+    fetchBooks({ search: q, sort: sortSelect.value });
+  }, 450)
+);
+
+sortSelect.addEventListener("change", () => {
+  fetchBooks({ search: searchInput.value.trim(), sort: sortSelect.value });
+});
+
+refreshBtn.addEventListener("click", () => {
+  fetchBooks({ search: searchInput.value.trim(), sort: sortSelect.value });
+});
+
+// Initial load
+document.addEventListener("DOMContentLoaded", () => {
+  fetchBooks({ search: "", sort: "new" });
 });
