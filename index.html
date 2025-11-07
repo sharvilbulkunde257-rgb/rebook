@@ -1,97 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ReBook — Buy & Sell Used Books</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header class="site-header">
-    <div class="container flex-between">
-      <div class="logo">📚 <span>ReBook</span></div>
-      <nav class="nav">
-        <a href="#home" class="nav-link">Home</a>
-        <a href="#books" class="nav-link">Browse</a>
-        <a href="#sell" class="nav-link">Sell</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReBook - Buy & Sell Used Books</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <h1>📚 ReBook</h1>
+      <nav id="auth-nav">
+        <button id="login-btn">Login</button>
+        <button id="signup-btn">Sign Up</button>
+        <button id="logout-btn" style="display:none;">Logout</button>
       </nav>
-      <div class="auth-area">
-        <button id="open-auth-btn" class="btn btn-outline">Login / Signup</button>
-        <div id="user-area" class="user-area" style="display:none;">
-          <span id="welcome-text"></span>
-          <button id="logout-btn" class="btn">Logout</button>
-        </div>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  <section id="auth-section" class="auth-section" aria-hidden="true">
-    <div class="auth-card">
-      <div class="auth-tabs">
-        <button id="tab-login" class="tab active">Login</button>
-        <button id="tab-signup" class="tab">Sign up</button>
-      </div>
-      <form id="login-form" class="auth-form">
-        <h3>Login to ReBook</h3>
-        <input id="login-email" type="email" autocomplete="username" placeholder="Email" required />
-        <input id="login-password" type="password" autocomplete="current-password" placeholder="Password" required />
-        <button type="submit" class="btn btn-primary">Login</button>
-        <p id="login-message" class="form-msg"></p>
+    <!-- Auth Section -->
+    <section id="auth-section" class="auth-section">
+      <h2 id="auth-title">Login</h2>
+      <form id="auth-form">
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">Continue</button>
       </form>
-      <form id="signup-form" class="auth-form" style="display:none;">
-        <h3>Create account</h3>
-        <input id="signup-email" type="email" autocomplete="username" placeholder="Email" required />
-        <input id="signup-password" type="password" autocomplete="new-password" placeholder="Password (min 6 chars)" required />
-        <button type="submit" class="btn btn-primary">Sign up</button>
-        <p id="signup-message" class="form-msg"></p>
-      </form>
-      <button id="close-auth" class="btn btn-link">Close</button>
-    </div>
-  </section>
-
-  <main id="home">
-    <section class="hero container">
-      <div>
-        <h1>Buy · Sell · Reuse – Instantly</h1>
-        <p class="sub">Affordable books for students. List in minutes, get paid faster.</p>
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="#books">Browse Books</a>
-          <a class="btn btn-outline" href="#sell">Sell Your Book</a>
-        </div>
-      </div>
+      <p id="auth-message"></p>
     </section>
 
-    <section id="books" class="section container">
-      <h2 class="section-title">Available Books</h2>
-      <div id="books-container" class="grid"></div>
-    </section>
+    <!-- Main User Area -->
+    <section id="welcome-section" class="hidden">
+      <h2 id="welcome-user">Welcome!</h2>
 
-    <section id="sell" class="section upload-section container">
-      <h2 class="section-title">Sell Your Book</h2>
-      <div class="upload-card">
+      <!-- Sell Book -->
+      <section class="sell-section">
+        <h3>Sell Your Book</h3>
         <form id="sell-form">
-          <input id="title" type="text" placeholder="Book Title" required />
-          <input id="author" type="text" placeholder="Author Name" required />
-          <input id="price" type="number" step="1" min="1" placeholder="Price (₹)" required />
-          <input id="condition" type="text" placeholder="Condition (Good / Like New)" required />
-          <input id="image_url" type="url" placeholder="Image URL (https://...)" required />
-          <div class="form-row">
-            <button type="submit" class="btn btn-primary">Upload Book</button>
-            <button id="clear-form" type="button" class="btn btn-outline">Clear</button>
-          </div>
+          <input type="text" id="title" placeholder="Book Title" required />
+          <input type="text" id="author" placeholder="Author" required />
+          <input type="number" id="price" placeholder="Price ₹" required />
+          <input type="text" id="condition" placeholder="Condition" required />
+          <input type="url" id="image_url" placeholder="Image URL" required />
+          <button type="submit">Upload Book</button>
         </form>
-        <p id="message" class="form-msg"></p>
-      </div>
-      <p class="hint">You must be logged in to upload — click <strong>Login / Signup</strong> in the top-right.</p>
+        <p id="message"></p>
+      </section>
+
+      <!-- Available Books -->
+      <section class="books-section">
+        <h3>Available Books</h3>
+        <div id="books-container" class="books-container">
+          <p>Loading books...</p>
+        </div>
+      </section>
     </section>
-  </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© 2025 ReBook — Built for students</p>
-    </div>
-  </footer>
+    <footer>
+      <p>© 2025 ReBook | Making reading affordable for everyone 💚</p>
+    </footer>
 
-  <script type="module" src="main.js"></script>
-</body>
+    <script type="module" src="main.js"></script>
+  </body>
 </html>
