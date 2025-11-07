@@ -1,80 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="hi">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ReBook | Buy & Sell Used Books</title>
+  <title>ReBook — Affordable Used Books</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons (optional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
-  <script type="module" src="main.js" defer></script>
+
+  <!-- Meta for theme color -->
+  <meta name="theme-color" content="#FF6B35" />
 </head>
 <body>
-  <!-- NAV -->
-  <header class="navbar">
-    <div class="logo">📚 ReBook</div>
-    <nav class="nav-right">
-      <div id="welcome-text" class="welcome-text" style="display:none"></div>
-      <button id="login-toggle" class="btn-ghost">Login</button>
-      <button id="signup-toggle" class="btn-ghost">Sign up</button>
-      <button id="logout-btn" class="btn-primary" style="display:none">Logout</button>
-    </nav>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="logo">📚</div>
+        <div>
+          <h1>ReBook</h1>
+          <p class="tag">Used books. Instant wallets. Students friendly.</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <input id="searchInput" type="search" placeholder="Search by title, author or subject..." />
+        <button id="refreshBtn" title="Refresh">🔄</button>
+      </div>
+    </div>
   </header>
 
-  <!-- AUTH AREA -->
-  <main>
-    <section id="auth-section" class="auth-section">
-      <div class="auth-card" id="login-card">
-        <h2>Login</h2>
-        <form id="login-form" autocomplete="on">
-          <input id="login-email" type="email" placeholder="Email" required />
-          <input id="login-password" type="password" placeholder="Password" required />
-          <button type="submit" class="btn-primary">Login</button>
-        </form>
-        <p class="muted">Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
-        <p id="login-message" class="message"></p>
+  <main class="container main-area">
+    <section class="hero">
+      <div>
+        <h2>Books for every student — pocket friendly prices</h2>
+        <p>Choose, contact seller or get instant wallet credit. Browse latest uploads below.</p>
       </div>
-
-      <div class="auth-card" id="signup-card" style="display:none">
-        <h2>Create account</h2>
-        <form id="signup-form" autocomplete="on">
-          <input id="signup-email" type="email" placeholder="Email" required />
-          <input id="signup-password" type="password" placeholder="Password (min 6 chars)" required />
-          <button type="submit" class="btn-primary">Sign up</button>
-        </form>
-        <p class="muted">Already have account? <a href="#" id="show-login">Login</a></p>
-        <p id="signup-message" class="message"></p>
+      <div class="hero-illu">
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=..." alt="books" />
       </div>
     </section>
 
-    <!-- WELCOME + UPLOAD + BOOKS (visible after login) -->
-    <section id="app-section" class="app-section" style="display:none">
-      <div class="container">
-        <h1 id="welcome-user">Welcome!</h1>
-
-        <div class="upload-card">
-          <h3>Sell your book</h3>
-          <form id="sell-form">
-            <input id="title" type="text" placeholder="Book title" required />
-            <input id="author" type="text" placeholder="Author" required />
-            <input id="price" type="number" placeholder="Price (₹)" required />
-            <input id="condition" type="text" placeholder="Condition (Good / Like New)" required />
-            <input id="image_url" type="url" placeholder="Image URL (direct link)" required />
-            <button type="submit" class="btn-primary">Upload book</button>
-          </form>
-          <p id="sell-message" class="message"></p>
-        </div>
-
-        <div class="books-list">
-          <h3>Available Books</h3>
-          <div id="books-container" class="book-grid">
-            <p>Loading books...</p>
-          </div>
-        </div>
+    <section class="filters-row">
+      <div class="stats">
+        <span id="booksCount">--</span> books available
+      </div>
+      <div class="sort">
+        <label>Sort:</label>
+        <select id="sortSelect">
+          <option value="new">Newest</option>
+          <option value="price_asc">Price: Low → High</option>
+          <option value="price_desc">Price: High → Low</option>
+        </select>
       </div>
     </section>
+
+    <section id="booksGrid" class="grid">
+      <!-- Cards get injected here -->
+    </section>
+
+    <div id="loader" class="loader">Loading books…</div>
+    <div id="emptyState" class="empty">Koi book available nahi hai.</div>
   </main>
 
   <footer class="footer">
-    <p>© 2025 ReBook — Buy · Sell · Reuse</p>
+    <div class="container">
+      <p>Made with ❤️ for students • ReBook</p>
+      <small>Tip: For deployment set your Supabase keys as environment variables on Vercel and replace in main.js or use a server-side proxy.</small>
+    </div>
   </footer>
+
+  <!-- main JS (module) -->
+  <script src="main.js" type="module"></script>
 </body>
 </html>
