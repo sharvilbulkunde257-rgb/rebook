@@ -1,299 +1,77 @@
-/* 🌿 RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-    /* Smooth transitions for a clean aesthetic */
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; 
+:root{
+  --bg:#0b0f12;
+  --card:#0f1720;
+  --muted:#9aa7b1;
+  --accent:#00e0a3; /* green */
+  --accent-2:#00c2ff;
+  --glass:rgba(255,255,255,0.03);
 }
 
-/* 🌿 BODY */
-body {
-    background: #f8fff9; /* Very light green/white */
-    color: #2d3436;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}
 
-/* 🌿 HEADER */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 60px;
-    background: #00b894; /* Primary Green */
-    color: white;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    box-shadow: 0 4px 10px rgba(0, 184, 148, 0.3); /* Soft green shadow */
-}
+html,body{height:100%;background:linear-gradient(180deg,#051018 0%, #07121a 60%);color:#e6f0f5}
 
-.logo {
-    font-size: 1.8rem;
-    font-weight: 700;
-}
+.container{max-width:1100px;margin:0 auto;padding:24px}
 
-nav a {
-    color: white;
-    margin: 0 15px;
-    text-decoration: none;
-    font-weight: 500;
-}
+/* header */
+.site-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:transparent;position:sticky;top:0;z-index:50}
+.left{display:flex;align-items:center;gap:18px}
+.logo{font-weight:700;font-size:1.25rem;color:var(--accent)}
+.nav{display:flex;gap:12px}
+.nav-link{color:#cfeaf3;text-decoration:none;padding:8px 10px;border-radius:8px;font-weight:500;opacity:.9}
+.nav-link:hover{background:var(--glass);color:#fff;transform:translateY(-2px)}
+.right{display:flex;align-items:center;gap:10px}
 
-nav a:hover {
-    text-decoration: underline;
-    transform: scale(1.05); /* Slight movement on hover */
-}
+/* Buttons */
+.btn{border:0;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:600}
+.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#041018;box-shadow:0 6px 30px rgba(0,224,163,0.12)}
+.btn-outline{background:transparent;color:#dff7ee;border:1px solid rgba(255,255,255,0.06)}
+.btn-ghost{background:transparent;color:#dff7ee;border-radius:8px;padding:8px 10px;border:1px solid rgba(255,255,255,0.02)}
 
-/* Auth Status styles */
-.auth-status {
-    display: flex;
-    align-items: center;
-}
-.auth-status button {
-    margin: 0; /* Header mein margin hataya */
-}
+/* Auth modal */
+.auth-section{position:fixed;inset:0;background:linear-gradient(90deg, rgba(2,6,11,0.7), rgba(2,6,11,0.85));display:flex;align-items:center;justify-content:center;padding:20px}
+.auth-card{width:100%;max-width:420px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 40px rgba(2,6,11,0.6)}
+.auth-tabs{display:flex;gap:8px;margin-bottom:12px}
+.tab{flex:1;padding:10px;border-radius:8px;background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.02)}
+.tab.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021016;font-weight:700}
 
-/* 🌿 AUTH SECTION STYLES (New) */
-.auth-section {
-    /* --- THE FIX IS HERE --- */
-    display: none; /* Default hidden, JS will change this to 'flex' */
-    /* ---------------------- */
-    justify-content: center;
-    align-items: center;
-    height: 70vh; 
-    padding: 20px;
-    background: #f8fff9;
-}
+/* forms */
+.auth-form{display:flex;flex-direction:column;gap:10px;margin-bottom:8px}
+input[type="email"],input[type="password"],input[type="text"],input[type="number"],input[type="url"]{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:12px;border-radius:8px;color:#e8f7fb}
+input::placeholder{color:rgba(230,240,245,0.45)}
+.form-msg{margin-top:8px;font-size:0.95rem;color:var(--muted)}
 
-.auth-container {
-    max-width: 400px;
-    width: 100%;
-    background: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0, 184, 148, 0.2); /* Green glow effect */
-}
+/* hero */
+.hero{padding:36px 0;text-align:center}
+.hero h1{font-size:2rem;color:#dffbef}
+.sub{color:var(--muted);margin-top:8px}
+.hero-cta{margin-top:16px;display:flex;gap:10px;justify-content:center}
 
-.auth-container h2 {
-    text-align: center;
-    color: #00b894;
-    margin-bottom: 20px;
-}
+/* sections */
+.section{padding:28px 0}
+.section-title{font-size:1.25rem;color:#dffbef;margin-bottom:12px}
 
-.auth-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
+/* books grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.book-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:10px;transition:transform .22s, box-shadow .22s}
+.book-card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,0.5)}
+.book-card img{width:100%;height:260px;border-radius:8px;object-fit:cover}
+.book-info h3{font-size:1.05rem;margin-bottom:6px;color:#fff}
+.book-info p{color:var(--muted);font-size:.95rem;margin:0}
 
-.auth-container input {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-}
-.auth-container input:focus {
-    border-color: #00b894; /* Focus par green border */
-    box-shadow: 0 0 5px rgba(0, 184, 148, 0.5); /* Soft focus glow */
-    outline: none;
-}
+/* upload form */
+.upload-section .upload-card{max-width:640px;margin:0 auto}
+.upload-card form{display:flex;flex-direction:column;gap:10px}
+.form-row{display:flex;gap:10px}
 
-/* Toggle Text */
-.toggle-text {
-    text-align: center;
-    margin-top: 15px;
-    font-size: 0.9rem;
-}
+/* footer */
+.site-footer{text-align:center;margin-top:36px;padding:20px;color:var(--muted)}
 
-.toggle-text a {
-    color: #00b894;
-    text-decoration: none;
-    font-weight: 600;
-}
-.toggle-text a:hover {
-    text-decoration: underline;
-}
-
-.message {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 0.9rem;
-}
-
-/* 🌿 HERO SECTION */
-.hero {
-    text-align: center;
-    padding: 100px 30px;
-    background: linear-gradient(135deg, #00b894, #00cec9);
-    color: white;
-    border-bottom-left-radius: 50px;
-    border-bottom-right-radius: 50px;
-}
-
-.hero h1 {
-    font-size: 2.4rem;
-    margin-bottom: 10px;
-}
-
-.hero p {
-    font-size: 1.1rem;
-    margin-bottom: 25px;
-}
-
-.hero-buttons button {
-    margin: 10px;
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    border: none;
-}
-
-button.primary {
-    background: #fff;
-    color: #00b894;
-    font-weight: 600;
-}
-
-button.outline {
-    background: transparent;
-    border: 2px solid white;
-    color: white;
-}
-
-button:hover {
-    transform: translateY(-2px); /* Lift animation on hover */
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* 🌿 BOOK GRID */
-.books-section {
-    text-align: center;
-    padding: 60px 20px;
-}
-
-.books-section h2 {
-    color: #00b894;
-    margin-bottom: 30px;
-}
-
-.book-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 25px;
-    padding: 10px;
-}
-
-.book-card {
-    background: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    /* transition already set in * block */
-}
-
-.book-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 20px rgba(0, 184, 148, 0.3); /* Stronger green shadow on hover */
-}
-
-.book-card img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-}
-
-.book-info {
-    padding: 15px;
-    text-align: left;
-}
-
-/* 🌿 UPLOAD SECTION */
-.upload-section {
-    max-width: 600px;
-    margin: 60px auto;
-    background: #fff;
-    padding: 40px 30px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.upload-section h2 {
-    text-align: center;
-    color: #00b894;
-    margin-bottom: 25px;
-}
-
-.upload-section form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.upload-section input {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-}
-.upload-section input:focus {
-    border-color: #00b894;
-    box-shadow: 0 0 5px rgba(0, 184, 148, 0.5);
-    outline: none;
-}
-
-
-.upload-section button {
-    background: #00b894;
-    color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.upload-section button:hover {
-    background: #019875;
-}
-
-.upload-section button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    transform: none; /* Disable lift animation */
-    box-shadow: none;
-}
-
-/* 🌿 FOOTER */
-footer {
-    text-align: center;
-    padding: 20px;
-    background: #00b894;
-    color: white;
-    font-weight: 500;
-}
-
-/* 🌿 RESPONSIVE */
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        padding: 15px 25px;
-    }
-
-    .auth-status {
-        margin-top: 10px;
-    }
-
-    nav {
-        margin-top: 10px;
-    }
-
-    .book-grid {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    }
-
-    .hero h1 {
-        font-size: 1.9rem;
-    }
+/* small screens */
+@media (max-width:720px){
+  .nav{display:none}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .book-card img{height:180px}
+  .hero h1{font-size:1.5rem}
+  .auth-card{padding:14px}
 }
