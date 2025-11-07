@@ -1,92 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ReBook | Buy & Sell Used Books</title>
-    <link rel="stylesheet" href="style.css" />
-    <script type="module" src="main.js" defer></script>
-  </head>
-  <body>
-    <!-- 🌿 HEADER (UPDATED) -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Selling App</title>
+    <style>
+        /* Basic styles for demo - you can replace with your own CSS */
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        header { background: #16a085; color: white; padding: 1rem; text-align: center; }
+        nav { margin-bottom: 1rem; }
+        button { padding: 0.5rem 1rem; margin: 0.5rem; cursor: pointer; }
+        .primary { background: #16a085; color: white; border: none; }
+        .outline { background: white; color: #16a085; border: 1px solid #16a085; }
+        .auth-forms { display: none; flex-direction: column; align-items: center; padding: 2rem; background: #f4f4f4; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; }
+        .card { background: white; padding: 1rem; margin: 1rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px; }
+        input { width: 100%; padding: 0.5rem; margin: 0.5rem 0; }
+        .book-card { border: 1px solid #ddd; padding: 1rem; margin: 1rem; display: inline-block; width: 250px; }
+        .book-card img { width: 100%; height: auto; }
+        section { padding: 2rem; }
+        #books-container { display: flex; flex-wrap: wrap; }
+    </style>
+</head>
+<body>
     <header>
-      <div class="logo">📚 ReBook</div>
-      <nav>
-        <a href="#home">Home</a>
-        <a href="#books-section">Buy Books</a>
-        <a href="#sell-book">Sell Book</a>
-      </nav>
-      <!-- AUTHENTICATION STATUS & BUTTONS -->
-      <div class="auth-status">
-        <span id="user-info" style="margin-right: 15px; font-weight: 500;"></span>
-        <button id="auth-button" class="primary">Login / Signup</button>
-      </div>
+        <h1>Book Selling App</h1>
+        <nav>
+            <button onclick="scrollToSection('home')">Home</button>
+            <button onclick="scrollToSection('books-section')">Browse Books</button>
+            <button onclick="scrollToSection('sell-book')">Sell Book</button>
+            <button id="auth-button" class="primary">Login / Signup</button>
+            <span id="user-info"></span>
+        </nav>
     </header>
 
-    <!-- 🌿 AUTHENTICATION SECTIONS (NEW) -->
-    <section class="auth-section" id="auth-forms">
-      <div class="auth-container">
-        <!-- SIGNUP FORM -->
-        <div id="signup-card">
-          <h2>Create Account</h2>
-          <form id="signup-form">
-            <input type="email" id="signup-email" placeholder="Email Address" required />
-            <input type="password" id="signup-password" placeholder="Password (min 6 chars)" required />
-            <button type="submit">Sign Up</button>
-          </form>
-          <p class="toggle-text">Already have an account? <a href="#" id="show-login">Login</a></p>
-          <p id="signup-message" class="message"></p>
+    <!-- Auth Forms Section -->
+    <div id="auth-forms" class="auth-forms">
+        <!-- Signup Card -->
+        <div id="signup-card" class="card">
+            <h2>Sign Up</h2>
+            <form id="signup-form">
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <input type="password" id="signup-password" placeholder="Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+            <p id="signup-message"></p>
+            <p>Already have an account? <a href="#" id="show-login">Login here</a></p>
         </div>
 
-        <!-- LOGIN FORM -->
-        <div id="login-card" style="display: none;">
-          <h2>Login to ReBook</h2>
-          <form id="login-form">
-            <input type="email" id="login-email" placeholder="Email Address" required />
-            <input type="password" id="login-password" placeholder="Password" required />
-            <button type="submit">Login</button>
-          </form>
-          <p class="toggle-text">Don't have an account? <a href="#" id="show-signup">Sign Up</a></p>
-          <p id="login-message" class="message"></p>
+        <!-- Login Card -->
+        <div id="login-card" class="card" style="display: none;">
+            <h2>Login</h2>
+            <form id="login-form">
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p id="login-message"></p>
+            <p>Don't have an account? <a href="#" id="show-signup">Sign up here</a></p>
         </div>
-      </div>
+    </div>
+
+    <!-- Home Section -->
+    <section id="home">
+        <h2>Welcome to Book Selling App</h2>
+        <p>Buy and sell used books easily!</p>
     </section>
 
-    <!-- 🌿 HERO SECTION -->
-    <section class="hero" id="home">
-      <h1>Buy & Sell Used Books Easily</h1>
-      <p>Affordable reads for every student and book lover 💚</p>
-      <div class="hero-buttons">
-        <button class="primary" onclick="scrollToSection('books-section')">Browse Books</button>
-        <button class="outline" onclick="scrollToSection('sell-book')">Sell Your Book</button>
-      </div>
+    <!-- Books Section -->
+    <section id="books-section">
+        <h2>Available Books</h2>
+        <div id="books-container"></div>
     </section>
 
-    <!-- 🌿 BOOK LIST SECTION -->
-    <section class="books-section" id="books-section">
-      <h2>Available Books</h2>
-      <div id="books-container" class="book-grid">
-        <p>Loading books...</p>
-      </div>
+    <!-- Sell Book Section -->
+    <section id="sell-book">
+        <h2>Sell Your Book</h2>
+        <form id="sell-form">
+            <input type="text" id="title" placeholder="Book Title" required>
+            <input type="text" id="author" placeholder="Author" required>
+            <input type="number" id="price" placeholder="Price (₹)" required>
+            <select id="condition" required>
+                <option value="">Select Condition</option>
+                <option value="New">New</option>
+                <option value="Good">Good</option>
+                <option value="Fair">Fair</option>
+                <option value="Poor">Poor</option>
+            </select>
+            <input type="url" id="image_url" placeholder="Image URL" required>
+            <button type="submit">Upload Book</button>
+        </form>
+        <p id="message"></p>
     </section>
 
-    <!-- 🌿 SELL YOUR BOOK SECTION -->
-    <section class="upload-section" id="sell-book">
-      <h2>Sell Your Book</h2>
-      <form id="sell-form">
-        <input type="text" id="title" placeholder="Book Title" required />
-        <input type="text" id="author" placeholder="Author Name" required />
-        <input type="number" id="price" placeholder="Price (₹)" required />
-        <input type="text" id="condition" placeholder="Condition (Good / Like New)" required />
-        <input type="url" id="image_url" placeholder="Book Image URL" required />
-        <button type="submit">Upload Book</button>
-      </form>
-      <p id="message"></p>
-    </section>
+    <script>
+        // ✅ Import Supabase client from CDN
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-    <!-- 🌿 FOOTER -->
-    <footer>
-      <p>© 2025 ReBook | Making Reading Affordable for Everyone 💚</p>
-    </footer>
-  </body>
+        // ✅ Supabase credentials
+        const SUPABASE_URL = "https://rlqjfsaqnfsxjvelzzci.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJscWpmc2FxbmZzeGp2ZWx6emNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIwMjM3ODksImV4cCI6MjA3NzU5OTc4OX0.dVu97vNOYDhSIctdhgBt0KWtuP1VwCk_4vQqO2o2rtk";
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // --- AUTHENTICATION & UI ELEMENTS ---
+        const authButton = document.getElementById('auth-button');
+        const authForms = document.getElementById('auth-forms');
+        const userInfoSpan = document.getElementById('user-info');
+        const sellBookSection = document.getElementById('sell-book');
+        const homeSection = document.getElementById('home');
+        const booksSection = document.getElementById('books-section');
+
+        const signupForm = document.getElementById('signup-form');
+        const loginForm = document.getElementById('login-form');
+        const showLoginLink = document.getElementById('show-login');
+        const showSignupLink = document.getElementById('show-signup');
+        const signupCard = document.getElementById('signup-card');
+        const loginCard = document.getElementById('login-card');
+        const signupMessage = document.getElementById('signup-message');
+        const loginMessage = document.getElementById('login-message');
+        const form = document.getElementById("sell-form");
+        const message = document.getElementById("message");
+
+        // ✅ Smooth scroll helper
+        window.scrollToSection = (id) => {
+            document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+        };
+
+        // --- CORE UI/AUTH FUNCTIONS ---
+
+        // Function to show the auth forms and hide all main content
+        function showAuthForms() {
+            console.log("showAuthForms called"); // Debugging
+            if (!authForms) {
+                console.error("authForms element not found");
+                return;
+            }
+            // 1. Auth forms ko dikhana
+            authForms.style.display = 'flex'; 
+
+            // 2. Baaki sabhi sections ko chhupana
+            homeSection.style.display = 'none';
+            booksSection.style.display = 'none';
+            sellBookSection.style.display = 'none';
+
+            // 3. Default mein Signup form dikhao
+            signupCard.style.display = 'block';
+            loginCard.style.display = 'none';
+
+            // 4. Current URL mein hash add karna (optional, for history)
+            window.location.hash = '#auth'; 
+        }
+
+        // UI ko reset aur refresh karna
+        function resetUI() {
+            console.log("resetUI called"); // Debugging
+            // Auth forms ko chhupana
+            authForms.style.display = 'none'; 
+            
+            // Baaki sections ko wapas dikhana
+            homeSection.style.display = 'block';
+            booksSection.style.display = 'block';
+            sellBookSection.style.display = 'block'; 
+            
+            handleUserStatus(); // User status check karke Sell Section update karega
+            loadBooks(); // Books reload karo
+        }
+
+        // User ka status check aur UI update karo (Login/Logout)
+        async function handleUserStatus() {
+            console.log("handleUserStatus called"); // Debugging
+            const { data: { user } } = await supabase.auth.getUser();
+            const sellFormButton = form.querySelector('button');
+
+            if (user) {
+                // Logged In State
+                authButton.textContent = 'Logout';
+                authButton.classList.remove('primary');
+                authButton.classList.add('outline');
+                userInfoSpan.textContent = `Welcome, ${user.email.split('@')[0]}!`;
+
+                // Sell Book Form Enable
+                sellFormButton.textContent = 'Upload Book';
+                sellFormButton.disabled = false;
+                message.textContent = '';
+            } else {
+                // Logged Out State
+                authButton.textContent = 'Login / Signup';
+                authButton.classList.remove('outline');
+                authButton.classList.add('primary');
+                userInfoSpan.textContent = '';
+
+                // Sell Book Form Disable (as per RLS policy)
+                sellFormButton.textContent = 'Login to Upload';
+                sellFormButton.disabled = true; // Button ko disable karna
+                message.textContent = '⚠️ Please log in to sell your book.';
+            }
+        }
+
+        // ✅ Load available books
+        async function loadBooks() {
+            console.log("loadBooks called"); // Debugging
+            const container = document.getElementById("books-container");
+            container.innerHTML = "<p>Loading books...</p>";
+
+            const { data, error } = await supabase.from("books").select("*").order("id", { ascending: false });
+
+            if (error) {
+                container.innerHTML = "<p style='color:red;'>⚠️ Error loading books: " + error.message + "</p>";
+                console.error("Supabase Load Books Error:", error);
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                container.innerHTML = "<p>No books available yet. Be the first to sell one!</p>";
+                return;
+            }
+
+            container.innerHTML = data
+                .map(
+                    (book) => `
+                  <div class="book-card">
+                    <img src="${book.image_url}" onerror="this.onerror=null; this.src='https://placehold.co/250x300/16a085/ffffff?text=Book+Cover';" alt="${book.title}" />
+                    <div class="book-info">
+                      <h3>${book.title}</h3>
+                      <p>Author: ${book.author}</p>
+                      <p>Condition: ${book.condition}</p>
+                      <p><strong>₹${book.price}</strong></p>
+                      ${book.seller_id ? `<p style="font-size:0.8rem; color: #00b894;">Seller ID: ${book.seller_id.substring(0, 8)}...</p>` : ''}
+                    </div>
+                  </div>
+                `
+                )
+                .join("");
+        }
+
+        // --- EVENT LISTENERS ---
+
+        // Ensure the DOM is fully loaded before adding listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM loaded, adding listeners"); // Debugging
+
+            // Auth button click par forms dikhao ya logout karo
+            authButton.addEventListener('click', () => {
+                console.log("Auth button clicked"); // Debugging
+                if (authButton.textContent === 'Logout') {
+                    handleLogout();
+                } else {
+                    showAuthForms();
+                }
+            });
+
+            // Forms ko toggle karna
+            showLoginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                signupCard.style.display = 'none';
+                loginCard.style.display = 'block';
+            });
+
+            showSignupLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginCard.style.display = 'none';
+                signupCard.style.display = 'block';
+            });
+
+            // Handle SIGNUP
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                console.log("Signup form submitted"); // Debugging
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                signupMessage.textContent = 'Signing up...';
+                signupMessage.style.color = 'black';
+
+                const { error } = await supabase.auth.signUp({ email, password });
+
+                if (error) {
+                    signupMessage.textContent = `Error: ${error.message}`;
+                    signupMessage.style.color = 'red';
+                } else {
+                    signupMessage.textContent = '✅ Success! Please check your email to confirm your account.';
+                    signupMessage.style.color = 'green';
+                    signupForm.reset();
+                }
+            });
+
+            // Handle LOGIN
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                console.log("Login form submitted"); // Debugging
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                loginMessage.textContent = 'Logging in...';
+                loginMessage.style.color = 'black';
+
+                const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+                if (error) {
+                    loginMessage.textContent = `Error: ${error.message}`;
+                    loginMessage.style.color = 'red';
+                } else {
+                    loginMessage.textContent = '✅ Logged in successfully!';
+                    loginMessage.style.color = 'green';
+                    loginForm.reset();
+                    resetUI(); // UI update karo
+                }
+            });
+
+            // ✅ Handle Sell Book form (existing logic)
+            if (form) {
+                form.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    console.log("Sell form submitted"); // Debugging
+
+                    const { data: { user } } = await supabase.auth.getUser();
+                    if (!user) {
+                         message.textContent = "❌ Please log in to upload a book!";
+                         message.style.color = "red";
+                         return;
+                    }
+
+                    const title = document.getElementById("title").value.trim();
+                    const author = document.getElementById("author").value.trim();
+                    const price = document.getElementById("price").value.trim();
+                    const condition = document.getElementById("condition").value.trim();
+                    const image_url = document.getElementById("image_url").value.trim();
+
+                    if (!title || !author || !price || !condition || !image_url) {
+                        message.textContent = "❌ Please fill all fields!";
+                        message.style.color = "red";
+                        return;
+                    }
+
+                    const { error } = await supabase.from("books").insert([
+                        { title, author, price, condition, image_url },
+                    ]);
+
+                    if (error) {
+                        console.error("Insert Book Error:", error);
+                        message.textContent = "⚠️ Error uploading book! RLS policy issue ho sakta hai.";
+                        message.style.color = "red";
+                    } else {
+                        message.textContent = "✅ Book uploaded successfully!";
+                        message.style.color = "green";
+                        form.reset();
+                        loadBooks();
+                    }
+                });
+            }
+
+            // Initial load
+            initialLoad();
+        });
+
+        // Initial load aur Auth state change par status check karo
+        // --- Initial Load Logic ---
+        function initialLoad() {
+            loadBooks(); 
+            handleUserStatus(); 
+        }
+
+        // Handle LOGOUT
+        async function handleLogout() {
+            console.log("Logout called"); // Debugging
+            const { error } = await supabase.auth.signOut();
+            if (error) {
+                console.error('Logout Error:', error);
+            } else {
+                resetUI();
+            }
+        }
+
+        // Supabase Auth State Change Listener
+        supabase.auth.onAuthStateChange((event, session) => {
+            console.log("Auth state changed:", event); // Debugging
+            // Ye listener login/logout ke baad UI ko reset karta hai
+            handleUserStatus();
+            if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
+                resetUI();
+            }
+        });
+    </script>
+</body>
 </html>
